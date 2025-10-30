@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  mt5zmq:
+    build: .
+    image: mt5zmq:latest
+    container_name: mt5zmq
+    restart: unless-stopped
+    ports:
+      - '5900:5900'    # VNC
+      - '2201:2201'    # System socket (REQ/REP)
+      - '2202:2202'    # Data socket (PUSH)
+      - '2203:2203'    # Live socket (PUSH)
+      - '2204:2204'    # Stream socket (PUSH)
+    volumes:
+      - mt5zmq-data:/data
+    environment:
+      - USER=root
+      - PASSWORD=root
+
+volumes:
+  mt5zmq-data:
