@@ -1,0 +1,12 @@
+[project]
+name = "mt5-jsonapi-test"
+version = "0.1.0"
+description = "Test client for MT5 JsonAPI ZeroMQ connectivity"
+requires-python = ">=3.8"
+dependencies = [
+    "pyzmq>=25.1.0",
+    "pandas>=2.0.0",
+]
+
+[project.scripts]
+test-jsonapi = "test_jsonapi:main"
