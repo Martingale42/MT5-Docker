@@ -13,6 +13,7 @@ services:
       - '2204:2204'    # Stream socket (PUSH)
     volumes:
       - mt5zmq-data:/data
+      - ./Metatrader:/root/Metatrader
     environment:
       - USER=root
       - PASSWORD=root

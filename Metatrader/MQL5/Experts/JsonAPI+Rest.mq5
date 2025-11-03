@@ -30,13 +30,11 @@
 #include <Trade/Trade.mqh>
 #include <Zmq/Zmq.mqh>
 #include <Json.mqh>
-#include <News/Calendar.mqh>
 
 input string HOST="*";
 input int SYS_PORT=2201;
 input int DATA_PORT=2202;
 input int LIVE_PORT=2203;
-input int STR_PORT=2204;
 
 #include <RestApi.mqh>
 
@@ -50,10 +48,10 @@ CRestApi api;
 
 // ZeroMQ Cnnections
 Context context("MQL5 JSON API");
-Socket sysSocket(context,ZMQ_REP);
-Socket dataSocket(context,ZMQ_PUSH);
-Socket liveSocket(context,ZMQ_PUSH);
-Socket streamSocket(context,ZMQ_PUSH);
+Context context("MQL5 JSON API");
+Socket *sysSocket = new Socket(context,ZMQ_REP);
+Socket *dataSocket = new Socket(context,ZMQ_PUSH);
+Socket *liveSocket = new Socket(context,ZMQ_PUSH);
 
 // Global variables
 bool debug = false;
@@ -75,24 +73,19 @@ bool BindSockets(){
   if (result == false) return result;
   result = liveSocket.bind(StringFormat("tcp://%s:%d", HOST,LIVE_PORT));
   if (result == false) return result;
-  result = streamSocket.bind(StringFormat("tcp://%s:%d", HOST,STR_PORT));
-  if (result == false) return result;
   
   Print("Bound 'System' socket on port ", SYS_PORT);
   Print("Bound 'Data' socket on port ", DATA_PORT);
   Print("Bound 'Live' socket on port ", LIVE_PORT);
-  Print("Bound 'Streaming' socket on port ", STR_PORT);
     
   sysSocket.setLinger(1000);
   dataSocket.setLinger(1000);
   liveSocket.setLinger(1000);
-  streamSocket.setLinger(1000);
     
   // Number of messages to buffer in RAM.
   sysSocket.setSendHighWaterMark(1);
   dataSocket.setSendHighWaterMark(5);
   liveSocket.setSendHighWaterMark(1);
-  streamSocket.setSendHighWaterMark(50);
 
   return result;
 }
@@ -162,9 +155,10 @@ void OnDeinit(const int reason){
       dataSocket.unbind(StringFormat("tcp://%s:%d", HOST,DATA_PORT));
       Print("Unbinding 'Live' socket on port ", LIVE_PORT, "..");
       liveSocket.unbind(StringFormat("tcp://%s:%d", HOST,LIVE_PORT));
-      Print("Unbinding 'Streaming' socket on port ", STR_PORT, "..");
-      streamSocket.unbind(StringFormat("tcp://%s:%d", HOST,STR_PORT));
-      
+      delete sysSocket;
+      delete dataSocket;
+      delete liveSocket;
+   
       // Shutdown ZeroMQ Context
       context.shutdown();
       context.destroy(0);
@@ -350,7 +344,6 @@ void RequestHandler(ZmqMsg &request){
   else if(action=="ORDERS")     {GetOrders(message);}
   else if(action=="WEEKLYOPEN") {GetWeeklyOpen(message);}
   else if(action=="RESET")      {ResetSubscriptions(message);}
-  else if(action=="CALENDAR")   {GetEconomicCalendar(message);}
   // Action command error processing
   else ActionDoneOrError(65538, __FUNCTION__);
    
@@ -1096,51 +1089,7 @@ void OnTradeTransaction(const MqlTradeTransaction &trans,
                         
                         
   api.OnTradeTransaction( trans, request, result );
-   
-  ENUM_TRADE_TRANSACTION_TYPE  trans_type=trans.type;
-  switch(trans.type) {
-    // case  TRADE_TRANSACTION_POSITION: {}  break;
-    // case  TRADE_TRANSACTION_DEAL_ADD: {}  break;
-    case  TRADE_TRANSACTION_REQUEST:{
-      CJAVal data, req, res;
-      
-      req["action"]=EnumToString(request.action);
-      req["order"]=(int) request.order;
-      req["symbol"]=(string) request.symbol;
-      req["volume"]=(double) request.volume;
-      req["price"]=(double) request.price;
-      req["stoplimit"]=(double) request.stoplimit;
-      req["sl"]=(double) request.sl;
-      req["tp"]=(double) request.tp;
-      req["deviation"]=(int) request.deviation;
-      req["type"]=EnumToString(request.type);
-      req["type_filling"]=EnumToString(request.type_filling);
-      req["type_time"]=EnumToString(request.type_time);
-      req["expiration"]=(int) request.expiration;
-      req["comment"]=(string) request.comment;
-      req["position"]=(int) request.position;
-      req["position_by"]=(int) request.position_by;
-      
-      res["retcode"]=(int) result.retcode;
-      res["result"]=(string) GetRetcodeID(result.retcode);
-      res["deal"]=(int) result.order;
-      res["order"]=(int) result.order;
-      res["volume"]=(double) result.volume;
-      res["price"]=(double) result.price;
-      res["comment"]=(string) result.comment;
-      res["request_id"]=(int) result.request_id;
-      res["retcode_external"]=(int) result.retcode_external;
-
-      data["request"].Set(req);
-      data["result"].Set(res);
-      
-      string t=data.Serialize();
-      if(debug) Print(t);
-      InformClientSocket(streamSocket,t);
-    }
-    break;
-    default: {} break;
-  }
+  
 }
 
 //+------------------------------------------------------------------+
@@ -1272,74 +1221,12 @@ string GetRetcodeID(int retcode){
     default: 
       return("TRADE_RETCODE_UNKNOWN="+IntegerToString(retcode)); 
       break; 
-  }
+  } 
 }
-
-//+------------------------------------------------------------------+
-//| Economic Calendar                                                 |
-//+------------------------------------------------------------------+
-void GetEconomicCalendar(CJAVal &dataObject)
-{
-   string actionType = dataObject["actionType"].ToStr();
-   string symbol = dataObject["symbol"].ToStr();
-
-   if (actionType == "DATA")
-   {
-      CJAVal data, d;
-      datetime fromDate = (datetime)dataObject["fromDate"].ToInt();
-      datetime toDate = TimeCurrent();
-      if (dataObject["toDate"].ToInt() != NULL)
-         toDate = (datetime)dataObject["toDate"].ToInt();
-
-      CALENDAR Calendar;
-      string Currencies[2];
-      int Size;
-
-      if (symbol == NULL)
-      {
-         Size = Calendar.Set(NULL, CALENDAR_IMPORTANCE_NONE,
-                            TimeToString(fromDate, TIME_DATE),
-                            TimeToString(toDate, TIME_DATE));
-      }
-      else
-      {
-         Currencies[0] = ::SymbolInfoString(symbol, SYMBOL_CURRENCY_BASE);
-         Currencies[1] = ::SymbolInfoString(symbol, SYMBOL_CURRENCY_PROFIT);
-         Size = Calendar.Set(Currencies, CALENDAR_IMPORTANCE_NONE,
-                            TimeToString(fromDate, TIME_DATE),
-                            TimeToString(toDate, TIME_DATE));
-      }
-
-      if (Size)
-      {
-         for (int i = 0; i < Size; i++)
-         {
-            string string_split = Calendar[i].ToString();
-            string sep = "|";
-            ushort u_sep;
-            string result[];
-            u_sep = StringGetCharacter(sep, 0);
-            int k = StringSplit(string_split, u_sep, result);
-            for (int b = 0; b < k; b++)
-            {
-               data[i][b] = result[b];
-            }
-         }
-         d["data"].Set(data);
-      }
-      else
-      {
-         d["data"].Add(data);
-      }
-
-      string t = d.Serialize();
-      InformClientSocket(dataSocket, t);
-   }
-}
-
+  
 //+------------------------------------------------------------------+
 //| Get error message by error id                                    |
-//+------------------------------------------------------------------+
+//+------------------------------------------------------------------+ 
 string GetErrorID(int error){
 
   switch(error){ 
