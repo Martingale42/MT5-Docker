@@ -104,7 +104,7 @@ uint   GetFileSize(HANDLE file,uint &file_size_high);
 int    GetFileSizeEx(HANDLE file,long &file_size);
 int    GetFileTime(HANDLE file,FILETIME &creation_time,FILETIME &last_access_time,FILETIME &last_write_time);
 uint   GetFileType(HANDLE file);
-uint   GetFinalPathNameByHandleW(HANDLE file,ushort &file_path[],uint file_path,uint flags);
+uint   GetFinalPathNameByHandleW(HANDLE file,ushort &file_path[],uint file_path_len,uint flags);
 uint   GetFullPathNameW(const string file_name,uint buffer_length,ushort &buffer[],ushort &file_part[]);
 uint   GetLogicalDrives(void);
 uint   GetLogicalDriveStringsW(uint buffer_length,ushort &buffer[]);

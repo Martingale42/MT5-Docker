@@ -40,7 +40,7 @@ int                       CreatePrivateObjectSecurity(SECURITY_DESCRIPTOR &paren
 int                       CreatePrivateObjectSecurityEx(SECURITY_DESCRIPTOR &parent_descriptor,SECURITY_DESCRIPTOR &creator_descriptor,SECURITY_DESCRIPTOR  &new_descriptor,GUID &object_type,int is_container_object,uint auto_inherit_flags,HANDLE token,GENERIC_MAPPING &generic_mapping);
 int                       CreatePrivateObjectSecurityWithMultipleInheritance(SECURITY_DESCRIPTOR &parent_descriptor,SECURITY_DESCRIPTOR &creator_descriptor,SECURITY_DESCRIPTOR  &new_descriptor,GUID &object_types,uint guid_count,int is_container_object,uint auto_inherit_flags,HANDLE token,GENERIC_MAPPING &generic_mapping);
 int                       CreateRestrictedToken(HANDLE existing_token_handle,uint flags,uint disable_sid_count,SID_AND_ATTRIBUTES &sids_to_disable,uint delete_privilege_count,LUID_AND_ATTRIBUTES &privileges_to_delete,uint restricted_sid_count,SID_AND_ATTRIBUTES &sids_to_restrict,HANDLE &new_token_handle);
-int                       CreateWellKnownSid(WELL_KNOWN_SID_TYPE well_known_sid_type,SID &domain_sid,SID &sid,uint &sid);
+int                       CreateWellKnownSid(WELL_KNOWN_SID_TYPE well_known_sid_type,SID &domain_sid,SID &sid,uint &sid_size);
 int                       EqualDomainSid(SID &sid1,SID &sid2,int &equal);
 int                       DeleteAce(ACL &acl,uint ace_index);
 int                       DestroyPrivateObjectSecurity(SECURITY_DESCRIPTOR  &object_descriptor);
@@ -68,7 +68,7 @@ uint                      GetSidLengthRequired(uchar sub_authority_count);
 PVOID                     GetSidSubAuthority(SID &sid,uint sub_authority);
 PVOID                     GetSidSubAuthorityCount(SID &sid);
 int                       GetTokenInformation(HANDLE token_handle,TOKEN_INFORMATION_CLASS token_information_class,PVOID &token_information,uint token_information_length,uint &return_length);
-int                       GetWindowsAccountDomainSid(SID &sid,SID &domain_sid,uint &domain_sid);
+int                       GetWindowsAccountDomainSid(SID &sid,SID &domain_sid,uint &domain_sid_size);
 int                       ImpersonateAnonymousToken(HANDLE thread_handle);
 int                       ImpersonateLoggedOnUser(HANDLE token);
 int                       ImpersonateSelf(SECURITY_IMPERSONATION_LEVEL impersonation_level);

@@ -31,7 +31,7 @@ public:
    int               X_Size(const int Y) const { return(CChartObjectButton::X_Size()); }
    int               Y_Size() const;
    int               Y_Size(const int Y) const { return(CChartObjectButton::Y_Size()); }
-   
+
    int               Timeframes(void) const { return(CChartObjectButton::Timeframes()); }
    virtual bool      Timeframes(const int timeframes);
    bool              State(const bool state);
@@ -178,25 +178,31 @@ bool CChartObjectPanel::State(const bool state)
 //+------------------------------------------------------------------+
 bool CChartObjectPanel::CheckState(void)
   {
-   int                i;
-   CChartObjectLabel *chart_object;
-//---
+//--- state changed
    if(m_expanded!=State())
      {
-      if(m_expanded=State())
+      //--- apply new state
+      m_expanded=State();
+
+      if(m_expanded)
+        {
          //--- make all objects visible
-         for(i=0;i<m_attachment.Total();i++)
+         for(int i=0;i<m_attachment.Total();i++)
            {
-            chart_object=m_attachment.At(i);
+            CChartObjectLabel *chart_object=m_attachment.At(i);
             chart_object.Timeframes(-1);
            }
+        }
       else
+        {
          //--- make all objects invisible
-         for(i=0;i<m_attachment.Total();i++)
+         for(int i=0;i<m_attachment.Total();i++)
            {
-            chart_object=m_attachment.At(i);
+            CChartObjectLabel *chart_object=m_attachment.At(i);
             chart_object.Timeframes(0x100000);
            }
+        }
+
       return(true);
      }
 //---

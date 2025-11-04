@@ -38,39 +38,14 @@ class CRowInt;
 //+------------------------------------------------------------------+
 //| ArrayResizeAL for Alglib library with MQL5 features              |
 //+------------------------------------------------------------------+
-int ArrayResizeAL(int &arr[],const int size)
+template<typename T>
+int ArrayResizeAL(T &arr[],const int size)
   {
    int old=ArraySize(arr);
    int res=ArrayResize(arr,size);
 //--- fill array if necessary
    if(res>0 && old<size)
-      ArrayFill(arr,old,size-old,0);
-//--- return result
-   return(res);
-  }
-//+------------------------------------------------------------------+
-//| ArrayResizeAL for Alglib library with MQL5 features              |
-//+------------------------------------------------------------------+
-int ArrayResizeAL(short &arr[],const int size)
-  {
-   int old=ArraySize(arr);
-   int res=ArrayResize(arr,size);
-//--- fill array if necessary
-   if(res>0 && old<size)
-      ArrayFill(arr,old,size-old,0);
-//--- return result
-   return(res);
-  }
-//+------------------------------------------------------------------+
-//| ArrayResizeAL for Alglib library with MQL5 features              |
-//+------------------------------------------------------------------+
-int ArrayResizeAL(char &arr[],const int size)
-  {
-   int old=ArraySize(arr);
-   int res=ArrayResize(arr,size);
-//--- fill array if necessary
-   if(res>0 && old<size)
-      ArrayFill(arr,old,size-old,0);
+      ArrayFill(arr,old,size-old,(T)0);
 //--- return result
    return(res);
   }

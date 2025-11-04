@@ -53,6 +53,7 @@ struct DXColor
                      DXColor(float red,float green,float blue, float alpha)   { r=red; g=green; b=blue; a=alpha; }
                      DXColor(const DXVector4 &v)                              { r=v.x; g=v.y;   b=v.z;  a=v.w;   }
                      DXColor(const DXVector3 &v)                              { r=v.x; g=v.y;   b=v.z;  a=1.0;   }
+                     DXColor(const DXColor   &c)                              { r=c.r; g=c.g;   b=c.b;  a=c.a;   }
   };
 //+------------------------------------------------------------------+
 //| DXPlane                                                          |
@@ -108,6 +109,7 @@ struct DXVector4
                      DXVector4(float vx,float vy,float vz,float vw)           { x=vx;  y=vy;  z=vz;  w=vw;  }
                      DXVector4(const DXVector2 &v)                            { x=v.x; y=v.y; z=0.0; w=1.0; }
                      DXVector4(const DXVector3 &v)                            { x=v.x; y=v.y; z=v.z; w=1.0; }
+                     DXVector4(const DXVector4 &v)                            { x=v.x; y=v.y; z=v.z; w=v.w; }
   };
 //+------------------------------------------------------------------+
 //| DXMatrix                                                         |
@@ -2261,10 +2263,9 @@ void DXMatrixTranslation(DXMatrix &pout,float x,float y,float z)
 //+------------------------------------------------------------------+
 void DXMatrixTranspose(DXMatrix &pout,const DXMatrix &pm)
   {
-   const DXMatrix m = pm;
    for(int i=0; i<4; i++)
       for(int j=0; j<4; j++)
-         pout.m[i][j] = m.m[j][i];
+         pout.m[i][j] = pm.m[j][i];
   }
 //+------------------------------------------------------------------+
 //| Computes the dot product of a plane and a 4D vector.             |
@@ -2383,10 +2384,8 @@ void DXPlaneScale(DXPlane &pout,const DXPlane &p,float s)
 //| The input matrix is the inverse transpose of the actual          |
 //| transformation.                                                  |
 //+------------------------------------------------------------------+
-void DXPlaneTransform(DXPlane &pout,const DXPlane &pplane,const DXMatrix &pm)
+void DXPlaneTransform(DXPlane &pout,const DXPlane &plane,const DXMatrix &pm)
   {
-   DXPlane plane = pplane;
-//---
    pout.a = pm.m[0][0]*plane.a + pm.m[1][0]*plane.b + pm.m[2][0]*plane.c + pm.m[3][0]*plane.d;
    pout.b = pm.m[0][1]*plane.a + pm.m[1][1]*plane.b + pm.m[2][1]*plane.c + pm.m[3][1]*plane.d;
    pout.c = pm.m[0][2]*plane.a + pm.m[1][2]*plane.b + pm.m[2][2]*plane.c + pm.m[3][2]*plane.d;

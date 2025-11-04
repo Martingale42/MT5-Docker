@@ -1,24 +1,24 @@
 //+------------------------------------------------------------------+
-//|                                                   ArrayShort.mqh |
+//|                                                   ArrayUChar.mqh |
 //|                             Copyright 2000-2025, MetaQuotes Ltd. |
 //|                                             https://www.mql5.com |
 //+------------------------------------------------------------------+
 #include "Array.mqh"
 //+------------------------------------------------------------------+
-//| Class CArrayShort.                                               |
-//| Pupose: Class of dynamic array of short type values.             |
-//|         Derives from class CArray.                               |
+//| Class CArrayUChar.                                               |
+//| Purpose: Class of dynamic array of uchar type values.            |
+//|          Derives from class CArray.                              |
 //+------------------------------------------------------------------+
-class CArrayShort : public CArray
+class CArrayUChar : public CArray
   {
 protected:
-   short             m_data[];           // data array
+   uchar             m_data[];           // data array
 
 public:
-                     CArrayShort(void);
-                    ~CArrayShort(void);
+                     CArrayUChar(void);
+                    ~CArrayUChar(void);
    //--- method of identifying the object
-   virtual int       Type(void) const { return(TYPE_SHORT); }
+   virtual int       Type(void) const { return(TYPE_UCHAR); }
    //--- methods for working with files
    virtual bool      Save(const int file_handle);
    virtual bool      Load(const int file_handle);
@@ -27,49 +27,49 @@ public:
    bool              Resize(const int size);
    bool              Shutdown(void);
    //--- methods of filling the array
-   bool              Add(const short element);
-   bool              AddArray(const short &src[]);
-   bool              AddArray(const CArrayShort *src);
-   bool              Insert(const short element,const int pos);
-   bool              InsertArray(const short &src[],const int pos);
-   bool              InsertArray(const CArrayShort *src,const int pos);
-   bool              AssignArray(const short &src[]);
-   bool              AssignArray(const CArrayShort *src);
+   bool              Add(const uchar element);
+   bool              AddArray(const uchar &src[]);
+   bool              AddArray(const CArrayUChar *src);
+   bool              Insert(const uchar element,const int pos);
+   bool              InsertArray(const uchar &src[],const int pos);
+   bool              InsertArray(const CArrayUChar *src,const int pos);
+   bool              AssignArray(const uchar &src[]);
+   bool              AssignArray(const CArrayUChar *src);
    //--- method of access to the array
-   short             At(const int index) const;
-   short operator[](const int index) const { return(At(index)); }
+   uchar             At(const int index) const;
+   uchar operator[](const int index) const { return(At(index)); }
    //--- methods of searching for minimum and maximum
    int               Minimum(const int start,const int count) const { return(CArray::Minimum(m_data,start,count)); }
    int               Maximum(const int start,const int count) const { return(CArray::Maximum(m_data,start,count)); }
    //--- methods of changing
-   bool              Update(const int index,const short element);
+   bool              Update(const int index,const uchar element);
    bool              Shift(const int index,const int shift);
    //--- methods of deleting
    bool              Delete(const int index);
    bool              DeleteRange(int from,int to);
    //--- methods for comparing arrays
-   bool              CompareArray(const short &array[]) const;
-   bool              CompareArray(const CArrayShort *array) const;
+   bool              CompareArray(const uchar &array[]) const;
+   bool              CompareArray(const CArrayUChar *array) const;
    //--- methods for working with the sorted array
-   bool              InsertSort(const short element);
-   int               Search(const short element) const;
-   int               SearchGreat(const short element) const;
-   int               SearchLess(const short element) const;
-   int               SearchGreatOrEqual(const short element) const;
-   int               SearchLessOrEqual(const short element) const;
-   int               SearchFirst(const short element) const;
-   int               SearchLast(const short element) const;
-   int               SearchLinear(const short element) const;
+   bool              InsertSort(const uchar element);
+   int               Search(const uchar element) const;
+   int               SearchGreat(const uchar element) const;
+   int               SearchLess(const uchar element) const;
+   int               SearchGreatOrEqual(const uchar element) const;
+   int               SearchLessOrEqual(const uchar element) const;
+   int               SearchFirst(const uchar element) const;
+   int               SearchLast(const uchar element) const;
+   int               SearchLinear(const uchar element) const;
 
 protected:
    virtual void      QuickSort(int beg,int end,const int mode=0);
-   int               QuickSearch(const short element) const;
+   int               QuickSearch(const uchar element) const;
    int               MemMove(const int dest,const int src,int count);
   };
 //+------------------------------------------------------------------+
 //| Constructor                                                      |
 //+------------------------------------------------------------------+
-CArrayShort::CArrayShort(void)
+CArrayUChar::CArrayUChar(void)
   {
 //--- initialize protected data
    m_data_max=ArraySize(m_data);
@@ -77,7 +77,7 @@ CArrayShort::CArrayShort(void)
 //+------------------------------------------------------------------+
 //| Destructor                                                       |
 //+------------------------------------------------------------------+
-CArrayShort::~CArrayShort(void)
+CArrayUChar::~CArrayUChar(void)
   {
    if(m_data_max!=0)
       Shutdown();
@@ -85,7 +85,7 @@ CArrayShort::~CArrayShort(void)
 //+------------------------------------------------------------------+
 //| Moving the memory within a single array                          |
 //+------------------------------------------------------------------+
-int CArrayShort::MemMove(const int dest,const int src,int count)
+int CArrayUChar::MemMove(const int dest,const int src,int count)
   {
    int i;
 //--- check parameters
@@ -127,7 +127,7 @@ int CArrayShort::MemMove(const int dest,const int src,int count)
 //| number of free elements already exists; allocates additional     |
 //| memory with a given step                                         |
 //+------------------------------------------------------------------+
-bool CArrayShort::Reserve(const int size)
+bool CArrayUChar::Reserve(const int size)
   {
    int new_size;
 //--- check
@@ -149,7 +149,7 @@ bool CArrayShort::Reserve(const int size)
 //+------------------------------------------------------------------+
 //| Resizing (with removal of elements on the right)                 |
 //+------------------------------------------------------------------+
-bool CArrayShort::Resize(const int size)
+bool CArrayUChar::Resize(const int size)
   {
    int new_size;
 //--- check
@@ -173,7 +173,7 @@ bool CArrayShort::Resize(const int size)
 //+------------------------------------------------------------------+
 //| Complete cleaning of the array with the release of memory        |
 //+------------------------------------------------------------------+
-bool CArrayShort::Shutdown(void)
+bool CArrayUChar::Shutdown(void)
   {
 //--- check
    if(m_data_max==0)
@@ -189,7 +189,7 @@ bool CArrayShort::Shutdown(void)
 //+------------------------------------------------------------------+
 //| Adding an element to the end of the array                        |
 //+------------------------------------------------------------------+
-bool CArrayShort::Add(const short element)
+bool CArrayUChar::Add(const uchar element)
   {
 //--- check/reserve elements of array
    if(!Reserve(1))
@@ -203,7 +203,7 @@ bool CArrayShort::Add(const short element)
 //+------------------------------------------------------------------+
 //| Adding an element to the end of the array from another array     |
 //+------------------------------------------------------------------+
-bool CArrayShort::AddArray(const short &src[])
+bool CArrayUChar::AddArray(const uchar &src[])
   {
    int num=ArraySize(src);
 //--- check/reserve elements of array
@@ -219,7 +219,7 @@ bool CArrayShort::AddArray(const short &src[])
 //+------------------------------------------------------------------+
 //| Adding an element to the end of the array from another array     |
 //+------------------------------------------------------------------+
-bool CArrayShort::AddArray(const CArrayShort *src)
+bool CArrayUChar::AddArray(const CArrayUChar *src)
   {
    int num;
 //--- check
@@ -239,7 +239,7 @@ bool CArrayShort::AddArray(const CArrayShort *src)
 //+------------------------------------------------------------------+
 //| Inserting an element in the specified position                   |
 //+------------------------------------------------------------------+
-bool CArrayShort::Insert(const short element,const int pos)
+bool CArrayUChar::Insert(const uchar element,const int pos)
   {
 //--- check/reserve elements of array
    if(pos<0 || !Reserve(1))
@@ -261,7 +261,7 @@ bool CArrayShort::Insert(const short element,const int pos)
 //+------------------------------------------------------------------+
 //| Inserting elements in the specified position                     |
 //+------------------------------------------------------------------+
-bool CArrayShort::InsertArray(const short &src[],const int pos)
+bool CArrayUChar::InsertArray(const uchar &src[],const int pos)
   {
    int num=ArraySize(src);
 //--- check/reserve elements of array
@@ -279,7 +279,7 @@ bool CArrayShort::InsertArray(const short &src[],const int pos)
 //+------------------------------------------------------------------+
 //| Inserting elements in the specified position                     |
 //+------------------------------------------------------------------+
-bool CArrayShort::InsertArray(const CArrayShort *src,const int pos)
+bool CArrayUChar::InsertArray(const CArrayUChar *src,const int pos)
   {
    int num;
 //--- check
@@ -301,7 +301,7 @@ bool CArrayShort::InsertArray(const CArrayShort *src,const int pos)
 //+------------------------------------------------------------------+
 //| Assignment (copying) of another array                            |
 //+------------------------------------------------------------------+
-bool CArrayShort::AssignArray(const short &src[])
+bool CArrayUChar::AssignArray(const uchar &src[])
   {
    int num=ArraySize(src);
 //--- check/reserve elements of array
@@ -326,7 +326,7 @@ bool CArrayShort::AssignArray(const short &src[])
 //+------------------------------------------------------------------+
 //| Assignment (copying) of another array                            |
 //+------------------------------------------------------------------+
-bool CArrayShort::AssignArray(const CArrayShort *src)
+bool CArrayUChar::AssignArray(const CArrayUChar *src)
   {
    int num;
 //--- check
@@ -355,18 +355,18 @@ bool CArrayShort::AssignArray(const CArrayShort *src)
 //+------------------------------------------------------------------+
 //| Access to data in the specified position                         |
 //+------------------------------------------------------------------+
-short CArrayShort::At(const int index) const
+uchar CArrayUChar::At(const int index) const
   {
 //--- check
    if(index<0 || index>=m_data_total)
-      return(SHORT_MAX);
+      return(CHAR_MAX);
 //--- result
    return(m_data[index]);
   }
 //+------------------------------------------------------------------+
 //| Updating element in the specified position                       |
 //+------------------------------------------------------------------+
-bool CArrayShort::Update(const int index,const short element)
+bool CArrayUChar::Update(const int index,const uchar element)
   {
 //--- check
    if(index<0 || index>=m_data_total)
@@ -381,16 +381,16 @@ bool CArrayShort::Update(const int index,const short element)
 //| Moving element from the specified position                       |
 //| on the specified shift                                           |
 //+------------------------------------------------------------------+
-bool CArrayShort::Shift(const int index,const int shift)
+bool CArrayUChar::Shift(const int index,const int shift)
   {
-   short tmp_short;
+   uchar tmp_char;
 //--- check
    if(index<0 || index+shift<0 || index+shift>=m_data_total)
       return(false);
    if(shift==0)
       return(true);
 //--- move
-   tmp_short=m_data[index];
+   tmp_char=m_data[index];
    if(shift>0)
      {
       if(MemMove(index,index+1,shift)<0)
@@ -401,7 +401,7 @@ bool CArrayShort::Shift(const int index,const int shift)
       if(MemMove(index+shift+1,index+shift,-shift)<0)
          return(false);
      }
-   m_data[index+shift]=tmp_short;
+   m_data[index+shift]=tmp_char;
    m_sort_mode=-1;
 //--- successful
    return(true);
@@ -409,7 +409,7 @@ bool CArrayShort::Shift(const int index,const int shift)
 //+------------------------------------------------------------------+
 //| Deleting element from the specified position                     |
 //+------------------------------------------------------------------+
-bool CArrayShort::Delete(const int index)
+bool CArrayUChar::Delete(const int index)
   {
 //--- check
    if(index<0 || index>=m_data_total)
@@ -424,7 +424,7 @@ bool CArrayShort::Delete(const int index)
 //+------------------------------------------------------------------+
 //| Deleting range of elements                                       |
 //+------------------------------------------------------------------+
-bool CArrayShort::DeleteRange(int from,int to)
+bool CArrayUChar::DeleteRange(int from,int to)
   {
 //--- check
    if(from<0 || to<0)
@@ -443,7 +443,7 @@ bool CArrayShort::DeleteRange(int from,int to)
 //+------------------------------------------------------------------+
 //| Equality comparison of two arrays                                |
 //+------------------------------------------------------------------+
-bool CArrayShort::CompareArray(const short &array[]) const
+bool CArrayUChar::CompareArray(const uchar &array[]) const
   {
 //--- compare
    if(m_data_total!=ArraySize(array))
@@ -457,7 +457,7 @@ bool CArrayShort::CompareArray(const short &array[]) const
 //+------------------------------------------------------------------+
 //| Equality comparison of two arrays                                |
 //+------------------------------------------------------------------+
-bool CArrayShort::CompareArray(const CArrayShort *array) const
+bool CArrayUChar::CompareArray(const CArrayUChar *array) const
   {
 //--- check
    if(!CheckPointer(array))
@@ -474,10 +474,11 @@ bool CArrayShort::CompareArray(const CArrayShort *array) const
 //+------------------------------------------------------------------+
 //| Method QuickSort                                                 |
 //+------------------------------------------------------------------+
-void CArrayShort::QuickSort(int beg,int end,const int mode)
+void CArrayUChar::QuickSort(int beg,int end,const int mode)
   {
    int   i,j;
-   short p_short,t_short;
+   uchar  p_char;
+   uchar  t_char;
 //--- check
    if(beg<0 || end<0)
       return;
@@ -487,17 +488,17 @@ void CArrayShort::QuickSort(int beg,int end,const int mode)
    while(i<end)
      {
       //--- ">>1" is quick division by 2
-      p_short=m_data[(beg+end)>>1];
+      p_char=m_data[(beg+end)>>1];
       while(i<j)
         {
-         while(m_data[i]<p_short)
+         while(m_data[i]<p_char)
            {
             //--- control the output of the array bounds
             if(i==m_data_total-1)
                break;
             i++;
            }
-         while(m_data[j]>p_short)
+         while(m_data[j]>p_char)
            {
             //--- control the output of the array bounds
             if(j==0)
@@ -506,9 +507,9 @@ void CArrayShort::QuickSort(int beg,int end,const int mode)
            }
          if(i<=j)
            {
-            t_short=m_data[i];
+            t_char=m_data[i];
             m_data[i++]=m_data[j];
-            m_data[j]=t_short;
+            m_data[j]=t_char;
             //--- control the output of the array bounds
             if(j==0)
                break;
@@ -524,7 +525,7 @@ void CArrayShort::QuickSort(int beg,int end,const int mode)
 //+------------------------------------------------------------------+
 //| Inserting element in a sorted array                              |
 //+------------------------------------------------------------------+
-bool CArrayShort::InsertSort(const short element)
+bool CArrayUChar::InsertSort(const uchar element)
   {
    int pos;
 //--- check
@@ -553,7 +554,7 @@ bool CArrayShort::InsertSort(const short element)
 //+------------------------------------------------------------------+
 //| Search of position of element in a array                         |
 //+------------------------------------------------------------------+
-int CArrayShort::SearchLinear(const short element) const
+int CArrayUChar::SearchLinear(const uchar element) const
   {
 //--- check
    if(m_data_total==0)
@@ -568,10 +569,10 @@ int CArrayShort::SearchLinear(const short element) const
 //+------------------------------------------------------------------+
 //| Quick search of position of element in a sorted array            |
 //+------------------------------------------------------------------+
-int CArrayShort::QuickSearch(const short element) const
+int CArrayUChar::QuickSearch(const uchar element) const
   {
    int   i,j,m=-1;
-   short t_short;
+   uchar  t_char;
 //--- search
    i=0;
    j=m_data_total-1;
@@ -581,10 +582,10 @@ int CArrayShort::QuickSearch(const short element) const
       m=(j+i)>>1;
       if(m<0 || m>=m_data_total)
          break;
-      t_short=m_data[m];
-      if(t_short==element)
+      t_char=m_data[m];
+      if(t_char==element)
          break;
-      if(t_short>element)
+      if(t_char>element)
          j=m-1;
       else
          i=m+1;
@@ -595,7 +596,7 @@ int CArrayShort::QuickSearch(const short element) const
 //+------------------------------------------------------------------+
 //| Search of position of element in a sorted array                  |
 //+------------------------------------------------------------------+
-int CArrayShort::Search(const short element) const
+int CArrayUChar::Search(const uchar element) const
   {
    int pos;
 //--- check
@@ -612,7 +613,7 @@ int CArrayShort::Search(const short element) const
 //| Search position of the first element which is greater than       |
 //| specified in a sorted array                                      |
 //+------------------------------------------------------------------+
-int CArrayShort::SearchGreat(const short element) const
+int CArrayUChar::SearchGreat(const uchar element) const
   {
    int pos;
 //--- check
@@ -630,7 +631,7 @@ int CArrayShort::SearchGreat(const short element) const
 //| Search position of the first element which is less than          |
 //| specified in the sorted array                                    |
 //+------------------------------------------------------------------+
-int CArrayShort::SearchLess(const short element) const
+int CArrayUChar::SearchLess(const uchar element) const
   {
    int pos;
 //--- check
@@ -648,7 +649,7 @@ int CArrayShort::SearchLess(const short element) const
 //| Search position of the first element which is greater than or    |
 //| equal to the specified in a sorted array                         |
 //+------------------------------------------------------------------+
-int CArrayShort::SearchGreatOrEqual(const short element) const
+int CArrayUChar::SearchGreatOrEqual(const uchar element) const
   {
 //--- check
    if(m_data_total==0 || !IsSorted())
@@ -664,7 +665,7 @@ int CArrayShort::SearchGreatOrEqual(const short element) const
 //| Search position of the first element which is less than or equal |
 //| to the specified in a sorted array                               |
 //+------------------------------------------------------------------+
-int CArrayShort::SearchLessOrEqual(const short element) const
+int CArrayUChar::SearchLessOrEqual(const uchar element) const
   {
 //--- check
    if(m_data_total==0 || !IsSorted())
@@ -679,7 +680,7 @@ int CArrayShort::SearchLessOrEqual(const short element) const
 //+------------------------------------------------------------------+
 //| Find position of first appearance of element in a sorted array   |
 //+------------------------------------------------------------------+
-int CArrayShort::SearchFirst(const short element) const
+int CArrayUChar::SearchFirst(const uchar element) const
   {
    int pos;
 //--- check
@@ -700,7 +701,7 @@ int CArrayShort::SearchFirst(const short element) const
 //+------------------------------------------------------------------+
 //| Find position of last appearance of element in a sorted array    |
 //+------------------------------------------------------------------+
-int CArrayShort::SearchLast(const short element) const
+int CArrayUChar::SearchLast(const uchar element) const
   {
    int pos;
 //--- check
@@ -721,7 +722,7 @@ int CArrayShort::SearchLast(const short element) const
 //+------------------------------------------------------------------+
 //| Writing array to file                                            |
 //+------------------------------------------------------------------+
-bool CArrayShort::Save(const int file_handle)
+bool CArrayUChar::Save(const int file_handle)
   {
    int i=0;
 //--- check
@@ -732,7 +733,7 @@ bool CArrayShort::Save(const int file_handle)
       return(false);
 //--- write array
    for(i=0;i<m_data_total;i++)
-      if(FileWriteInteger(file_handle,m_data[i],SHORT_VALUE)!=SHORT_VALUE)
+      if(FileWriteInteger(file_handle,m_data[i],CHAR_VALUE)!=CHAR_VALUE)
          break;
 //--- result
    return(i==m_data_total);
@@ -740,9 +741,9 @@ bool CArrayShort::Save(const int file_handle)
 //+------------------------------------------------------------------+
 //| Reading array from file                                          |
 //+------------------------------------------------------------------+
-bool CArrayShort::Load(const int file_handle)
+bool CArrayUChar::Load(const int file_handle)
   {
-   int i=0,num;
+   int i,num;
 //--- check
    if(!CArray::Load(file_handle))
       return(false);
@@ -756,7 +757,7 @@ bool CArrayShort::Load(const int file_handle)
          return(false);
       for(i=0;i<num;i++)
         {
-         m_data[i]=(short)FileReadInteger(file_handle,SHORT_VALUE);
+         m_data[i]=(uchar)FileReadInteger(file_handle,CHAR_VALUE);
          m_data_total++;
          if(FileIsEnding(file_handle))
             break;

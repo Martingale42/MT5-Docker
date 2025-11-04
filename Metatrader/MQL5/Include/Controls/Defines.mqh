@@ -50,8 +50,8 @@ enum ENUM_WND_ALIGN_FLAGS
 #define CONTROLS_FONT_SIZE                  (10)
 //--- Text
 #define CONTROLS_COLOR_TEXT                 C'0x3B,0x29,0x28'
-#define CONTROLS_COLOR_TEXT_SEL             White
-#define CONTROLS_COLOR_BG                   White
+#define CONTROLS_COLOR_TEXT_SEL             clrWhite
+#define CONTROLS_COLOR_BG                   clrWhite
 #define CONTROLS_COLOR_BG_SEL               C'0x33,0x99,0xFF'
 //--- Button
 #define CONTROLS_BUTTON_COLOR               C'0x3B,0x29,0x28'
@@ -61,7 +61,7 @@ enum ENUM_WND_ALIGN_FLAGS
 #define CONTROLS_LABEL_COLOR                C'0x3B,0x29,0x28'
 //--- Edit
 #define CONTROLS_EDIT_COLOR                 C'0x3B,0x29,0x28'
-#define CONTROLS_EDIT_COLOR_BG              White
+#define CONTROLS_EDIT_COLOR_BG              clrWhite
 #define CONTROLS_EDIT_COLOR_BORDER          C'0xB2,0xC3,0xCF'
 //--- Scrolls
 #define CONTROLS_SCROLL_COLOR_BG            C'0xEC,0xEC,0xEC'
@@ -71,10 +71,10 @@ enum ENUM_WND_ALIGN_FLAGS
 #define CONTROLS_CLIENT_COLOR_BORDER        C'0x2C,0x2C,0x2C'
 //--- ListView
 #define CONTROLS_LISTITEM_COLOR_TEXT        C'0x3B,0x29,0x28'
-#define CONTROLS_LISTITEM_COLOR_TEXT_SEL    White
-#define CONTROLS_LISTITEM_COLOR_BG          White
+#define CONTROLS_LISTITEM_COLOR_TEXT_SEL    clrWhite
+#define CONTROLS_LISTITEM_COLOR_BG          clrWhite
 #define CONTROLS_LISTITEM_COLOR_BG_SEL      C'0x33,0x99,0xFF'
-#define CONTROLS_LIST_COLOR_BG              White
+#define CONTROLS_LIST_COLOR_BG              clrWhite
 #define CONTROLS_LIST_COLOR_BORDER          C'0xB2,0xC3,0xCF'
 //--- CheckGroup
 #define CONTROLS_CHECKGROUP_COLOR_BG        C'0xF7,0xF7,0xF7'
@@ -83,7 +83,7 @@ enum ENUM_WND_ALIGN_FLAGS
 #define CONTROLS_RADIOGROUP_COLOR_BG        C'0xF7,0xF7,0xF7'
 #define CONTROLS_RADIOGROUP_COLOR_BORDER    C'0xB2,0xC3,0xCF'
 //--- Dialog
-#define CONTROLS_DIALOG_COLOR_BORDER_LIGHT  White
+#define CONTROLS_DIALOG_COLOR_BORDER_LIGHT  clrWhite
 #define CONTROLS_DIALOG_COLOR_BORDER_DARK   C'0xB6,0xB6,0xB6'
 #define CONTROLS_DIALOG_COLOR_BG            C'0xF0,0xF0,0xF0'
 #define CONTROLS_DIALOG_COLOR_CAPTION_TEXT  C'0x28,0x29,0x3B'

@@ -242,7 +242,7 @@ color CChartObject::Color(void) const
   {
 //--- check
    if(m_chart_id==-1)
-      return(CLR_NONE);
+      return(clrNONE);
 //--- result
    return((color)ObjectGetInteger(m_chart_id,m_name,OBJPROP_COLOR));
   }
@@ -523,9 +523,9 @@ color CChartObject::LevelColor(const int level) const
   {
 //--- check
    if(m_chart_id==-1)
-      return(CLR_NONE);
+      return(clrNONE);
    if(level>=LevelsCount())
-      return(CLR_NONE);
+      return(clrNONE);
 //--- result
    return((color)ObjectGetInteger(m_chart_id,m_name,OBJPROP_LEVELCOLOR,level));
   }

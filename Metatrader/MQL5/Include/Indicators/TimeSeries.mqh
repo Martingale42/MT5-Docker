@@ -6,6 +6,7 @@
 #include "Series.mqh"
 #include <Arrays\ArrayInt.mqh>
 #include <Arrays\ArrayLong.mqh>
+#include <Arrays\ArrayDatetime.mqh>
 //+------------------------------------------------------------------+
 //| Class CPriceSeries.                                              |
 //| Purpose: Base class of price series.                             |
@@ -887,7 +888,7 @@ void CiSpread::Refresh(const int flags)
 //| Purpose: Class of buffer of time series.                         |
 //|          Derives from class CArrayLong.                          |
 //+------------------------------------------------------------------+
-class CTimeBuffer : public CArrayLong
+class CTimeBuffer : public CArrayDatetime
   {
 protected:
    string            m_symbol;           // symbol
@@ -901,7 +902,7 @@ public:
    //--- methods of access to protected data
    void              Size(const int size) { m_size=size; }
    //--- methods of access to data
-   long              At(const int index) const;
+   datetime          At(const int index) const;
    //--- method of refreshing of the data buffer
    virtual bool      Refresh(void);
    virtual bool      RefreshCurrent(void);
@@ -927,13 +928,13 @@ CTimeBuffer::~CTimeBuffer(void)
 //+------------------------------------------------------------------+
 //| Access to data in a position                                     |
 //+------------------------------------------------------------------+
-long CTimeBuffer::At(const int index) const
+datetime CTimeBuffer::At(const int index) const
   {
 //--- check
    if(index>=m_data_total)
       return(0);
 //---
-   return((datetime)CArrayLong::At(index));
+   return((datetime)CArrayDatetime::At(index));
   }
 //+------------------------------------------------------------------+
 //| Refreshing of data buffer                                        |
@@ -955,7 +956,7 @@ bool CTimeBuffer::Refresh(void)
 //+------------------------------------------------------------------+
 bool CTimeBuffer::RefreshCurrent(void)
   {
-   long array[1];
+   datetime array[1];
 //---
    if(CopyTime(m_symbol,m_period,0,1,array)==1 && m_data_total>0)
      {

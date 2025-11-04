@@ -49,11 +49,10 @@ bool CDXBox::Create(CDXDispatcher &dispatcher,CDXInput* buffer_scene,const DXVec
    DXVertex vertices[];
    uint indices[];
 //--- prepare box vertices and indices
-   DXColor white=DXColor(1.0f,1.0f,1.0f,1.0f);
    if(!DXComputeBox(from,to,vertices,indices))
       return(false);
    for(int i=0; i<ArraySize(vertices); i++)
-      vertices[i].vcolor=white;
+      vertices[i].vcolor=DXColor(1.0f,1.0f,1.0f,1.0f);
 //--- create mesh
    return(CDXMesh::Create(dispatcher,buffer_scene,vertices,indices));
   }
@@ -66,11 +65,10 @@ bool CDXBox::Update(const DXVector3 &from,const DXVector3 &to)
    DXVertex vertices[];
    uint indices[];
 //--- prepare box vertices and indices
-   DXColor white=DXColor(1.0f,1.0f,1.0f,1.0f);
    if(!DXComputeBox(from,to,vertices,indices))
       return(false);
    for(int i=0; i<ArraySize(vertices); i++)
-      vertices[i].vcolor=white;
+      vertices[i].vcolor=DXColor(1.0f,1.0f,1.0f,1.0f);
 //--- update mesh vertices, indices are the same
    return(CDXMesh::VerticesSet(vertices));
   }

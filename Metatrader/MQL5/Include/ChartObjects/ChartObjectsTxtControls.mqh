@@ -30,8 +30,8 @@ public:
    ENUM_ANCHOR_POINT Anchor(void) const;
    bool              Anchor(const ENUM_ANCHOR_POINT anchor) const;
    //--- methods for working with files
-   virtual bool      Save(const int file_handle);
-   virtual bool      Load(const int file_handle);
+   virtual bool      Save(const int file_handle) override;
+   virtual bool      Load(const int file_handle) override;
   };
 //+------------------------------------------------------------------+
 //| Constructor                                                      |
@@ -436,8 +436,8 @@ public:
    bool              Angle(const double angle) const { return(false); }
    double            Angle(void) const { return(CChartObjectLabel::Angle()); }
    //--- methods for working with files
-   virtual bool      Save(const int file_handle);
-   virtual bool      Load(const int file_handle);
+   virtual bool      Save(const int file_handle) override;
+   virtual bool      Load(const int file_handle) override;
   };
 //+------------------------------------------------------------------+
 //| Constructor                                                      |
@@ -496,7 +496,7 @@ color CChartObjectEdit::BackColor(void) const
   {
 //--- check
    if(m_chart_id==-1)
-      return(CLR_NONE);
+      return(clrNONE);
 //--- result
    return((color)ObjectGetInteger(m_chart_id,m_name,OBJPROP_BGCOLOR));
   }
@@ -518,7 +518,7 @@ color CChartObjectEdit::BorderColor(void) const
   {
 //--- check
    if(m_chart_id==-1)
-      return(CLR_NONE);
+      return(clrNONE);
 //--- result
    return((color)ObjectGetInteger(m_chart_id,m_name,OBJPROP_BORDER_COLOR));
   }
@@ -641,8 +641,8 @@ public:
    bool              State(void) const;
    bool              State(const bool state) const;
    //--- methods for working with files
-   virtual bool      Save(const int file_handle);
-   virtual bool      Load(const int file_handle);
+   virtual bool      Save(const int file_handle) override;
+   virtual bool      Load(const int file_handle) override;
   };
 //+------------------------------------------------------------------+
 //| Constructor                                                      |
@@ -801,7 +801,7 @@ color CChartObjectRectLabel::BackColor(void) const
   {
 //--- check
    if(m_chart_id==-1)
-      return(CLR_NONE);
+      return(clrNONE);
 //--- result
    return((color)ObjectGetInteger(m_chart_id,m_name,OBJPROP_BGCOLOR));
   }

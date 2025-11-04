@@ -6,7 +6,7 @@
 #include "Array.mqh"
 //+------------------------------------------------------------------+
 //| Class CArrayDouble.                                              |
-//| Puprpose: Class of dynamic array variables of double type.       |
+//| Puprpose: Class of dynamic array of double type values.          |
 //|           Derives from class CArray.                             |
 //+------------------------------------------------------------------+
 class CArrayDouble : public CArray

@@ -527,7 +527,7 @@ bool CAppDialog::CreateCommon(const long chart,const string name,const int subwi
 //--- initialize chart object
    m_chart.Attach(chart);
 //--- determine type of program
-   m_program_type=(ENUM_PROGRAM_TYPE)MQL5InfoInteger(MQL5_PROGRAM_TYPE);
+   m_program_type=(ENUM_PROGRAM_TYPE)MQLInfoInteger(MQL_PROGRAM_TYPE);
 //--- specify object and mouse events
    if(!m_chart.EventObjectCreate() || !m_chart.EventObjectDelete() || !m_chart.EventMouseMove())
      {

@@ -81,6 +81,8 @@ public:
    //--- kernel execution
    bool              Execute(const int kernel_index,const int work_dim,const uint &work_offset[],const uint &work_size[]);
    bool              Execute(const int kernel_index,const int work_dim,const uint &work_offset[],const uint &work_size[],const uint &local_work_size[]);
+   //--- kernel execution status
+   ENUM_OPENCL_EXECUTION_STATUS ExecutionStatus(const int kernel_index);
   };
 //+------------------------------------------------------------------+
 //| COpenCL class constructor                                        |
@@ -748,5 +750,16 @@ bool COpenCL::Execute(const int kernel_index,const int work_dim,const uint &work
       return(false);
 //---
    return CLExecute(m_kernels[kernel_index],work_dim,work_offset,work_size,local_work_size);
+  }
+//+------------------------------------------------------------------+
+//| Execution status                                                 |
+//+------------------------------------------------------------------+
+ENUM_OPENCL_EXECUTION_STATUS COpenCL::ExecutionStatus(const int kernel_index)
+  {
+//--- check parameters
+   if(kernel_index<0 || kernel_index>=m_kernels_total)
+      return(-1);
+//---
+   return CLExecutionStatus(m_kernels[kernel_index]);
   }
 //+------------------------------------------------------------------+

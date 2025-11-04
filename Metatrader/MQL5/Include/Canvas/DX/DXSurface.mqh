@@ -80,7 +80,6 @@ bool CDXSurface::Create(CDXDispatcher &dispatcher,CDXInput* buffer_scene,
    DXVertex vertices[];
    uint indices[];
 //--- prepare surface vertices and indices
-   DXColor white=DXColor(1.0f,1.0f,1.0f,1.0f);
    if(!DXComputeSurface(data,data_width,data_height,data_range,from,to,texture_size,flags&SF_TWO_SIDED,flags&SF_USE_NORMALS,vertices,indices))
       return(false);
 //--- calculate colors
@@ -99,7 +98,6 @@ bool CDXSurface::Update(double &data[],uint data_width,uint data_height,float da
    DXVertex vertices[];
    uint indices[];
 //--- prepare surface vertices and indices
-   DXColor white=DXColor(1.0f,1.0f,1.0f,1.0f);
    if(!DXComputeSurface(data,data_width,data_height,data_range,from,to,texture_size,flags&SF_TWO_SIDED,flags&SF_USE_NORMALS,vertices,indices))
       return(false);
 //--- calculate colors
@@ -152,9 +150,8 @@ void CDXSurface::PrepareColors(DXVertex &vertices[],const DXVector3 &from,const 
         }  
       default:
         {
-         DXColor white=DXColor(1.0f,1.0f,1.0f,1.0f);
          for(uint i=0; i<count; i++)
-            vertices[i].vcolor=white;
+            vertices[i].vcolor=DXColor(1.0f,1.0f,1.0f,1.0f);
          break;
         }
      }

@@ -653,7 +653,7 @@ color CChart::ColorBackground(void) const
   {
 //--- check
    if(m_chart_id==-1)
-      return(CLR_NONE);
+      return(clrNONE);
 //--- result
    return((color)ChartGetInteger(m_chart_id,CHART_COLOR_BACKGROUND));
   }
@@ -675,7 +675,7 @@ color CChart::ColorForeground(void) const
   {
 //--- check
    if(m_chart_id==-1)
-      return(CLR_NONE);
+      return(clrNONE);
 //--- result
    return((color)ChartGetInteger(m_chart_id,CHART_COLOR_FOREGROUND));
   }
@@ -697,7 +697,7 @@ color CChart::ColorGrid(void) const
   {
 //--- check
    if(m_chart_id==-1)
-      return(CLR_NONE);
+      return(clrNONE);
 //--- result
    return((color)ChartGetInteger(m_chart_id,CHART_COLOR_GRID));
   }
@@ -719,7 +719,7 @@ color CChart::ColorBarUp(void) const
   {
 //--- check
    if(m_chart_id==-1)
-      return(CLR_NONE);
+      return(clrNONE);
 //--- result
    return((color)ChartGetInteger(m_chart_id,CHART_COLOR_CHART_UP));
   }
@@ -741,7 +741,7 @@ color CChart::ColorBarDown(void) const
   {
 //--- check
    if(m_chart_id==-1)
-      return(CLR_NONE);
+      return(clrNONE);
 //--- result
    return((color)ChartGetInteger(m_chart_id,CHART_COLOR_CHART_DOWN));
   }
@@ -763,7 +763,7 @@ color CChart::ColorCandleBull(void) const
   {
 //--- check
    if(m_chart_id==-1)
-      return(CLR_NONE);
+      return(clrNONE);
 //--- result
    return((color)ChartGetInteger(m_chart_id,CHART_COLOR_CANDLE_BULL));
   }
@@ -785,7 +785,7 @@ color CChart::ColorCandleBear(void) const
   {
 //--- check
    if(m_chart_id==-1)
-      return(CLR_NONE);
+      return(clrNONE);
 //--- result
    return((color)ChartGetInteger(m_chart_id,CHART_COLOR_CANDLE_BEAR));
   }
@@ -807,7 +807,7 @@ color CChart::ColorChartLine(void) const
   {
 //--- check
    if(m_chart_id==-1)
-      return(CLR_NONE);
+      return(clrNONE);
 //--- result
    return((color)ChartGetInteger(m_chart_id,CHART_COLOR_CHART_LINE));
   }
@@ -829,7 +829,7 @@ color CChart::ColorVolumes(void) const
   {
 //--- check
    if(m_chart_id==-1)
-      return(CLR_NONE);
+      return(clrNONE);
 //--- result
    return((color)ChartGetInteger(m_chart_id,CHART_COLOR_VOLUME));
   }
@@ -851,7 +851,7 @@ color CChart::ColorLineBid(void) const
   {
 //--- check
    if(m_chart_id==-1)
-      return(CLR_NONE);
+      return(clrNONE);
 //--- result
    return((color)ChartGetInteger(m_chart_id,CHART_COLOR_BID));
   }
@@ -873,7 +873,7 @@ color CChart::ColorLineAsk(void) const
   {
 //--- check
    if(m_chart_id==-1)
-      return(CLR_NONE);
+      return(clrNONE);
 //--- result
    return((color)ChartGetInteger(m_chart_id,CHART_COLOR_ASK));
   }
@@ -895,7 +895,7 @@ color CChart::ColorLineLast(void) const
   {
 //--- check
    if(m_chart_id==-1)
-      return(CLR_NONE);
+      return(clrNONE);
 //--- result
    return((color)ChartGetInteger(m_chart_id,CHART_COLOR_LAST));
   }
@@ -917,7 +917,7 @@ color CChart::ColorStopLevels(void) const
   {
 //--- check
    if(m_chart_id==-1)
-      return(CLR_NONE);
+      return(clrNONE);
 //--- result
    return((color)ChartGetInteger(m_chart_id,CHART_COLOR_STOP_LEVEL));
   }

@@ -164,9 +164,9 @@ CTrade::CTrade(void) : m_async_mode(false),
 //--- initialize protected data
    ClearStructures();
 //--- check programm mode
-   if(MQL5InfoInteger(MQL5_TESTING))
+   if(MQLInfoInteger(ENUM_MQL_INFO_INTEGER::MQL_TESTER))
       m_log_level=LOG_LEVEL_ALL;
-   if(MQL5InfoInteger(MQL5_OPTIMIZATION))
+   if(MQLInfoInteger(ENUM_MQL_INFO_INTEGER::MQL_OPTIMIZATION))
       m_log_level=LOG_LEVEL_NO;
   }
 //+------------------------------------------------------------------+
@@ -1388,7 +1388,7 @@ double CTrade::CheckVolume(const string symbol,double volume,double price,ENUM_O
 //--- check
    if(order_type!=ORDER_TYPE_BUY && order_type!=ORDER_TYPE_SELL)
       return(0.0);
-   double free_margin=AccountInfoDouble(ACCOUNT_FREEMARGIN);
+   double free_margin=AccountInfoDouble(ENUM_ACCOUNT_INFO_DOUBLE::ACCOUNT_MARGIN_FREE);
    if(free_margin<=0.0)
       return(0.0);
 //--- clean

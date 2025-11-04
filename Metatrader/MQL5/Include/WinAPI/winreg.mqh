@@ -69,7 +69,7 @@ int     RegRestoreKeyW(HANDLE key,const string file,uint flags);
 int     RegSaveKeyExW(HANDLE key,const string file,PVOID security_attributes,uint flags);
 int     RegSaveKeyW(HANDLE key,const string file,PVOID security_attributes);
 int     RegSetKeySecurity(HANDLE key,uint SecurityInformation,SECURITY_DESCRIPTOR &security_descriptor);
-int     RegSetKeyValueW(HANDLE key,const string sub_key,const string value_name,uint type,const uchar &data[],uint data);
+int     RegSetKeyValueW(HANDLE key,const string sub_key,const string value_name,uint type,const uchar &data[],uint data_size);
 int     RegSetValueExW(HANDLE key,const string value_name,PVOID reserved,uint type,const uchar &data[],uint data_size);
 int     RegSetValueW(HANDLE key,const string sub_key,uint type,const ushort &data[],uint data_size);
 int     RegUnLoadKeyW(HANDLE key,const string sub_key);

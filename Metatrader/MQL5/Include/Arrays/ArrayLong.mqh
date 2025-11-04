@@ -6,8 +6,7 @@
 #include "Array.mqh"
 //+------------------------------------------------------------------+
 //| Class CArrayLong.                                                |
-//| Purpose: Class of dynamic array of variables                     |
-//|          of long or ulong type.                                  |
+//| Purpose: Class of dynamic array of long type values.             |
 //|          Derives from class CArray.                              |
 //+------------------------------------------------------------------+
 class CArrayLong : public CArray

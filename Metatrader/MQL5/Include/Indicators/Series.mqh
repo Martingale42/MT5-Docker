@@ -156,7 +156,7 @@ string CSeries::PeriodDescription(const int val)
 bool CSeries::CheckLoadHistory(const int size)
   {
 //--- don't ask for load of its own data if it is an indicator
-   if(MQL5InfoInteger(MQL5_PROGRAM_TYPE)==PROGRAM_INDICATOR && Period()==m_period && Symbol()==m_symbol)
+   if(MQLInfoInteger(MQL_PROGRAM_TYPE)==PROGRAM_INDICATOR && Period()==m_period && Symbol()==m_symbol)
       return(true);
    if(size>TerminalInfoInteger(TERMINAL_MAXBARS))
      {
@@ -206,7 +206,7 @@ bool CSeries::CheckTerminalHistory(const int size)
 bool CSeries::CheckServerHistory(const int size)
   {
 //--- load symbol history info
-   datetime first_server_date=0;
+   long first_server_date=0;
    while(!SeriesInfoInteger(m_symbol,PERIOD_M1,SERIES_SERVER_FIRSTDATE,first_server_date) && !IsStopped())
       Sleep(5);
 //--- Enough data on server?
