@@ -57,9 +57,9 @@ while time.time() - start < 150:
         print(f"  Status: {data.get('status')}")
         if 'data' in data:
             bar_data = data['data']
-            if isinstance(bar_data, list) and len(bar_data) >= 5:
+            if isinstance(bar_data, list) and len(bar_data) >= 6:
                 print(f"  Bar time: {time.strftime('%H:%M:%S', time.localtime(bar_data[0]))}")
-                print(f"  OHLC: O={bar_data[1]}, H={bar_data[2]}, L={bar_data[3]}, C={bar_data[4]}")
+                print(f"  OHLCV: O={bar_data[1]}, H={bar_data[2]}, L={bar_data[3]}, C={bar_data[4]}, V={bar_data[5]}")
         print()
     except zmq.Again:
         pass

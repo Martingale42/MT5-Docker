@@ -7,7 +7,7 @@ Tests all 4 sockets: System (2201), Data (2202), Live (2203), Stream (2204)
 import zmq
 import json
 import time
-from datetime import datetime
+import datetime
 
 # Configuration
 HOST = "localhost"  # Change to your server IP if remote
@@ -216,11 +216,17 @@ def test_live_stream(client):
         if data:
             count += 1
             symbol = data.get('symbol', 'N/A')
-            bid = data.get('bid', 'N/A')
-            ask = data.get('ask', 'N/A')
-            spread = data.get('spread', 'N/A')
-            bar_time = data.get('time', 'N/A')
-            print(f"  [{count}] {symbol} @ {bar_time}: Bid={bid}, Ask={ask}, Spread={spread}")
+            timeframe = data.get('timeframe', 'N/A')
+            status = data.get('status', 'N/A')
+
+            # Parse bar data from nested 'data' array
+            bar_data = data.get('data', [])
+            if isinstance(bar_data, list) and len(bar_data) >= 6:
+                bar_time = time.strftime('%H:%M:%S', time.localtime(bar_data[0]))
+                o, h, l, c, v = bar_data[1], bar_data[2], bar_data[3], bar_data[4], bar_data[5]
+                print(f"  [{count}] {symbol} {timeframe} @ {bar_time}: O={o}, H={h}, L={l}, C={c}, V={v} (Status: {status})")
+            else:
+                print(f"  [{count}] {symbol} {timeframe}: Status={status} (No bar data)")
 
     if count > 0:
         print(f"\n✓ Received {count} live price update(s)")
@@ -231,10 +237,64 @@ def test_live_stream(client):
         return False
 
 
-def test_economic_calendar(client):
-    """Test 5: Get economic calendar data"""
+def test_tick_stream(client):
+    """Test 5: Subscribe to real-time tick stream (bid/ask prices)"""
     print("\n" + "="*60)
-    print("TEST 5: Economic Calendar Data")
+    print("TEST 5: Real-time Tick Stream (BTCUSD, 15 seconds)")
+    print("="*60)
+
+    # Configure symbol for tick data (real-time bid/ask updates)
+    print("Configuring BTCUSD TICK for real-time bid/ask streaming...")
+    client.send_command("CONFIG", actionType="CONFIG", symbol="BTCUSD", chartTF="TICK")
+    time.sleep(1)
+    # Drain any response from data socket
+    client.receive_data()
+
+    print("\nListening for tick data (updates on every price change)...")
+    count = 0
+    start_time = time.time()
+    last_bid = None
+
+    while time.time() - start_time < 15:  # Listen for 15 seconds
+        data = client.receive_live()
+        if data:
+            count += 1
+            symbol = data.get('symbol', 'N/A')
+
+            # Parse tick data
+            tick_data = data.get('data', [])
+            if isinstance(tick_data, list) and len(tick_data) >= 3:
+                tick_time_ms = tick_data[0]
+                bid = tick_data[1]
+                ask = tick_data[2]
+                spread = ask - bid
+
+                # Show change indicator
+                change = ""
+                if last_bid is not None:
+                    if bid > last_bid:
+                        change = "↑"
+                    elif bid < last_bid:
+                        change = "↓"
+
+                print(f"Recieve @ [{datetime.datetime.fromtimestamp(tick_time_ms / 1000, tz=datetime.UTC)}]")
+                print(f"  [{count}] {symbol}: Bid={bid:.2f} {change}, Ask={ask:.2f}, Spread={spread:.2f}")
+                last_bid = bid
+
+    if count > 0:
+        print(f"\n✓ Received {count} tick update(s) in 15 seconds")
+        print(f"  Average: {count/15:.1f} ticks/second")
+        return True
+    else:
+        print("\n✗ No tick updates received")
+        print("  Note: Tick data requires live market activity")
+        return False
+
+
+def test_economic_calendar(client):
+    """Test 6: Get economic calendar data"""
+    print("\n" + "="*60)
+    print("TEST 6: Economic Calendar Data")
     print("="*60)
 
     # Get calendar data for the last 3 days (shorter period to reduce response size)
@@ -272,7 +332,7 @@ def main():
     print("JsonAPI ZeroMQ Connectivity Test")
     print("="*60)
     print(f"Host: {HOST}")
-    print(f"Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"Time: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("="*60)
 
     try:
@@ -284,7 +344,8 @@ def main():
         results.append(("Account Info", test_basic_connectivity(client)))
         results.append(("Config Symbol", test_config_symbol(client)))
         results.append(("Market Data", test_market_data(client)))
-        results.append(("Live Stream", test_live_stream(client)))
+        results.append(("Live Stream (M1 Bars)", test_live_stream(client)))
+        results.append(("Tick Stream (Bid/Ask)", test_tick_stream(client)))
         results.append(("Economic Calendar", test_economic_calendar(client)))
 
         # Summary
