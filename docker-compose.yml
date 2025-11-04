@@ -24,6 +24,14 @@ services:
     environment:
       - USER=root
       - PASSWORD=root
+    deploy:
+      resources:
+        limits:
+          cpus: '4'          # Max 4 cores
+          memory: 2G         # Max 2GB
+        reservations:
+          cpus: '2'          # Guaranteed 2 cores
+          memory: 1G         # Guaranteed 2G
 
 volumes:
   mt5zmq-data:
