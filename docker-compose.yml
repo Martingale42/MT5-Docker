@@ -12,11 +12,24 @@ services:
       - '2203:2203'    # Live socket (PUSH)
       - '2204:2204'    # Stream socket (PUSH)
     volumes:
-      - mt5zmq-data:/data
-      - ./Metatrader:/root/Metatrader
+      - ./Metatrader/MQL5/Experts:/root/Metatrader/MQL5/Experts
+      - ./Metatrader/MQL5/Include:/root/Metatrader/MQL5/Include
+      - ./data:/root/data
+      - mt5zmq-config:/root/Metatrader/Config
+      - mt5zmq-bases:/root/Metatrader/Bases
+      - mt5zmq-logs:/root/Metatrader/logs
+      - mt5zmq-profiles:/root/Metatrader/Profiles
+      - mt5zmq-tester:/root/Metatrader/Tester
+      - mt5zmq-wine:/root/.wine
     environment:
       - USER=root
       - PASSWORD=root
 
 volumes:
   mt5zmq-data:
+  mt5zmq-config:
+  mt5zmq-bases:
+  mt5zmq-logs:
+  mt5zmq-profiles:
+  mt5zmq-tester:
+  mt5zmq-wine:

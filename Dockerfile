@@ -90,6 +90,10 @@ COPY assets/start.sh /root/start.sh
 
 RUN apk update && apk add samba-winbind wine && ln -s /usr/bin/wine64 /usr/bin/wine
 
+# Initialize Wine prefix to avoid prompts on first run
+ENV WINEDLLOVERRIDES="mscoree,mshtml="
+RUN wineboot -u && wineserver -w
+
 
 
 
