@@ -180,11 +180,42 @@ def main():
 
     try:
         # ============================================================
-        # CAPTURE 1: INSTRUMENTS
+        # CAPTURE 1: INSTRUMENTS (NOT SUPPORTED - returns ERR_WRONG_ACTION)
         # ============================================================
+        # capture.send_command_and_capture(
+        #     "INSTRUMENTS",
+        #     {"action": "INSTRUMENTS"}
+        # )
+
+        # ============================================================
+        # CAPTURE 1A: SYMBOL_INFO (Replacement for INSTRUMENTS)
+        # ============================================================
+        print("\n" + "="*60)
+        print("Testing SYMBOL_INFO action...")
+        print("="*60)
+
+        # Test 1: Single symbol
         capture.send_command_and_capture(
-            "INSTRUMENTS",
-            {"action": "INSTRUMENTS"}
+            "SYMBOL_INFO_SINGLE",
+            {
+                "action": "SYMBOL_INFO",
+                "symbol": "EURAUD"
+            }
+        )
+
+        # Test 2: Multiple symbols
+        capture.send_command_and_capture(
+            "SYMBOL_INFO_MULTIPLE",
+            {
+                "action": "SYMBOL_INFO",
+                "symbols": ["EURAUD", "EURUSD", "BTCUSD"]
+            }
+        )
+
+        # Test 3: All symbols (no symbol specified)
+        capture.send_command_and_capture(
+            "SYMBOL_INFO_ALL",
+            {"action": "SYMBOL_INFO"}
         )
 
         # ============================================================

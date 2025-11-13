@@ -388,27 +388,152 @@ Client                    MT5-Docker JsonAPI
 
 ### 9. INSTRUMENTS - NOT SUPPORTED ⚠️
 
-**Request (sys_port 2201):**
-```json
-{"action": "INSTRUMENTS"}
-```
+**⚠️ DEPRECATED:** MT5-Docker JsonAPI does **NOT** support the INSTRUMENTS action!
 
-**Response (data_port 2202):**
+Use **SYMBOL_INFO** instead (see section 10 below).
+
+---
+
+### 10. SYMBOL_INFO - Get Symbol Specifications ✅
+
+**Purpose:** Query detailed symbol specifications from MT5 using SymbolInfo* functions. This provides all necessary information to create proper instrument definitions (price precision, lot sizes, margins, etc.).
+
+#### Request Format (sys_port 2201):
+
+**Option 1: Single Symbol**
 ```json
 {
-  "error": true,
-  "lastError": "65538",
-  "description": "ERR_WRONG_ACTION",
-  "function": "RequestHandler"
+  "action": "SYMBOL_INFO",
+  "symbol": "EURAUD"
 }
 ```
 
-**⚠️ CRITICAL:** MT5-Docker JsonAPI does **NOT** support the INSTRUMENTS action!
+**Option 2: Multiple Symbols**
+```json
+{
+  "action": "SYMBOL_INFO",
+  "symbols": ["EURAUD", "EURUSD", "BTCUSD"]
+}
+```
 
-**Workaround for Nautilus Integration:**
-- Maintain a static list of instruments based on broker
-- Or load instruments from config file
-- Or query symbols from MT5 terminal using a different method
+**Option 3: All Symbols** (no symbol specified)
+```json
+{
+  "action": "SYMBOL_INFO"
+}
+```
+
+#### Response Format (data_port 2202):
+
+```json
+{
+  "error": false,
+  "symbols": [
+    {
+      "symbol": "EURAUD",
+      "description": "Euro vs Australian Dollar",
+      "base_currency": "EUR",
+      "quote_currency": "AUD",
+      "profit_currency": "AUD",
+      "margin_currency": "EUR",
+
+      "digits": "5",
+      "point": "0.00001000",
+      "spread": "15",
+      "stops_level": "0",
+
+      "contract_size": "100000.00000",
+      "tick_value": "0.66666000",
+      "tick_size": "0.00001000",
+
+      "volume_min": "0.01000",
+      "volume_max": "500.00000",
+      "volume_step": "0.01000",
+      "volume_limit": "0.00000",
+
+      "swap_long": "-0.59000",
+      "swap_short": "0.05000",
+      "swap_mode": "0",
+
+      "trade_mode": "0",
+      "trade_execution": "2",
+      "trade_calc_mode": "0",
+
+      "expiration_mode": "15",
+      "filling_mode": "2",
+      "order_mode": "55",
+
+      "margin_initial": "0.00000",
+      "margin_maintenance": "0.00000",
+      "margin_hedged": "0.00000",
+
+      "select": "true",
+      "visible": "true",
+
+      "session_deals": "0",
+      "session_buy_orders": "0",
+      "session_sell_orders": "0",
+
+      "time": "1763050461",
+      "bid": "1.62345000",
+      "bidlow": "1.62100000",
+      "bidhigh": "1.62500000",
+      "ask": "1.62360000",
+      "asklow": "1.62115000",
+      "askhigh": "1.62515000",
+      "last": "0.00000000",
+
+      "trade_tick_value_profit": "0.66666000",
+      "trade_tick_value_loss": "0.66666988",
+      "trade_freeze_level": "0"
+    }
+  ]
+}
+```
+
+**Field Descriptions:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `symbol` | string | Symbol name (e.g., "EURAUD") |
+| `description` | string | Human-readable description |
+| `base_currency` | string | Base currency code (ISO 4217) |
+| `quote_currency` | string | Quote currency code |
+| `digits` | string | Price decimal places (5 for most forex) |
+| `point` | string | Minimum price change (0.00001 for 5-digit) |
+| `contract_size` | string | Standard lot size (100000 for forex) |
+| `tick_size` | string | Minimum price change |
+| `tick_value` | string | Value of 1 tick in account currency |
+| `volume_min` | string | Minimum order size (0.01 = micro lot) |
+| `volume_max` | string | Maximum order size |
+| `volume_step` | string | Order size increment |
+| `trade_mode` | string | 0=Full, 4=CloseOnly |
+| `trade_execution` | string | 0=Request, 1=Instant, 2=Market |
+| `filling_mode` | string | Order filling modes bitmap |
+
+**Note:** All numeric values are returned as strings because MQL5's CJAVal library requires string assignments.
+
+#### Use Cases:
+
+1. **Instrument Loading**: Query all symbols on startup to populate instrument definitions
+2. **Dynamic Updates**: Query specific symbols when needed
+3. **Broker Portability**: Works with any broker's symbol names (EURAUD, EURUSD, XAUUSD.sml, BTCUSD, etc.)
+
+#### Example Integration (Nautilus Trader):
+
+```python
+# Request all instruments
+sys_socket.send_string(json.dumps({"action": "SYMBOL_INFO"}))
+ack = sys_socket.recv_string()  # "OK"
+
+# Receive full response on data_port
+response = data_socket.recv_string()
+data = json.loads(response)
+
+for symbol_info in data["symbols"]:
+    # Create CurrencyPair instrument with proper specifications
+    instrument = create_instrument_from_mt5(symbol_info)
+```
 
 ---
 
@@ -494,24 +619,34 @@ response = data_socket.recv_string()
 data = json.loads(response)
 ```
 
-### 2. Instrument Loading Workaround
+### 2. Instrument Loading
 
-Since INSTRUMENTS is not supported, use one of:
+Use the **SYMBOL_INFO** action to load instrument specifications:
 
-**Option A: Config File**
 ```python
-instruments = ["EURUSD", "GBPUSD", "XAUUSD.sml", "BTCUSD"]
+# Request all instruments
+sys_socket.send_string(json.dumps({"action": "SYMBOL_INFO"}))
+ack = sys_socket.recv_string()  # "OK"
+response = data_socket.recv_string()
+data = json.loads(response)
+
+# data["symbols"] contains list of all symbol specifications
+for symbol_info in data["symbols"]:
+    # Create Nautilus Instrument from symbol_info
+    # See section 10 for complete field list
+    pass
 ```
 
-**Option B: Dynamic Discovery (requires custom MQL5 script)**
-- Modify JsonAPI.mq5 to add INSTRUMENTS support
-- Or use SymbolsTotal() + SymbolName() in MQL5
-
-**Option C: Broker-Specific Lists**
+**Alternative: Request specific symbols**
 ```python
-OANDA_INSTRUMENTS = ["EURUSD", "GBPUSD", ...]
-EXNESS_INSTRUMENTS = [...]
+# Single symbol
+{"action": "SYMBOL_INFO", "symbol": "EURUSD"}
+
+# Multiple symbols
+{"action": "SYMBOL_INFO", "symbols": ["EURUSD", "GBPUSD", "BTCUSD"]}
 ```
+
+**Note**: The deprecated INSTRUMENTS action is not supported and returns ERR_WRONG_ACTION.
 
 ### 3. Timeouts
 
@@ -525,6 +660,8 @@ EXNESS_INSTRUMENTS = [...]
 - ACCOUNT: ~200 bytes
 - BALANCE: ~90 bytes
 - CONFIG: ~90 bytes
+- SYMBOL_INFO (single): ~1-2KB per symbol
+- SYMBOL_INFO (all): ~10-50KB (depends on broker symbol count)
 - POSITIONS/ORDERS: ~20-1000 bytes (depends on count)
 - HISTORY bars (7 days M1): ~460KB (6870 bars)
 - HISTORY ticks (1 hour): ~200KB (4873 ticks)
@@ -539,6 +676,7 @@ EXNESS_INSTRUMENTS = [...]
 - [x] ACCOUNT response captured
 - [x] BALANCE response captured
 - [x] CONFIG response captured
+- [x] SYMBOL_INFO response captured (single, multiple, all symbols)
 - [x] HISTORY bars response captured
 - [x] HISTORY ticks response captured
 - [x] POSITIONS response captured
@@ -547,7 +685,7 @@ EXNESS_INSTRUMENTS = [...]
 - [x] Trade confirmation (stream_port) captured
 - [x] Live tick data captured
 - [ ] Live M1 bar data captured (needs 70s capture window)
-- [x] Instrument loading limitation documented
+- [x] Instrument loading implemented via SYMBOL_INFO
 
 ---
 
@@ -560,6 +698,9 @@ Files:
 - `balance.json`
 - `config_m1.json`
 - `config_tick.json`
+- `symbol_info_single.json` - Single symbol specifications
+- `symbol_info_multiple.json` - Multiple symbol specifications
+- `symbol_info_all.json` - All available symbols
 - `history_bars.json`
 - `history_ticks.json`
 - `positions.json`
@@ -568,15 +709,17 @@ Files:
 - `trade_confirmation.json`
 - `live_stream_tick.json`
 - `live_stream_m1.json` (contains tick data, needs re-capture)
-- `instruments.json` (error response)
 
 ---
 
-## Next Steps for Implementation
+## Implementation Status
 
 1. ✅ Understand MT5-Docker response formats
-2. ⚠️ Design workaround for missing INSTRUMENTS action
-3. 🔧 Implement data_port (2202) support in Rust client
-4. 🔧 Update request-response pattern to use data_port
-5. 🔧 Implement response parsers for each action type
-6. 🧪 Test with live MT5-Docker instance
+2. ✅ Implement SYMBOL_INFO action in JsonAPI.mq5
+3. ✅ Implement data_port (2202) support in Rust client
+4. ✅ Update request-response pattern to use data_port
+5. ✅ Implement response parsers for SYMBOL_INFO and other action types
+6. ✅ Test with live MT5-Docker instance
+7. ✅ End-to-end integration test (8/10 instruments loaded successfully)
+
+**Result**: Nautilus Trader MT5 adapter now successfully loads instruments from MT5-Docker using the SYMBOL_INFO action.
