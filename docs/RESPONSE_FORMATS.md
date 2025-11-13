@@ -537,6 +537,113 @@ for symbol_info in data["symbols"]:
 
 ---
 
+## 11. CALENDAR - Economic Calendar Events
+
+### Request Format
+
+**All currencies:**
+```json
+{
+  "action": "CALENDAR",
+  "actionType": "DATA",
+  "fromDate": 1731484800,
+  "toDate": 1731571200
+}
+```
+
+**Specific symbol (filters by symbol's base and quote currencies):**
+```json
+{
+  "action": "CALENDAR",
+  "actionType": "DATA",
+  "symbol": "EURUSD",
+  "fromDate": 1731484800,
+  "toDate": 1731571200
+}
+```
+
+**Parameters:**
+- `action`: "CALENDAR"
+- `actionType`: "DATA"
+- `symbol`: (optional) Symbol name - filters events by related currencies (base and quote)
+- `fromDate`: Unix timestamp in seconds (required)
+- `toDate`: Unix timestamp in seconds (optional, defaults to current time)
+
+### Response Format
+
+```json
+{
+  "data": [
+    [
+      "2025.11.06 14:30",
+      "USD",
+      "1",
+      "Challenger Job Cuts(challenger-job-cuts)",
+      "United States(US)",
+      "153.074 K",
+      null,
+      "54.064 K"
+    ],
+    [
+      "2025.11.07 15:30",
+      "USD",
+      "3",
+      "Nonfarm Payrolls(nonfarm-payrolls)",
+      "United States(US)",
+      null,
+      null,
+      null
+    ]
+  ]
+}
+```
+
+**Array Structure:**
+
+Each event is an array with 8 elements:
+
+| Index | Field | Type | Description | Example |
+|-------|-------|------|-------------|---------|
+| 0 | datetime | string | Event date/time | "2025.11.06 14:30" |
+| 1 | currency | string | Currency code | "USD", "EUR", "GBP" |
+| 2 | importance | string | Importance level (0-3) | "0" (holiday), "1" (low), "2" (medium), "3" (high) |
+| 3 | event_name | string | Name with slug in parentheses | "Nonfarm Payrolls(nonfarm-payrolls)" |
+| 4 | country | string | Country name with code | "United States(US)" |
+| 5 | actual | string or null | Actual released value | "153.074 K", "$13.09 B", null |
+| 6 | forecast | string or null | Forecasted value | "4.2", null |
+| 7 | previous | string or null | Previous value | "54.064 K", null |
+
+**Notes:**
+- DateTime format: "YYYY.MM.DD HH:MM" (24-hour format)
+- Importance: "0" = holiday, "1" = low impact, "2" = medium impact, "3" = high impact
+- Values can be null if not yet available or not applicable
+- Values include units (e.g., "K" for thousands, "B" for billions, "%" for percentages)
+- Event names include a slug identifier in parentheses
+- When symbol is specified, only events for that symbol's base and quote currencies are returned
+- Response contains duplicate events (MT5 calendar behavior)
+
+### Use Cases
+
+1. **Filter high-impact events for risk management**
+   ```python
+   # Get high-impact events (importance = "3")
+   high_impact = [event for event in calendar_data["data"] if event[2] == "3"]
+   ```
+
+2. **Parse event datetime**
+   ```python
+   from datetime import datetime
+   dt_str = event[0]  # "2025.11.06 14:30"
+   dt = datetime.strptime(dt_str, "%Y.%m.%d %H:%M")
+   ```
+
+3. **Check for upcoming NFP (Non-Farm Payrolls)**
+   ```python
+   nfp_events = [e for e in data["data"] if "Nonfarm Payrolls" in e[3]]
+   ```
+
+---
+
 ## Live Streaming Formats
 
 ### Tick Stream (live_port 2203) - After CONFIG with chartTF="TICK"
@@ -662,6 +769,7 @@ for symbol_info in data["symbols"]:
 - CONFIG: ~90 bytes
 - SYMBOL_INFO (single): ~1-2KB per symbol
 - SYMBOL_INFO (all): ~10-50KB (depends on broker symbol count)
+- CALENDAR (7 days): ~40-100KB (depends on number of events)
 - POSITIONS/ORDERS: ~20-1000 bytes (depends on count)
 - HISTORY bars (7 days M1): ~460KB (6870 bars)
 - HISTORY ticks (1 hour): ~200KB (4873 ticks)
@@ -677,6 +785,7 @@ for symbol_info in data["symbols"]:
 - [x] BALANCE response captured
 - [x] CONFIG response captured
 - [x] SYMBOL_INFO response captured (single, multiple, all symbols)
+- [x] CALENDAR response captured (all currencies, specific symbol)
 - [x] HISTORY bars response captured
 - [x] HISTORY ticks response captured
 - [x] POSITIONS response captured
@@ -701,6 +810,8 @@ Files:
 - `symbol_info_single.json` - Single symbol specifications
 - `symbol_info_multiple.json` - Multiple symbol specifications
 - `symbol_info_all.json` - All available symbols
+- `calendar_all.json` - Economic calendar events (all currencies)
+- `calendar_symbol.json` - Economic calendar events (specific symbol)
 - `history_bars.json`
 - `history_ticks.json`
 - `positions.json`

@@ -337,6 +337,35 @@ def main():
         )
 
         # ============================================================
+        # CAPTURE 13: ECONOMIC CALENDAR
+        # ============================================================
+        # Get calendar events for the past 7 days
+        from_date = int(time.time()) - (7 * 24 * 60 * 60)  # 7 days ago
+
+        # Test 1: All currencies
+        capture.send_command_and_capture(
+            "CALENDAR_ALL",
+            {
+                "action": "CALENDAR",
+                "actionType": "DATA",
+                "fromDate": from_date,
+                "toDate": int(time.time())
+            }
+        )
+
+        # Test 2: Specific symbol (EUR/USD related events)
+        capture.send_command_and_capture(
+            "CALENDAR_SYMBOL",
+            {
+                "action": "CALENDAR",
+                "actionType": "DATA",
+                "symbol": "EURUSD",
+                "fromDate": from_date,
+                "toDate": int(time.time())
+            }
+        )
+
+        # ============================================================
         # SUMMARY
         # ============================================================
         print("\n" + "="*60)

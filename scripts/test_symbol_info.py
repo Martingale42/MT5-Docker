@@ -2,9 +2,12 @@
 """
 Test script for SYMBOL_INFO action in JsonAPI.mq5
 """
-import zmq
+
 import json
 import time
+
+import zmq
+
 
 def test_symbol_info():
     """Test the SYMBOL_INFO action with various request formats"""
@@ -27,10 +30,7 @@ def test_symbol_info():
     # Test 1: Single symbol
     print("\n[TEST 1] Requesting single symbol: EURAUD")
     print("-" * 80)
-    request1 = {
-        "action": "SYMBOL_INFO",
-        "symbol": "EURAUD"
-    }
+    request1 = {"action": "SYMBOL_INFO", "symbol": "EURAUD"}
     sys_socket.send_string(json.dumps(request1))
     ack1 = sys_socket.recv_string()
     print(f"ACK: {ack1}")
@@ -43,9 +43,9 @@ def test_symbol_info():
         data = json.loads(response1)
         print(f"Error: {data.get('error')}")
         print(f"Number of symbols: {len(data.get('symbols', []))}")
-        if data.get('symbols'):
-            symbol = data['symbols'][0]
-            print(f"\nSymbol details:")
+        if data.get("symbols"):
+            symbol = data["symbols"][0]
+            print("\nSymbol details:")
             print(f"  symbol: {symbol.get('symbol')}")
             print(f"  description: {symbol.get('description')}")
             print(f"  base_currency: {symbol.get('base_currency')}")
@@ -69,10 +69,7 @@ def test_symbol_info():
     # Test 2: Multiple symbols
     print("\n[TEST 2] Requesting multiple symbols: EURAUD, EURUSD")
     print("-" * 80)
-    request2 = {
-        "action": "SYMBOL_INFO",
-        "symbols": ["EURAUD", "EURUSD"]
-    }
+    request2 = {"action": "SYMBOL_INFO", "symbols": ["EURAUD", "EURUSD"]}
     sys_socket.send_string(json.dumps(request2))
     ack2 = sys_socket.recv_string()
     print(f"ACK: {ack2}")
@@ -83,7 +80,7 @@ def test_symbol_info():
         data = json.loads(response2)
         print(f"Error: {data.get('error')}")
         print(f"Number of symbols: {len(data.get('symbols', []))}")
-        for symbol in data.get('symbols', []):
+        for symbol in data.get("symbols", []):
             print(f"  - {symbol.get('symbol')}: {symbol.get('description')}")
     except zmq.error.Again:
         print("ERROR: Timeout waiting for response")
@@ -95,9 +92,7 @@ def test_symbol_info():
     # Test 3: All symbols (limit output)
     print("\n[TEST 3] Requesting all symbols")
     print("-" * 80)
-    request3 = {
-        "action": "SYMBOL_INFO"
-    }
+    request3 = {"action": "SYMBOL_INFO"}
     sys_socket.send_string(json.dumps(request3))
     ack3 = sys_socket.recv_string()
     print(f"ACK: {ack3}")
@@ -107,15 +102,15 @@ def test_symbol_info():
         print(f"\nResponse length: {len(response3)} chars")
         data = json.loads(response3)
         print(f"Error: {data.get('error')}")
-        symbols = data.get('symbols', [])
+        symbols = data.get("symbols", [])
         print(f"Total symbols received: {len(symbols)}")
-        print(f"\nFirst 5 symbols:")
+        print("\nFirst 5 symbols:")
         for symbol in symbols[:5]:
             print(f"  - {symbol.get('symbol')}: {symbol.get('description')}")
 
         # Save full response to file
         output_file = "/home/cy/Code/MT5/MT5-Docker/data/response_samples/symbol_info_response.json"
-        with open(output_file, 'w') as f:
+        with open(output_file, "w") as f:
             json.dump(data, f, indent=2)
         print(f"\nFull response saved to: {output_file}")
 
@@ -132,6 +127,7 @@ def test_symbol_info():
     sys_socket.close()
     data_socket.close()
     context.term()
+
 
 if __name__ == "__main__":
     test_symbol_info()
