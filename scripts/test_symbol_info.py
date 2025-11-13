@@ -114,7 +114,7 @@ def test_symbol_info():
             print(f"  - {symbol.get('symbol')}: {symbol.get('description')}")
 
         # Save full response to file
-        output_file = "/home/cy/Code/MT5/MT5-Docker/scripts/symbol_info_response.json"
+        output_file = "/home/cy/Code/MT5/MT5-Docker/data/response_samples/symbol_info_response.json"
         with open(output_file, 'w') as f:
             json.dump(data, f, indent=2)
         print(f"\nFull response saved to: {output_file}")
