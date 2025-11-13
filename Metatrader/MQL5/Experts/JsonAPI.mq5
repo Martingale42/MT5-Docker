@@ -320,14 +320,29 @@ void RequestHandler(ZmqMsg &request){
   ResetLastError();
   // Get data from reguest
   string msg=request.getData();
-  
- Print("Processing:"+msg);
-  
+
+  Print("Processing:"+msg);
+
   // Deserialize msg to CJAVal array
   if(!message.Deserialize(msg)){
-    ActionDoneOrError(65537, __FUNCTION__);
-    Alert("Deserialization Error");
-    ExpertRemove();
+    Print("ERROR: Failed to deserialize message: ", msg);
+    Print("ERROR: Message length: ", StringLen(msg));
+
+    // Send error response to client instead of crashing
+    CJAVal errorResponse;
+    errorResponse["error"] = true;
+    long error_code = 65537;
+    errorResponse["error_code"] = IntegerToString(error_code);
+    errorResponse["error_description"] = "JSON deserialization failed";
+    errorResponse["invalid_message"] = msg;
+
+    // Respond to sys socket
+    InformClientSocket(sysSocket, "ERROR");
+    // Send error details to data socket
+    InformClientSocket(dataSocket, errorResponse.Serialize());
+
+    // Log but don't crash - continue processing next messages
+    return;
   }
   // Send response to System socket that request was received
   // Some historical data requests can take a lot of time
@@ -570,6 +585,7 @@ void GetSymbolInfo(CJAVal &dataObject) {
         // Get all symbols (no symbol or symbols specified)
         get_all_symbols = true;
         int total = SymbolsTotal(true);
+        Print("SYMBOL_INFO: Querying all symbols (", total, " total)");
         ArrayResize(symbol_list, total);
         for (int i = 0; i < total; i++) {
             symbol_list[i] = SymbolName(i, true);
@@ -703,7 +719,11 @@ void GetSymbolInfo(CJAVal &dataObject) {
     response["error"] = false;
     response["symbols"].Set(symbols_array);
 
+    int symbols_returned = symbols_array.Size();
+    Print("SYMBOL_INFO: Returning ", symbols_returned, " symbols (from ", ArraySize(symbol_list), " requested)");
+
     string t = response.Serialize();
+    Print("SYMBOL_INFO: Response size: ", StringLen(t), " bytes");
     if(debug) Print(t);
     InformClientSocket(dataSocket, t);
 }
