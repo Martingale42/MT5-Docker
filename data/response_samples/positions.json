@@ -1,0 +1,17 @@
+{
+  "error": false,
+  "positions": [
+    {
+      "id": 30943837,
+      "magic": 0,
+      "symbol": "BTCUSD",
+      "type": "POSITION_TYPE_BUY",
+      "time_setup": 1762771603,
+      "open": 105963.33,
+      "stoploss": 0.0,
+      "takeprofit": 0.0,
+      "volume": 0.01
+    }
+  ],
+  "server_time": 1762772867
+}

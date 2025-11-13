@@ -1,0 +1,11 @@
+{
+  "error": false,
+  "retcode": 10009,
+  "desription": "TRADE_RETCODE_DONE",
+  "order": 30943837,
+  "volume": 0.01,
+  "price": 105963.33,
+  "bid": 105916.8,
+  "ask": 105963.33,
+  "function": "TradingModule"
+}

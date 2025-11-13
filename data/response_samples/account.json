@@ -1,0 +1,13 @@
+{
+  "error": false,
+  "broker": "OANDA Corporation",
+  "currency": "USD",
+  "server": "OANDA-Demo-1",
+  "trading_allowed": 1,
+  "bot_trading": 1,
+  "balance": 10000.0,
+  "equity": 10000.4,
+  "margin": 105.96,
+  "margin_free": 9894.44,
+  "margin_level": 9437.90109
+}

@@ -1,0 +1,1005 @@
+[
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772866204,
+      106002.6,
+      106049.18
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772866265,
+      106003.0,
+      106049.58
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772867193,
+      105998.8,
+      106045.38
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772868189,
+      105995.5,
+      106042.08
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772869189,
+      105995.6,
+      106042.18
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772870171,
+      105996.4,
+      106042.98
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772871189,
+      105996.6,
+      106043.18
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772872196,
+      106003.0,
+      106049.58
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772873187,
+      106000.4,
+      106046.98
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772874190,
+      106004.2,
+      106050.78
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772874255,
+      106003.3,
+      106049.88
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772875194,
+      106003.7,
+      106050.28
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772875682,
+      106003.3,
+      106049.88
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772876190,
+      106002.9,
+      106049.48
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772878048,
+      105997.6,
+      106044.18
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772878231,
+      105997.5,
+      106044.08
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772879190,
+      105997.6,
+      106044.18
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772879533,
+      105997.1,
+      106043.68
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "XAUUSD.sml",
+    "timeframe": "M1",
+    "data": [
+      1762772820,
+      4079.41,
+      4080.745,
+      4079.41,
+      4080.255,
+      134.0
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772880193,
+      105995.4,
+      106041.98
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772881194,
+      105998.1,
+      106044.68
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772881269,
+      105997.5,
+      106044.08
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772882190,
+      105985.7,
+      106032.28
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772883204,
+      105987.0,
+      106033.58
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772883263,
+      105987.1,
+      106033.68
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772884188,
+      105983.9,
+      106030.48
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772885191,
+      105981.5,
+      106028.08
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772885250,
+      105982.5,
+      106029.08
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772886196,
+      105982.7,
+      106029.28
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772886404,
+      105981.3,
+      106027.88
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772887198,
+      105980.4,
+      106026.98
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772887360,
+      105979.6,
+      106026.18
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772888265,
+      105979.6,
+      106026.18
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772888319,
+      105978.0,
+      106024.58
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772889189,
+      105982.3,
+      106028.88
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772890191,
+      105983.6,
+      106030.18
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772890281,
+      105982.7,
+      106029.28
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772891197,
+      105968.7,
+      106015.28
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772892194,
+      105967.3,
+      106013.88
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772892238,
+      105968.3,
+      106014.88
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772893196,
+      105967.5,
+      106014.08
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772894412,
+      105967.3,
+      106013.88
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772895189,
+      105967.0,
+      106013.58
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772895501,
+      105967.2,
+      106013.78
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772896192,
+      105961.7,
+      106008.28
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772896250,
+      105961.2,
+      106007.78
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772897188,
+      105956.3,
+      106002.88
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772897244,
+      105958.9,
+      106005.48
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772898189,
+      105963.6,
+      106010.18
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772899191,
+      105963.6,
+      106010.18
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772899192,
+      105968.9,
+      106015.48
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772900191,
+      105976.5,
+      106023.08
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772901192,
+      105988.0,
+      106034.58
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772901290,
+      105985.2,
+      106031.78
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772902190,
+      105988.3,
+      106034.88
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772902274,
+      105988.0,
+      106034.58
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772903187,
+      105985.8,
+      106032.38
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772903327,
+      105986.0,
+      106032.58
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772904191,
+      105986.1,
+      106032.68
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772904293,
+      105985.5,
+      106032.08
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772905192,
+      105984.2,
+      106030.78
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772906194,
+      105970.5,
+      106017.08
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772907190,
+      105966.6,
+      106013.18
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772907252,
+      105966.2,
+      106012.78
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772908194,
+      105965.8,
+      106012.38
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772908244,
+      105964.5,
+      106010.98
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772909190,
+      105962.1,
+      106008.68
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772910189,
+      105965.5,
+      106012.08
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772911182,
+      105966.1,
+      106012.68
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772912189,
+      105963.2,
+      106009.78
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772913192,
+      105963.9,
+      106010.47
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772914187,
+      105963.4,
+      106009.97
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772914285,
+      105963.7,
+      106010.27
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772915190,
+      105964.4,
+      106010.97
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772915261,
+      105964.6,
+      106011.17
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772916190,
+      105962.1,
+      106008.67
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772917200,
+      105961.4,
+      106007.97
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772918194,
+      105965.7,
+      106012.27
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772918255,
+      105967.2,
+      106013.77
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772919187,
+      105964.4,
+      106010.97
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772921193,
+      105961.6,
+      106008.17
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772922193,
+      105963.6,
+      106010.17
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772923192,
+      105963.2,
+      106009.77
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772923252,
+      105962.0,
+      106008.57
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772924188,
+      105963.3,
+      106009.87
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772925189,
+      105963.7,
+      106010.27
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772925265,
+      105963.4,
+      106009.97
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772926191,
+      105962.3,
+      106008.87
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772927186,
+      105963.2,
+      106009.77
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772928189,
+      105954.7,
+      106001.27
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772928464,
+      105954.9,
+      106001.47
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772929192,
+      105959.0,
+      106005.57
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772929278,
+      105960.3,
+      106006.87
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772930191,
+      105958.6,
+      106005.17
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772930239,
+      105957.7,
+      106004.27
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772931191,
+      105958.6,
+      106005.17
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772931392,
+      105957.6,
+      106004.17
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772932189,
+      105958.6,
+      106005.17
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772933185,
+      105956.1,
+      106002.67
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1762772933194,
+      105956.1,
+      106002.67
+    ]
+  }
+]

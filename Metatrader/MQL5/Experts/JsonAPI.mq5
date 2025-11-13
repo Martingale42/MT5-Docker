@@ -351,6 +351,7 @@ void RequestHandler(ZmqMsg &request){
   else if(action=="WEEKLYOPEN") {GetWeeklyOpen(message);}
   else if(action=="RESET")      {ResetSubscriptions(message);}
   else if(action=="CALENDAR")   {GetEconomicCalendar(message);}
+  else if(action=="SYMBOL_INFO") {GetSymbolInfo(message);}
   // Action command error processing
   else ActionDoneOrError(65538, __FUNCTION__);
    
@@ -540,14 +541,177 @@ void GetLiveStreamSymbols(){
   
 }
 
+//+------------------------------------------------------------------+
+//| Get Symbol Information                                            |
+//+------------------------------------------------------------------+
+void GetSymbolInfo(CJAVal &dataObject) {
+    CJAVal response, symbols_array;
 
+    bool get_all_symbols = false;
+    string symbol_list[];
 
+    // Check if requesting specific symbols
+    string single_symbol = dataObject["symbol"].ToStr();
+    int symbols_array_size = dataObject["symbols"].Size();
 
+    if (single_symbol != "" && single_symbol != "0") {
+        // Single symbol request
+        ArrayResize(symbol_list, 1);
+        symbol_list[0] = single_symbol;
+    }
+    else if (symbols_array_size > 0) {
+        // Multiple symbols request
+        ArrayResize(symbol_list, symbols_array_size);
+        for (int i = 0; i < symbols_array_size; i++) {
+            symbol_list[i] = dataObject["symbols"][i].ToStr();
+        }
+    }
+    else {
+        // Get all symbols (no symbol or symbols specified)
+        get_all_symbols = true;
+        int total = SymbolsTotal(true);
+        ArrayResize(symbol_list, total);
+        for (int i = 0; i < total; i++) {
+            symbol_list[i] = SymbolName(i, true);
+        }
+    }
+
+    // Query information for each symbol
+    for (int i = 0; i < ArraySize(symbol_list); i++) {
+        string symbol = symbol_list[i];
+
+        // Check if symbol exists
+        if (!SymbolInfoInteger(symbol, SYMBOL_SELECT)) {
+            continue;  // Skip invalid symbols
+        }
+
+        CJAVal info;
+
+        // Basic info
+        info["symbol"] = symbol;
+        info["description"] = SymbolInfoString(symbol, SYMBOL_DESCRIPTION);
+        info["base_currency"] = SymbolInfoString(symbol, SYMBOL_CURRENCY_BASE);
+        info["quote_currency"] = SymbolInfoString(symbol, SYMBOL_CURRENCY_PROFIT);
+        info["profit_currency"] = SymbolInfoString(symbol, SYMBOL_CURRENCY_PROFIT);
+        info["margin_currency"] = SymbolInfoString(symbol, SYMBOL_CURRENCY_MARGIN);
+
+        // Precision
+        long digits = SymbolInfoInteger(symbol, SYMBOL_DIGITS);
+        info["digits"] = IntegerToString(digits);
+        double point = SymbolInfoDouble(symbol, SYMBOL_POINT);
+        info["point"] = DoubleToString(point, 8);
+        long spread = SymbolInfoInteger(symbol, SYMBOL_SPREAD);
+        info["spread"] = IntegerToString(spread);
+        long stops_level = SymbolInfoInteger(symbol, SYMBOL_TRADE_STOPS_LEVEL);
+        info["stops_level"] = IntegerToString(stops_level);
+
+        // Contract specifications
+        double contract_size = SymbolInfoDouble(symbol, SYMBOL_TRADE_CONTRACT_SIZE);
+        info["contract_size"] = DoubleToString(contract_size, 5);
+        double tick_value = SymbolInfoDouble(symbol, SYMBOL_TRADE_TICK_VALUE);
+        info["tick_value"] = DoubleToString(tick_value, 8);
+        double tick_size = SymbolInfoDouble(symbol, SYMBOL_TRADE_TICK_SIZE);
+        info["tick_size"] = DoubleToString(tick_size, 8);
+
+        // Volume limits
+        double volume_min = SymbolInfoDouble(symbol, SYMBOL_VOLUME_MIN);
+        info["volume_min"] = DoubleToString(volume_min, 5);
+        double volume_max = SymbolInfoDouble(symbol, SYMBOL_VOLUME_MAX);
+        info["volume_max"] = DoubleToString(volume_max, 5);
+        double volume_step = SymbolInfoDouble(symbol, SYMBOL_VOLUME_STEP);
+        info["volume_step"] = DoubleToString(volume_step, 5);
+        double volume_limit = SymbolInfoDouble(symbol, SYMBOL_VOLUME_LIMIT);
+        info["volume_limit"] = DoubleToString(volume_limit, 5);
+
+        // Swap
+        double swap_long = SymbolInfoDouble(symbol, SYMBOL_SWAP_LONG);
+        info["swap_long"] = DoubleToString(swap_long, 5);
+        double swap_short = SymbolInfoDouble(symbol, SYMBOL_SWAP_SHORT);
+        info["swap_short"] = DoubleToString(swap_short, 5);
+        long swap_mode = SymbolInfoInteger(symbol, SYMBOL_SWAP_MODE);
+        info["swap_mode"] = IntegerToString(swap_mode);
+
+        // Trade modes
+        long trade_mode = SymbolInfoInteger(symbol, SYMBOL_TRADE_MODE);
+        info["trade_mode"] = IntegerToString(trade_mode);
+        long trade_execution = SymbolInfoInteger(symbol, SYMBOL_TRADE_EXEMODE);
+        info["trade_execution"] = IntegerToString(trade_execution);
+        long trade_calc_mode = SymbolInfoInteger(symbol, SYMBOL_TRADE_CALC_MODE);
+        info["trade_calc_mode"] = IntegerToString(trade_calc_mode);
+
+        // Order/execution modes
+        long expiration_mode = SymbolInfoInteger(symbol, SYMBOL_EXPIRATION_MODE);
+        info["expiration_mode"] = IntegerToString(expiration_mode);
+        long filling_mode = SymbolInfoInteger(symbol, SYMBOL_FILLING_MODE);
+        info["filling_mode"] = IntegerToString(filling_mode);
+        long order_mode = SymbolInfoInteger(symbol, SYMBOL_ORDER_MODE);
+        info["order_mode"] = IntegerToString(order_mode);
+
+        // Margin
+        double margin_initial = SymbolInfoDouble(symbol, SYMBOL_MARGIN_INITIAL);
+        info["margin_initial"] = DoubleToString(margin_initial, 5);
+        double margin_maintenance = SymbolInfoDouble(symbol, SYMBOL_MARGIN_MAINTENANCE);
+        info["margin_maintenance"] = DoubleToString(margin_maintenance, 5);
+        double margin_hedged = SymbolInfoDouble(symbol, SYMBOL_MARGIN_HEDGED);
+        info["margin_hedged"] = DoubleToString(margin_hedged, 5);
+
+        // Status
+        long select_val = SymbolInfoInteger(symbol, SYMBOL_SELECT);
+        info["select"] = (select_val ? "true" : "false");
+        long visible_val = SymbolInfoInteger(symbol, SYMBOL_VISIBLE);
+        info["visible"] = (visible_val ? "true" : "false");
+
+        // Session statistics
+        long session_deals = SymbolInfoInteger(symbol, SYMBOL_SESSION_DEALS);
+        info["session_deals"] = IntegerToString(session_deals);
+        long session_buy_orders = SymbolInfoInteger(symbol, SYMBOL_SESSION_BUY_ORDERS);
+        info["session_buy_orders"] = IntegerToString(session_buy_orders);
+        long session_sell_orders = SymbolInfoInteger(symbol, SYMBOL_SESSION_SELL_ORDERS);
+        info["session_sell_orders"] = IntegerToString(session_sell_orders);
+
+        // Current prices
+        datetime time_val = (datetime)SymbolInfoInteger(symbol, SYMBOL_TIME);
+        info["time"] = IntegerToString(time_val);
+        double bid = SymbolInfoDouble(symbol, SYMBOL_BID);
+        info["bid"] = DoubleToString(bid, 8);
+        double bidlow = SymbolInfoDouble(symbol, SYMBOL_BIDLOW);
+        info["bidlow"] = DoubleToString(bidlow, 8);
+        double bidhigh = SymbolInfoDouble(symbol, SYMBOL_BIDHIGH);
+        info["bidhigh"] = DoubleToString(bidhigh, 8);
+        double ask = SymbolInfoDouble(symbol, SYMBOL_ASK);
+        info["ask"] = DoubleToString(ask, 8);
+        double asklow = SymbolInfoDouble(symbol, SYMBOL_ASKLOW);
+        info["asklow"] = DoubleToString(asklow, 8);
+        double askhigh = SymbolInfoDouble(symbol, SYMBOL_ASKHIGH);
+        info["askhigh"] = DoubleToString(askhigh, 8);
+        double last = SymbolInfoDouble(symbol, SYMBOL_LAST);
+        info["last"] = DoubleToString(last, 8);
+
+        // Trade-specific values
+        double trade_tick_value_profit = SymbolInfoDouble(symbol, SYMBOL_TRADE_TICK_VALUE_PROFIT);
+        info["trade_tick_value_profit"] = DoubleToString(trade_tick_value_profit, 8);
+        double trade_tick_value_loss = SymbolInfoDouble(symbol, SYMBOL_TRADE_TICK_VALUE_LOSS);
+        info["trade_tick_value_loss"] = DoubleToString(trade_tick_value_loss, 8);
+
+        // Freeze/stops levels
+        long trade_freeze_level = SymbolInfoInteger(symbol, SYMBOL_TRADE_FREEZE_LEVEL);
+        info["trade_freeze_level"] = IntegerToString(trade_freeze_level);
+
+        symbols_array.Add(info);
+    }
+
+    response["error"] = false;
+    response["symbols"].Set(symbols_array);
+
+    string t = response.Serialize();
+    if(debug) Print(t);
+    InformClientSocket(dataSocket, t);
+}
 
 //+------------------------------------------------------------------+
 //| MarketBookDepth information by watchlist                                             |
 //+------------------------------------------------------------------+
-void GetMarketBookDepth(){  
+void GetMarketBookDepth(){
          
   CJAVal info;
   
