@@ -11,7 +11,29 @@
       "stoploss": 0.0,
       "takeprofit": 0.0,
       "volume": 0.01
+    },
+    {
+      "id": 31022932,
+      "magic": 0,
+      "symbol": "BTCUSD",
+      "type": "POSITION_TYPE_BUY",
+      "time_setup": 1763063982,
+      "open": 99612.0,
+      "stoploss": 0.0,
+      "takeprofit": 0.0,
+      "volume": 0.01
+    },
+    {
+      "id": 31025404,
+      "magic": 0,
+      "symbol": "BTCUSD",
+      "type": "POSITION_TYPE_BUY",
+      "time_setup": 1763068026,
+      "open": 98506.0,
+      "stoploss": 0.0,
+      "takeprofit": 0.0,
+      "volume": 0.01
     }
   ],
-  "server_time": 1763063886
+  "server_time": 1763632253
 }

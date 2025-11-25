@@ -428,7 +428,7 @@ private:
 public:
    //--- constructor, destructor
                      CRowComplex(void) {}
-                     CRowComplex(const complex &array[])   { *this=array; }
+                     CRowComplex(const complex &array[]) { *this=array; }
                     ~CRowComplex(void) {}
 
    //--- methods
@@ -488,7 +488,6 @@ public:
                      CMatrixDouble(const ulong rows)                    { m_matrix.Resize(rows,1); }
                      CMatrixDouble(const ulong rows,const ulong cols)   { m_matrix.Resize(rows,cols); }
                      CMatrixDouble(const matrix<double> &mat)           { m_matrix=mat; }
-                     CMatrixDouble(const CMatrixDouble& m)              { m_matrix=m.m_matrix; }
                     ~CMatrixDouble(void) {}
 
    //--- methods
@@ -913,7 +912,6 @@ public:
                      CMatrixComplex(const ulong rows)                  { m_matrix.Resize(rows,1); }
                      CMatrixComplex(const ulong rows,const ulong cols) { m_matrix.Resize(rows,cols);}
                      CMatrixComplex(matrix<complex> &mat)              { m_matrix=mat; }
-                     CMatrixComplex(const CMatrixComplex& m)           { m_matrix=m.m_matrix; }
                     ~CMatrixComplex(void) {}
 
    //--- methods

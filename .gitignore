@@ -2,3 +2,13 @@
 *.csv
 __pycache__
 *.egg-info
+
+# MT5 specific
+Metatrader/MQL5/Include/*
+!Metatrader/MQL5/Include/Zmq/
+!Metatrader/MQL5/Experts/JsonAPI.ex5
+!Metatrader/MQL5/Experts/JsonAPI.mq5
+!Metatrader/MQL5/Experts/JsonAPI+Rest.mq5
+
+# response_samples folder
+data/response_samples/

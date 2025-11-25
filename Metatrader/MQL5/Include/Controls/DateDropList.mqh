@@ -51,7 +51,7 @@ public:
    //--- data
    datetime          Value(void)                    { return(StructToTime(m_value)); }
    void              Value(datetime value)          { m_value.Date(value);           }
-   void              Value(MqlDateTime& value)      { m_value=value;                 }
+   void              Value(MqlDateTime& value)      { (MqlDateTime&)m_value=value;   }
    //--- state
    virtual bool      Show(void);
 

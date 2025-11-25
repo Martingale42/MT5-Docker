@@ -13,7 +13,7 @@ class CLineChart : public CChartCanvas
   {
 private:
    //--- data
-   CArrayObj        *m_values;
+   CArrayObj*        m_values;
    //--- adjusted parameters
    bool              m_filled;
 
@@ -229,7 +229,7 @@ void CLineChart::DrawData(const uint index)
    int dx=m_data_area.Width()/(total-1);
    int x=m_data_area.left+1;
    int y1=0;
-   int y2=(int)(m_y_0-data[0]*m_scale_y);
+   int y2=(int)(m_y_min+(data[0]-m_v_scale_min)*m_scale_y);
 //--- draw
    for(int i=1;i<total;i++,x+=dx)
      {
@@ -241,7 +241,7 @@ void CLineChart::DrawData(const uint index)
          value+=val;
       else
          value=val;
-      y2=(int)(m_y_0-value*m_scale_y);
+      y2=(int)(m_y_min+(value-m_v_scale_min)*m_scale_y);
       if(m_filled)
         {
          if((y1>m_y_0 && y2<m_y_0) || (y1<m_y_0 && y2>m_y_0))

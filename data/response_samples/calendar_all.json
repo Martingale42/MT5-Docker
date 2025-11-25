@@ -1,67 +1,7 @@
 {
   "data": [
     [
-      "2025.11.06 14:30",
-      "USD",
-      "1",
-      "Challenger Job Cuts(challenger-job-cuts)",
-      "United States(US)",
-      "153.074 K",
-      null,
-      "54.064 K"
-    ],
-    [
-      "2025.11.06 14:30",
-      "USD",
-      "1",
-      "Challenger Job Cuts y/y(challenger-job-cuts-yy)",
-      "United States(US)",
-      "175.3",
-      "71.1",
-      "-25.8"
-    ],
-    [
-      "2025.11.06 14:30",
-      "USD",
-      "1",
-      "Challenger Job Cuts(challenger-job-cuts)",
-      "United States(US)",
-      "153.074 K",
-      null,
-      "54.064 K"
-    ],
-    [
-      "2025.11.06 14:30",
-      "USD",
-      "1",
-      "Challenger Job Cuts y/y(challenger-job-cuts-yy)",
-      "United States(US)",
-      "175.3",
-      "71.1",
-      "-25.8"
-    ],
-    [
-      "2025.11.06 15:30",
-      "USD",
-      "2",
-      "Nonfarm Productivity q/q(nonfarm-productivity-qq)",
-      "United States(US)",
-      null,
-      "4.2",
-      "3.3"
-    ],
-    [
-      "2025.11.06 15:30",
-      "USD",
-      "2",
-      "Unit Labor Costs q/q(unit-labor-costs-qq)",
-      "United States(US)",
-      null,
-      "1.6",
-      "1.0"
-    ],
-    [
-      "2025.11.06 15:30",
+      "2025.11.13 15:30",
       "USD",
       "3",
       "Initial Jobless Claims(initial-jobless-claims)",
@@ -71,7 +11,7 @@
       null
     ],
     [
-      "2025.11.06 15:30",
+      "2025.11.13 15:30",
       "USD",
       "2",
       "Continuing Jobless Claims(continuing-jobless-claims)",
@@ -81,7 +21,7 @@
       null
     ],
     [
-      "2025.11.06 15:30",
+      "2025.11.13 15:30",
       "USD",
       "1",
       "Initial Jobless Claims 4-Week Average(initial-jobless-claims-4-week-average)",
@@ -91,27 +31,7 @@
       null
     ],
     [
-      "2025.11.06 15:30",
-      "USD",
-      "2",
-      "Nonfarm Productivity q/q(nonfarm-productivity-qq)",
-      "United States(US)",
-      null,
-      "4.2",
-      "3.3"
-    ],
-    [
-      "2025.11.06 15:30",
-      "USD",
-      "2",
-      "Unit Labor Costs q/q(unit-labor-costs-qq)",
-      "United States(US)",
-      null,
-      "1.6",
-      "1.0"
-    ],
-    [
-      "2025.11.06 15:30",
+      "2025.11.13 15:30",
       "USD",
       "3",
       "Initial Jobless Claims(initial-jobless-claims)",
@@ -121,7 +41,7 @@
       null
     ],
     [
-      "2025.11.06 15:30",
+      "2025.11.13 15:30",
       "USD",
       "2",
       "Continuing Jobless Claims(continuing-jobless-claims)",
@@ -131,7 +51,7 @@
       null
     ],
     [
-      "2025.11.06 15:30",
+      "2025.11.13 15:30",
       "USD",
       "1",
       "Initial Jobless Claims 4-Week Average(initial-jobless-claims-4-week-average)",
@@ -141,567 +61,507 @@
       null
     ],
     [
-      "2025.11.06 17:00",
+      "2025.11.13 18:00",
       "USD",
       "1",
-      "Wholesale Inventories m/m(wholesale-inventories)",
+      "Cleveland Fed Median CPI m/m(cleveland-fed-median-cpi-mm)",
       "United States(US)",
       null,
-      null,
-      null
+      "0.3",
+      "0.2"
     ],
     [
-      "2025.11.06 17:00",
+      "2025.11.13 18:00",
       "USD",
       "1",
-      "Wholesale Sales m/m(wholesale-sales-mm)",
+      "Cleveland Fed Median CPI m/m(cleveland-fed-median-cpi-mm)",
       "United States(US)",
       null,
-      null,
-      null
+      "0.3",
+      "0.2"
     ],
     [
-      "2025.11.06 17:00",
-      "USD",
-      "1",
-      "Wholesale Inventories m/m(wholesale-inventories)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.06 17:00",
-      "USD",
-      "1",
-      "Wholesale Sales m/m(wholesale-sales-mm)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.06 17:30",
-      "USD",
-      "1",
-      "EIA Natural Gas Storage Change(eia-natural-gas-storage-change)",
-      "United States(US)",
-      "33 B",
-      "38 B",
-      "74 B"
-    ],
-    [
-      "2025.11.06 17:30",
-      "USD",
-      "1",
-      "EIA Natural Gas Storage Change(eia-natural-gas-storage-change)",
-      "United States(US)",
-      "33 B",
-      "38 B",
-      "74 B"
-    ],
-    [
-      "2025.11.06 18:00",
-      "USD",
-      "2",
-      "FOMC Member Williams Speech(fomc-member-williams-speech)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.06 18:00",
-      "USD",
-      "2",
-      "Fed Vice Chair for Supervision Barr Speech(fed-vice-chair-for-supervision-barr-speech)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.06 18:00",
-      "USD",
-      "2",
-      "FOMC Member Williams Speech(fomc-member-williams-speech)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.06 18:00",
-      "USD",
-      "2",
-      "Fed Vice Chair for Supervision Barr Speech(fed-vice-chair-for-supervision-barr-speech)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.06 18:30",
+      "2025.11.13 18:30",
       "USD",
       "1",
       "4-Week Bill Auction(4-week-bill-auction)",
       "United States(US)",
-      "3.875",
+      "3.9",
       null,
-      "3.91"
+      "3.875"
     ],
     [
-      "2025.11.06 18:30",
+      "2025.11.13 18:30",
       "USD",
       "1",
       "8-Week Bill Auction(8-week-bill-auction)",
       "United States(US)",
-      "3.815",
+      "3.835",
       null,
-      "3.89"
+      "3.815"
     ],
     [
-      "2025.11.06 18:30",
+      "2025.11.13 18:30",
       "USD",
       "1",
       "4-Week Bill Auction(4-week-bill-auction)",
       "United States(US)",
-      "3.875",
+      "3.9",
       null,
-      "3.91"
+      "3.875"
     ],
     [
-      "2025.11.06 18:30",
+      "2025.11.13 18:30",
       "USD",
       "1",
       "8-Week Bill Auction(8-week-bill-auction)",
       "United States(US)",
-      "3.815",
+      "3.835",
       null,
-      "3.89"
+      "3.815"
     ],
     [
-      "2025.11.06 22:30",
-      "USD",
-      "2",
-      "Fed Governor Waller Speech(fed-governor-waller-speech)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.06 22:30",
-      "USD",
-      "2",
-      "Fed Governor Waller Speech(fed-governor-waller-speech)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.07 10:00",
-      "USD",
-      "2",
-      "FOMC Member Williams Speech(fomc-member-williams-speech)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.07 10:00",
-      "USD",
-      "2",
-      "FOMC Member Williams Speech(fomc-member-williams-speech)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.07 14:00",
-      "USD",
-      "2",
-      "Fed Governor Jefferson Speech(fed-governor-jefferson-speech)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.07 14:00",
-      "USD",
-      "2",
-      "Fed Governor Jefferson Speech(fed-governor-jefferson-speech)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.07 15:30",
+      "2025.11.13 19:00",
       "USD",
       "3",
-      "Unemployment Rate(unemployment-rate)",
+      "EIA Crude Oil Stocks Change(eia-crude-oil-stocks-change)",
       "United States(US)",
-      null,
-      null,
-      null
+      "6.413 M",
+      "0.870 M",
+      "5.202 M"
     ],
     [
-      "2025.11.07 15:30",
+      "2025.11.13 19:00",
+      "USD",
+      "2",
+      "EIA Cushing Crude Oil Stocks Change(eia-cushing-crude-oil-stocks-change)",
+      "United States(US)",
+      "-0.346 M",
+      "-0.173 M",
+      "0.300 M"
+    ],
+    [
+      "2025.11.13 19:00",
+      "USD",
+      "1",
+      "EIA Crude Oil Imports Change(eia-crude-oil-imports-change)",
+      "United States(US)",
+      "0.849 M",
+      "-0.310 M",
+      "0.867 M"
+    ],
+    [
+      "2025.11.13 19:00",
+      "USD",
+      "1",
+      "EIA Distillate Fuel Production Change(eia-distillate-fuel-production-change)",
+      "United States(US)",
+      "0.319 M",
+      "-0.011 M",
+      "0.211 M"
+    ],
+    [
+      "2025.11.13 19:00",
+      "USD",
+      "1",
+      "EIA Distillates Stocks Change(eia-distillates-stocks-change)",
+      "United States(US)",
+      "-0.637 M",
+      "-0.403 M",
+      "-0.643 M"
+    ],
+    [
+      "2025.11.13 19:00",
+      "USD",
+      "1",
+      "EIA Gasoline Production Change(eia-gasoline-production-change)",
+      "United States(US)",
+      "0.102 M",
+      "-0.101 M",
+      "0.241 M"
+    ],
+    [
+      "2025.11.13 19:00",
+      "USD",
+      "1",
+      "EIA Heating Oil Stocks Change(eia-heating-oil-stocks-change)",
+      "United States(US)",
+      "0.055 M",
+      "0.118 M",
+      "-0.036 M"
+    ],
+    [
+      "2025.11.13 19:00",
+      "USD",
+      "1",
+      "EIA Gasoline Stocks Change(eia-gasoline-stocks-change)",
+      "United States(US)",
+      "-0.945 M",
+      "-8.838 M",
+      "-4.729 M"
+    ],
+    [
+      "2025.11.13 19:00",
+      "USD",
+      "1",
+      "EIA Refinery Crude Oil Daily Inputs Change(eia-refinery-crude-oil-daily-inputs-change)",
+      "United States(US)",
+      "0.717 M",
+      null,
+      "0.037 M"
+    ],
+    [
+      "2025.11.13 19:00",
+      "USD",
+      "1",
+      "EIA Refinery Utilization Rate Change(eia-refinery-utilization-rate-change)",
+      "United States(US)",
+      "3.4",
+      null,
+      "-0.6"
+    ],
+    [
+      "2025.11.13 19:00",
       "USD",
       "3",
-      "Nonfarm Payrolls(nonfarm-payrolls)",
+      "EIA Crude Oil Stocks Change(eia-crude-oil-stocks-change)",
       "United States(US)",
-      null,
-      null,
-      null
+      "6.413 M",
+      "0.870 M",
+      "5.202 M"
     ],
     [
-      "2025.11.07 15:30",
+      "2025.11.13 19:00",
       "USD",
       "2",
-      "Participation Rate(labor-force-participation-rate)",
+      "EIA Cushing Crude Oil Stocks Change(eia-cushing-crude-oil-stocks-change)",
       "United States(US)",
-      null,
-      null,
-      null
+      "-0.346 M",
+      "-0.173 M",
+      "0.300 M"
     ],
     [
-      "2025.11.07 15:30",
+      "2025.11.13 19:00",
+      "USD",
+      "1",
+      "EIA Crude Oil Imports Change(eia-crude-oil-imports-change)",
+      "United States(US)",
+      "0.849 M",
+      "-0.310 M",
+      "0.867 M"
+    ],
+    [
+      "2025.11.13 19:00",
+      "USD",
+      "1",
+      "EIA Distillate Fuel Production Change(eia-distillate-fuel-production-change)",
+      "United States(US)",
+      "0.319 M",
+      "-0.011 M",
+      "0.211 M"
+    ],
+    [
+      "2025.11.13 19:00",
+      "USD",
+      "1",
+      "EIA Distillates Stocks Change(eia-distillates-stocks-change)",
+      "United States(US)",
+      "-0.637 M",
+      "-0.403 M",
+      "-0.643 M"
+    ],
+    [
+      "2025.11.13 19:00",
+      "USD",
+      "1",
+      "EIA Gasoline Production Change(eia-gasoline-production-change)",
+      "United States(US)",
+      "0.102 M",
+      "-0.101 M",
+      "0.241 M"
+    ],
+    [
+      "2025.11.13 19:00",
+      "USD",
+      "1",
+      "EIA Heating Oil Stocks Change(eia-heating-oil-stocks-change)",
+      "United States(US)",
+      "0.055 M",
+      "0.118 M",
+      "-0.036 M"
+    ],
+    [
+      "2025.11.13 19:00",
+      "USD",
+      "1",
+      "EIA Gasoline Stocks Change(eia-gasoline-stocks-change)",
+      "United States(US)",
+      "-0.945 M",
+      "-8.838 M",
+      "-4.729 M"
+    ],
+    [
+      "2025.11.13 19:00",
+      "USD",
+      "1",
+      "EIA Refinery Crude Oil Daily Inputs Change(eia-refinery-crude-oil-daily-inputs-change)",
+      "United States(US)",
+      "0.717 M",
+      null,
+      "0.037 M"
+    ],
+    [
+      "2025.11.13 19:00",
+      "USD",
+      "1",
+      "EIA Refinery Utilization Rate Change(eia-refinery-utilization-rate-change)",
+      "United States(US)",
+      "3.4",
+      null,
+      "-0.6"
+    ],
+    [
+      "2025.11.13 20:00",
       "USD",
       "3",
-      "Average Hourly Earnings m/m(average-hourly-earnings-mm)",
+      "30-Year Bond Auction(30-year-bond-auction)",
       "United States(US)",
+      "4.694",
       null,
-      null,
-      null
+      "4.734"
     ],
     [
-      "2025.11.07 15:30",
-      "USD",
-      "2",
-      "Average Hourly Earnings y/y(average-hourly-earnings-yy)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.07 15:30",
-      "USD",
-      "1",
-      "Average Weekly Hours(average-weekly-hours)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.07 15:30",
-      "USD",
-      "1",
-      "Government Payrolls(government-payrolls)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.07 15:30",
-      "USD",
-      "2",
-      "Private Nonfarm Payrolls(private-nonfarm-payrolls)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.07 15:30",
-      "USD",
-      "2",
-      "U6 Unemployment Rate(u6-unemployment-rate)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.07 15:30",
-      "USD",
-      "1",
-      "Manufacturing Payrolls(manufacturing-payrolls)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.07 15:30",
+      "2025.11.13 20:00",
       "USD",
       "3",
-      "Unemployment Rate(unemployment-rate)",
+      "30-Year Bond Auction(30-year-bond-auction)",
       "United States(US)",
+      "4.694",
       null,
-      null,
-      null
+      "4.734"
     ],
     [
-      "2025.11.07 15:30",
+      "2025.11.14 15:30",
       "USD",
       "3",
-      "Nonfarm Payrolls(nonfarm-payrolls)",
+      "Retail Sales m/m(retail-sales-mm)",
       "United States(US)",
       null,
       null,
       null
     ],
     [
-      "2025.11.07 15:30",
-      "USD",
-      "2",
-      "Participation Rate(labor-force-participation-rate)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.07 15:30",
+      "2025.11.14 15:30",
       "USD",
       "3",
-      "Average Hourly Earnings m/m(average-hourly-earnings-mm)",
+      "Core Retail Sales m/m(retail-sales-ex-autos-mm)",
       "United States(US)",
       null,
       null,
       null
     ],
     [
-      "2025.11.07 15:30",
+      "2025.11.14 15:30",
       "USD",
       "2",
-      "Average Hourly Earnings y/y(average-hourly-earnings-yy)",
+      "Retail Control m/m(retail-control-mm)",
       "United States(US)",
       null,
       null,
       null
     ],
     [
-      "2025.11.07 15:30",
+      "2025.11.14 15:30",
       "USD",
       "1",
-      "Average Weekly Hours(average-weekly-hours)",
+      "Retail Sales excl. Autos and Gas m/m(retail-sales-ex-autos-gas-mm)",
       "United States(US)",
       null,
       null,
       null
     ],
     [
-      "2025.11.07 15:30",
+      "2025.11.14 15:30",
       "USD",
       "1",
-      "Government Payrolls(government-payrolls)",
+      "Retail Sales y/y(retail-sales-yy)",
       "United States(US)",
       null,
       null,
       null
     ],
     [
-      "2025.11.07 15:30",
+      "2025.11.14 15:30",
+      "USD",
+      "3",
+      "Retail Sales m/m(retail-sales-mm)",
+      "United States(US)",
+      null,
+      null,
+      null
+    ],
+    [
+      "2025.11.14 15:30",
+      "USD",
+      "3",
+      "Core Retail Sales m/m(retail-sales-ex-autos-mm)",
+      "United States(US)",
+      null,
+      null,
+      null
+    ],
+    [
+      "2025.11.14 15:30",
       "USD",
       "2",
-      "Private Nonfarm Payrolls(private-nonfarm-payrolls)",
+      "Retail Control m/m(retail-control-mm)",
       "United States(US)",
       null,
       null,
       null
     ],
     [
-      "2025.11.07 15:30",
-      "USD",
-      "2",
-      "U6 Unemployment Rate(u6-unemployment-rate)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.07 15:30",
+      "2025.11.14 15:30",
       "USD",
       "1",
-      "Manufacturing Payrolls(manufacturing-payrolls)",
+      "Retail Sales excl. Autos and Gas m/m(retail-sales-ex-autos-gas-mm)",
       "United States(US)",
       null,
       null,
       null
     ],
     [
-      "2025.11.07 17:00",
-      "USD",
-      "2",
-      "Michigan Consumer Sentiment(michigan-consumer-sentiment)",
-      "United States(US)",
-      "50.3",
-      "55.3",
-      "53.6"
-    ],
-    [
-      "2025.11.07 17:00",
-      "USD",
-      "2",
-      "Michigan Consumer Expectations(michigan-consumer-expectations)",
-      "United States(US)",
-      "49",
-      "47.1",
-      "50.3"
-    ],
-    [
-      "2025.11.07 17:00",
+      "2025.11.14 15:30",
       "USD",
       "1",
-      "Michigan Current Conditions(michigan-current-conditions)",
+      "Retail Sales y/y(retail-sales-yy)",
       "United States(US)",
-      "52.3",
-      "61.3",
-      "58.6"
+      null,
+      null,
+      null
     ],
     [
-      "2025.11.07 17:00",
+      "2025.11.14 17:00",
       "USD",
       "2",
-      "Michigan Inflation Expectations(michigan-inflation-expectations)",
+      "Business Inventories m/m(business-inventories-mm)",
       "United States(US)",
-      "4.7",
-      "5.3",
-      "4.6"
+      null,
+      null,
+      null
     ],
     [
-      "2025.11.07 17:00",
+      "2025.11.14 17:00",
       "USD",
       "2",
-      "Michigan 5-Year Inflation Expectations(michigan-5-year-inflation-expectations)",
+      "Retail Inventories m/m(retail-inventories-mm)",
       "United States(US)",
-      "3.6",
-      "3.8",
-      "3.9"
+      null,
+      null,
+      null
     ],
     [
-      "2025.11.07 17:00",
+      "2025.11.14 17:00",
       "USD",
       "2",
-      "Michigan Consumer Sentiment(michigan-consumer-sentiment)",
+      "Retail Inventories excl. Autos m/m(retail-inventories-ex-autos-mm)",
       "United States(US)",
-      "50.3",
-      "55.3",
-      "53.6"
+      null,
+      null,
+      null
     ],
     [
-      "2025.11.07 17:00",
+      "2025.11.14 17:00",
       "USD",
       "2",
-      "Michigan Consumer Expectations(michigan-consumer-expectations)",
+      "Business Inventories m/m(business-inventories-mm)",
       "United States(US)",
-      "49",
-      "47.1",
-      "50.3"
+      null,
+      null,
+      null
     ],
     [
-      "2025.11.07 17:00",
+      "2025.11.14 17:00",
+      "USD",
+      "2",
+      "Retail Inventories m/m(retail-inventories-mm)",
+      "United States(US)",
+      null,
+      null,
+      null
+    ],
+    [
+      "2025.11.14 17:00",
+      "USD",
+      "2",
+      "Retail Inventories excl. Autos m/m(retail-inventories-ex-autos-mm)",
+      "United States(US)",
+      null,
+      null,
+      null
+    ],
+    [
+      "2025.11.14 17:30",
       "USD",
       "1",
-      "Michigan Current Conditions(michigan-current-conditions)",
+      "EIA Natural Gas Storage Change(eia-natural-gas-storage-change)",
       "United States(US)",
-      "52.3",
-      "61.3",
-      "58.6"
+      "45 B",
+      "30 B",
+      "33 B"
     ],
     [
-      "2025.11.07 17:00",
+      "2025.11.14 17:30",
       "USD",
-      "2",
-      "Michigan Inflation Expectations(michigan-inflation-expectations)",
+      "1",
+      "EIA Natural Gas Storage Change(eia-natural-gas-storage-change)",
       "United States(US)",
-      "4.7",
-      "5.3",
-      "4.6"
+      "45 B",
+      "30 B",
+      "33 B"
     ],
     [
-      "2025.11.07 17:00",
-      "USD",
-      "2",
-      "Michigan 5-Year Inflation Expectations(michigan-5-year-inflation-expectations)",
-      "United States(US)",
-      "3.6",
-      "3.8",
-      "3.9"
-    ],
-    [
-      "2025.11.07 20:00",
+      "2025.11.14 20:00",
       "USD",
       "2",
       "Baker Hughes US Oil Rig Count(baker-hughes-us-oil-rig-count)",
       "United States(US)",
-      "414",
+      "417",
       null,
       "414"
     ],
     [
-      "2025.11.07 20:00",
+      "2025.11.14 20:00",
       "USD",
       "2",
       "Baker Hughes US Total Rig Count(baker-hughes-us-total-rig-count)",
       "United States(US)",
-      "548",
+      "549",
       null,
-      "546"
+      "548"
     ],
     [
-      "2025.11.07 20:00",
+      "2025.11.14 20:00",
       "USD",
       "2",
       "Baker Hughes US Oil Rig Count(baker-hughes-us-oil-rig-count)",
       "United States(US)",
-      "414",
+      "417",
       null,
       "414"
     ],
     [
-      "2025.11.07 20:00",
+      "2025.11.14 20:00",
       "USD",
       "2",
       "Baker Hughes US Total Rig Count(baker-hughes-us-total-rig-count)",
       "United States(US)",
-      "548",
+      "549",
       null,
-      "546"
+      "548"
     ],
     [
-      "2025.11.07 22:00",
-      "USD",
-      "2",
-      "Fed Consumer Credit m/m(consumer-credit-mm)",
-      "United States(US)",
-      "$13.09 B",
-      "$11.78 B",
-      "$0.36 B"
-    ],
-    [
-      "2025.11.07 22:00",
-      "USD",
-      "2",
-      "Fed Consumer Credit m/m(consumer-credit-mm)",
-      "United States(US)",
-      "$13.09 B",
-      "$11.78 B",
-      "$0.36 B"
-    ],
-    [
-      "2025.11.07 22:30",
+      "2025.11.14 22:30",
       "USD",
       "1",
       "CFTC Copper Non-Commercial Net Positions(cftc-copper-non-commercial-net-positions)",
@@ -711,7 +571,7 @@
       null
     ],
     [
-      "2025.11.07 22:30",
+      "2025.11.14 22:30",
       "USD",
       "1",
       "CFTC Silver Non-Commercial Net Positions(cftc-silver-non-commercial-net-positions)",
@@ -721,7 +581,7 @@
       null
     ],
     [
-      "2025.11.07 22:30",
+      "2025.11.14 22:30",
       "USD",
       "2",
       "CFTC Gold Non-Commercial Net Positions(cftc-gold-non-commercial-net-positions)",
@@ -731,7 +591,7 @@
       null
     ],
     [
-      "2025.11.07 22:30",
+      "2025.11.14 22:30",
       "USD",
       "2",
       "CFTC Crude Oil Non-Commercial Net Positions(cftc-crude-oil-non-commercial-net-positions)",
@@ -741,7 +601,7 @@
       null
     ],
     [
-      "2025.11.07 22:30",
+      "2025.11.14 22:30",
       "USD",
       "2",
       "CFTC S&P 500 Non-Commercial Net Positions(cftc-sp-500-non-commercial-net-positions)",
@@ -751,7 +611,7 @@
       null
     ],
     [
-      "2025.11.07 22:30",
+      "2025.11.14 22:30",
       "USD",
       "1",
       "CFTC Aluminium Non-Commercial Net Positions(cftc-aluminium-non-commercial-net-positions)",
@@ -761,7 +621,7 @@
       null
     ],
     [
-      "2025.11.07 22:30",
+      "2025.11.14 22:30",
       "USD",
       "1",
       "CFTC Corn Non-Commercial Net Positions(cftc-corn-non-commercial-net-positions)",
@@ -771,7 +631,7 @@
       null
     ],
     [
-      "2025.11.07 22:30",
+      "2025.11.14 22:30",
       "USD",
       "1",
       "CFTC Natural Gas Non-Commercial Net Positions(cftc-natural-gas-non-commercial-net-positions)",
@@ -781,7 +641,7 @@
       null
     ],
     [
-      "2025.11.07 22:30",
+      "2025.11.14 20:30",
       "USD",
       "1",
       "CFTC Soybeans Non-Commercial Net Positions(cftc-soybeans-non-commercial-net-positions)",
@@ -791,7 +651,7 @@
       null
     ],
     [
-      "2025.11.07 22:30",
+      "2025.11.14 22:30",
       "USD",
       "1",
       "CFTC Wheat Non-Commercial Net Positions(cftc-wheat-non-commercial-net-positions)",
@@ -801,7 +661,7 @@
       null
     ],
     [
-      "2025.11.07 22:30",
+      "2025.11.14 22:30",
       "USD",
       "2",
       "CFTC Nasdaq 100 Non-Commercial Net Positions(cftc-nasdaq-100-non-commercial-net-positions)",
@@ -811,7 +671,7 @@
       null
     ],
     [
-      "2025.11.07 22:30",
+      "2025.11.14 22:30",
       "USD",
       "1",
       "CFTC Copper Non-Commercial Net Positions(cftc-copper-non-commercial-net-positions)",
@@ -821,7 +681,7 @@
       null
     ],
     [
-      "2025.11.07 22:30",
+      "2025.11.14 22:30",
       "USD",
       "1",
       "CFTC Silver Non-Commercial Net Positions(cftc-silver-non-commercial-net-positions)",
@@ -831,7 +691,7 @@
       null
     ],
     [
-      "2025.11.07 22:30",
+      "2025.11.14 22:30",
       "USD",
       "2",
       "CFTC Gold Non-Commercial Net Positions(cftc-gold-non-commercial-net-positions)",
@@ -841,7 +701,7 @@
       null
     ],
     [
-      "2025.11.07 22:30",
+      "2025.11.14 22:30",
       "USD",
       "2",
       "CFTC Crude Oil Non-Commercial Net Positions(cftc-crude-oil-non-commercial-net-positions)",
@@ -851,7 +711,7 @@
       null
     ],
     [
-      "2025.11.07 22:30",
+      "2025.11.14 22:30",
       "USD",
       "2",
       "CFTC S&P 500 Non-Commercial Net Positions(cftc-sp-500-non-commercial-net-positions)",
@@ -861,7 +721,7 @@
       null
     ],
     [
-      "2025.11.07 22:30",
+      "2025.11.14 22:30",
       "USD",
       "1",
       "CFTC Aluminium Non-Commercial Net Positions(cftc-aluminium-non-commercial-net-positions)",
@@ -871,7 +731,7 @@
       null
     ],
     [
-      "2025.11.07 22:30",
+      "2025.11.14 22:30",
       "USD",
       "1",
       "CFTC Corn Non-Commercial Net Positions(cftc-corn-non-commercial-net-positions)",
@@ -881,7 +741,7 @@
       null
     ],
     [
-      "2025.11.07 22:30",
+      "2025.11.14 22:30",
       "USD",
       "1",
       "CFTC Natural Gas Non-Commercial Net Positions(cftc-natural-gas-non-commercial-net-positions)",
@@ -891,7 +751,7 @@
       null
     ],
     [
-      "2025.11.07 22:30",
+      "2025.11.14 22:30",
       "USD",
       "1",
       "CFTC Soybeans Non-Commercial Net Positions(cftc-soybeans-non-commercial-net-positions)",
@@ -901,7 +761,7 @@
       null
     ],
     [
-      "2025.11.07 22:30",
+      "2025.11.14 22:30",
       "USD",
       "1",
       "CFTC Wheat Non-Commercial Net Positions(cftc-wheat-non-commercial-net-positions)",
@@ -911,7 +771,7 @@
       null
     ],
     [
-      "2025.11.07 22:30",
+      "2025.11.14 22:30",
       "USD",
       "2",
       "CFTC Nasdaq 100 Non-Commercial Net Positions(cftc-nasdaq-100-non-commercial-net-positions)",
@@ -921,167 +781,87 @@
       null
     ],
     [
-      "2025.11.11",
-      "USD",
-      "0",
-      "Veterans Day(veterans-day)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.10 17:00",
-      "USD",
-      "1",
-      "CB Employment Trends Index(cb-employment-trends-index)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.10 18:30",
-      "USD",
-      "1",
-      "3-Month Bill Auction(3-month-bill-auction)",
-      "United States(US)",
-      "3.78",
-      null,
-      "3.815"
-    ],
-    [
-      "2025.11.10 18:30",
-      "USD",
-      "1",
-      "6-Month Bill Auction(6-month-bill-auction)",
-      "United States(US)",
-      "3.69",
-      null,
-      "3.7"
-    ],
-    [
-      "2025.11.10 19:00",
+      "2025.11.17 15:30",
       "USD",
       "2",
-      "WASDE Report(wasde-report)",
+      "NY Fed Empire State Manufacturing Index(ny-empire-state-manufacturing-index)",
       "United States(US)",
       null,
-      null,
-      null
+      "9.9",
+      "10.7"
     ],
     [
-      "2025.11.10 20:00",
+      "2025.11.17 15:30",
       "USD",
       "2",
-      "3-Year Note Auction(3-year-note-auction)",
+      "NY Fed Empire State Manufacturing Index(ny-empire-state-manufacturing-index)",
       "United States(US)",
-      "3.579",
       null,
-      "3.576"
+      "9.9",
+      "10.7"
     ],
     [
-      "2025.11.11",
+      "2025.11.17 16:30",
       "USD",
-      "0",
-      "Veterans Day(veterans-day)",
+      "2",
+      "Fed Governor Jefferson Speech(fed-governor-jefferson-speech)",
       "United States(US)",
       null,
       null,
       null
     ],
     [
-      "2025.11.10 17:00",
+      "2025.11.17 16:30",
       "USD",
-      "1",
-      "CB Employment Trends Index(cb-employment-trends-index)",
+      "2",
+      "Fed Governor Jefferson Speech(fed-governor-jefferson-speech)",
       "United States(US)",
       null,
       null,
       null
     ],
     [
-      "2025.11.10 18:30",
+      "2025.11.17 18:30",
       "USD",
       "1",
       "3-Month Bill Auction(3-month-bill-auction)",
       "United States(US)",
-      "3.78",
+      "3.795",
       null,
-      "3.815"
+      "3.78"
     ],
     [
-      "2025.11.10 18:30",
+      "2025.11.17 18:30",
       "USD",
       "1",
       "6-Month Bill Auction(6-month-bill-auction)",
       "United States(US)",
-      "3.69",
+      "3.71",
       null,
-      "3.7"
+      "3.69"
     ],
     [
-      "2025.11.10 19:00",
+      "2025.11.17 18:30",
       "USD",
-      "2",
-      "WASDE Report(wasde-report)",
+      "1",
+      "3-Month Bill Auction(3-month-bill-auction)",
       "United States(US)",
+      "3.795",
       null,
-      null,
-      null
+      "3.78"
     ],
     [
-      "2025.11.10 20:00",
+      "2025.11.17 18:30",
       "USD",
-      "2",
-      "3-Year Note Auction(3-year-note-auction)",
+      "1",
+      "6-Month Bill Auction(6-month-bill-auction)",
       "United States(US)",
-      "3.579",
+      "3.71",
       null,
-      "3.576"
+      "3.69"
     ],
     [
-      "2025.11.12 05:25",
-      "USD",
-      "2",
-      "Fed Vice Chair for Supervision Barr Speech(fed-vice-chair-for-supervision-barr-speech)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.12 05:25",
-      "USD",
-      "2",
-      "Fed Vice Chair for Supervision Barr Speech(fed-vice-chair-for-supervision-barr-speech)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.12 16:20",
-      "USD",
-      "2",
-      "FOMC Member Williams Speech(fomc-member-williams-speech)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.12 16:20",
-      "USD",
-      "2",
-      "FOMC Member Williams Speech(fomc-member-williams-speech)",
-      "United States(US)",
-      null,
-      null,
-      null
-    ],
-    [
-      "2025.11.12 17:20",
+      "2025.11.17 22:35",
       "USD",
       "2",
       "Fed Governor Waller Speech(fed-governor-waller-speech)",
@@ -1091,7 +871,7 @@
       null
     ],
     [
-      "2025.11.12 17:20",
+      "2025.11.17 22:35",
       "USD",
       "2",
       "Fed Governor Waller Speech(fed-governor-waller-speech)",
@@ -1101,64 +881,524 @@
       null
     ],
     [
-      "2025.11.12 19:00",
+      "2025.11.18 16:15",
       "USD",
       "2",
-      "EIA Short-Term Energy Outlook(eia-short-term-energy-outlook)",
+      "Fed Industrial Production m/m(industrial-production-mm)",
       "United States(US)",
       null,
       null,
       null
     ],
     [
-      "2025.11.12 19:00",
+      "2025.11.18 16:15",
       "USD",
       "1",
-      "NFIB Small Business Optimism(nfib-small-business-optimism)",
-      "United States(US)",
-      "98.2",
-      "95.7",
-      "98.8"
-    ],
-    [
-      "2025.11.12 19:00",
-      "USD",
-      "2",
-      "EIA Short-Term Energy Outlook(eia-short-term-energy-outlook)",
+      "Fed Capacity Utilization Rate(capacity-utilization)",
       "United States(US)",
       null,
       null,
       null
     ],
     [
-      "2025.11.12 19:00",
+      "2025.11.18 16:15",
       "USD",
       "1",
-      "NFIB Small Business Optimism(nfib-small-business-optimism)",
+      "Fed Manufacturing Production m/m(manufacturing-production-mm)",
       "United States(US)",
-      "98.2",
-      "95.7",
-      "98.8"
+      null,
+      null,
+      null
     ],
     [
-      "2025.11.12 20:00",
+      "2025.11.18 16:15",
       "USD",
-      "3",
-      "10-Year Note Auction(10-year-note-auction)",
+      "2",
+      "Fed Industrial Production y/y(industrial-production-yy)",
       "United States(US)",
-      "4.074",
       null,
-      "4.117"
+      null,
+      null
     ],
     [
-      "2025.11.12 20:00",
+      "2025.11.18 16:15",
+      "USD",
+      "2",
+      "Fed Industrial Production m/m(industrial-production-mm)",
+      "United States(US)",
+      null,
+      null,
+      null
+    ],
+    [
+      "2025.11.18 16:15",
+      "USD",
+      "1",
+      "Fed Capacity Utilization Rate(capacity-utilization)",
+      "United States(US)",
+      null,
+      null,
+      null
+    ],
+    [
+      "2025.11.18 16:15",
+      "USD",
+      "1",
+      "Fed Manufacturing Production m/m(manufacturing-production-mm)",
+      "United States(US)",
+      null,
+      null,
+      null
+    ],
+    [
+      "2025.11.18 16:15",
+      "USD",
+      "2",
+      "Fed Industrial Production y/y(industrial-production-yy)",
+      "United States(US)",
+      null,
+      null,
+      null
+    ],
+    [
+      "2025.11.18 17:00",
+      "USD",
+      "1",
+      "NAHB Housing Market Index(nahb-housing-market-index)",
+      "United States(US)",
+      "38",
+      "36",
+      "37"
+    ],
+    [
+      "2025.11.18 17:00",
+      "USD",
+      "1",
+      "NAHB Housing Market Index(nahb-housing-market-index)",
+      "United States(US)",
+      "38",
+      "36",
+      "37"
+    ],
+    [
+      "2025.11.18 17:30",
+      "USD",
+      "2",
+      "Fed Vice Chair for Supervision Barr Speech(fed-vice-chair-for-supervision-barr-speech)",
+      "United States(US)",
+      null,
+      null,
+      null
+    ],
+    [
+      "2025.11.18 17:30",
+      "USD",
+      "2",
+      "Fed Vice Chair for Supervision Barr Speech(fed-vice-chair-for-supervision-barr-speech)",
+      "United States(US)",
+      null,
+      null,
+      null
+    ],
+    [
+      "2025.11.18 23:00",
+      "USD",
+      "2",
+      "TIC Net Long-Term Transactions(tic-net-long-term-transactions)",
+      "United States(US)",
+      "$179.8 B",
+      "$108.6 B",
+      "$49.2 B"
+    ],
+    [
+      "2025.11.18 23:00",
+      "USD",
+      "1",
+      "TIC Net Long-Term Transactions incl. Swaps(tic-net-long-term-transactions-incl-swaps)",
+      "United States(US)",
+      "$179.8 B",
+      "$126.5 B",
+      "$49.2 B"
+    ],
+    [
+      "2025.11.18 23:00",
+      "USD",
+      "1",
+      "TIC Overall Net Capital Flow(overall-net-capital-flow)",
+      "United States(US)",
+      "$190.1 B",
+      "$179.4 B",
+      "$2.1 B"
+    ],
+    [
+      "2025.11.18 23:00",
+      "USD",
+      "1",
+      "TIC Net Foreign Purchases of Domestic Treasury Bonds & Notes(tic-net-foreign-purchases-of-domestic-treasury-bonds-notes)",
+      "United States(US)",
+      "$25.6 B",
+      "$30.9 B",
+      "$58.2 B"
+    ],
+    [
+      "2025.11.18 23:00",
+      "USD",
+      "2",
+      "TIC Net Long-Term Transactions(tic-net-long-term-transactions)",
+      "United States(US)",
+      "$179.8 B",
+      "$108.6 B",
+      "$49.2 B"
+    ],
+    [
+      "2025.11.18 23:00",
+      "USD",
+      "1",
+      "TIC Net Long-Term Transactions incl. Swaps(tic-net-long-term-transactions-incl-swaps)",
+      "United States(US)",
+      "$179.8 B",
+      "$126.5 B",
+      "$49.2 B"
+    ],
+    [
+      "2025.11.18 23:00",
+      "USD",
+      "1",
+      "TIC Overall Net Capital Flow(overall-net-capital-flow)",
+      "United States(US)",
+      "$190.1 B",
+      "$179.4 B",
+      "$2.1 B"
+    ],
+    [
+      "2025.11.18 23:00",
+      "USD",
+      "1",
+      "TIC Net Foreign Purchases of Domestic Treasury Bonds & Notes(tic-net-foreign-purchases-of-domestic-treasury-bonds-notes)",
+      "United States(US)",
+      "$25.6 B",
+      "$30.9 B",
+      "$58.2 B"
+    ],
+    [
+      "2025.11.19 15:30",
+      "USD",
+      "2",
+      "Housing Starts(housing-starts)",
+      "United States(US)",
+      null,
+      null,
+      null
+    ],
+    [
+      "2025.11.19 15:30",
+      "USD",
+      "2",
+      "Building Permits(building-permits)",
+      "United States(US)",
+      null,
+      null,
+      null
+    ],
+    [
+      "2025.11.19 15:30",
+      "USD",
+      "2",
+      "Housing Starts m/m(housing-starts-mm)",
+      "United States(US)",
+      null,
+      null,
+      null
+    ],
+    [
+      "2025.11.19 15:30",
+      "USD",
+      "1",
+      "Building Permits m/m(building-permits-mm)",
+      "United States(US)",
+      null,
+      null,
+      null
+    ],
+    [
+      "2025.11.19 15:30",
+      "USD",
+      "2",
+      "Housing Starts(housing-starts)",
+      "United States(US)",
+      null,
+      null,
+      null
+    ],
+    [
+      "2025.11.19 15:30",
+      "USD",
+      "2",
+      "Building Permits(building-permits)",
+      "United States(US)",
+      null,
+      null,
+      null
+    ],
+    [
+      "2025.11.19 15:30",
+      "USD",
+      "2",
+      "Housing Starts m/m(housing-starts-mm)",
+      "United States(US)",
+      null,
+      null,
+      null
+    ],
+    [
+      "2025.11.19 15:30",
+      "USD",
+      "1",
+      "Building Permits m/m(building-permits-mm)",
+      "United States(US)",
+      null,
+      null,
+      null
+    ],
+    [
+      "2025.11.19 17:30",
       "USD",
       "3",
-      "10-Year Note Auction(10-year-note-auction)",
+      "EIA Crude Oil Stocks Change(eia-crude-oil-stocks-change)",
       "United States(US)",
-      "4.074",
+      "-3.426 M",
+      "-1.460 M",
+      "6.413 M"
+    ],
+    [
+      "2025.11.19 17:30",
+      "USD",
+      "2",
+      "EIA Cushing Crude Oil Stocks Change(eia-cushing-crude-oil-stocks-change)",
+      "United States(US)",
+      "-0.698 M",
+      "0.034 M",
+      "-0.346 M"
+    ],
+    [
+      "2025.11.19 17:30",
+      "USD",
+      "1",
+      "EIA Crude Oil Imports Change(eia-crude-oil-imports-change)",
+      "United States(US)",
+      "-0.614 M",
+      "-0.649 M",
+      "0.849 M"
+    ],
+    [
+      "2025.11.19 17:30",
+      "USD",
+      "1",
+      "EIA Distillate Fuel Production Change(eia-distillate-fuel-production-change)",
+      "United States(US)",
+      "-0.117 M",
+      "-0.097 M",
+      "0.319 M"
+    ],
+    [
+      "2025.11.19 17:30",
+      "USD",
+      "1",
+      "EIA Distillates Stocks Change(eia-distillates-stocks-change)",
+      "United States(US)",
+      "0.171 M",
+      "-0.147 M",
+      "-0.637 M"
+    ],
+    [
+      "2025.11.19 17:30",
+      "USD",
+      "1",
+      "EIA Gasoline Production Change(eia-gasoline-production-change)",
+      "United States(US)",
+      "-0.662 M",
+      "0.062 M",
+      "0.102 M"
+    ],
+    [
+      "2025.11.19 17:30",
+      "USD",
+      "1",
+      "EIA Heating Oil Stocks Change(eia-heating-oil-stocks-change)",
+      "United States(US)",
+      "-0.494 M",
+      "-0.092 M",
+      "0.055 M"
+    ],
+    [
+      "2025.11.19 17:30",
+      "USD",
+      "1",
+      "EIA Gasoline Stocks Change(eia-gasoline-stocks-change)",
+      "United States(US)",
+      "2.327 M",
+      "-3.638 M",
+      "-0.945 M"
+    ],
+    [
+      "2025.11.19 17:30",
+      "USD",
+      "1",
+      "EIA Refinery Crude Oil Daily Inputs Change(eia-refinery-crude-oil-daily-inputs-change)",
+      "United States(US)",
+      "0.259 M",
       null,
-      "4.117"
+      "0.717 M"
+    ],
+    [
+      "2025.11.19 17:30",
+      "USD",
+      "1",
+      "EIA Refinery Utilization Rate Change(eia-refinery-utilization-rate-change)",
+      "United States(US)",
+      "0.6",
+      null,
+      "3.4"
+    ],
+    [
+      "2025.11.19 17:30",
+      "USD",
+      "3",
+      "EIA Crude Oil Stocks Change(eia-crude-oil-stocks-change)",
+      "United States(US)",
+      "-3.426 M",
+      "-1.460 M",
+      "6.413 M"
+    ],
+    [
+      "2025.11.19 17:30",
+      "USD",
+      "2",
+      "EIA Cushing Crude Oil Stocks Change(eia-cushing-crude-oil-stocks-change)",
+      "United States(US)",
+      "-0.698 M",
+      "0.034 M",
+      "-0.346 M"
+    ],
+    [
+      "2025.11.19 17:30",
+      "USD",
+      "1",
+      "EIA Crude Oil Imports Change(eia-crude-oil-imports-change)",
+      "United States(US)",
+      "-0.614 M",
+      "-0.649 M",
+      "0.849 M"
+    ],
+    [
+      "2025.11.19 17:30",
+      "USD",
+      "1",
+      "EIA Distillate Fuel Production Change(eia-distillate-fuel-production-change)",
+      "United States(US)",
+      "-0.117 M",
+      "-0.097 M",
+      "0.319 M"
+    ],
+    [
+      "2025.11.19 17:30",
+      "USD",
+      "1",
+      "EIA Distillates Stocks Change(eia-distillates-stocks-change)",
+      "United States(US)",
+      "0.171 M",
+      "-0.147 M",
+      "-0.637 M"
+    ],
+    [
+      "2025.11.19 17:30",
+      "USD",
+      "1",
+      "EIA Gasoline Production Change(eia-gasoline-production-change)",
+      "United States(US)",
+      "-0.662 M",
+      "0.062 M",
+      "0.102 M"
+    ],
+    [
+      "2025.11.19 17:30",
+      "USD",
+      "1",
+      "EIA Heating Oil Stocks Change(eia-heating-oil-stocks-change)",
+      "United States(US)",
+      "-0.494 M",
+      "-0.092 M",
+      "0.055 M"
+    ],
+    [
+      "2025.11.19 17:30",
+      "USD",
+      "1",
+      "EIA Gasoline Stocks Change(eia-gasoline-stocks-change)",
+      "United States(US)",
+      "2.327 M",
+      "-3.638 M",
+      "-0.945 M"
+    ],
+    [
+      "2025.11.19 17:30",
+      "USD",
+      "1",
+      "EIA Refinery Crude Oil Daily Inputs Change(eia-refinery-crude-oil-daily-inputs-change)",
+      "United States(US)",
+      "0.259 M",
+      null,
+      "0.717 M"
+    ],
+    [
+      "2025.11.19 17:30",
+      "USD",
+      "1",
+      "EIA Refinery Utilization Rate Change(eia-refinery-utilization-rate-change)",
+      "United States(US)",
+      "0.6",
+      null,
+      "3.4"
+    ],
+    [
+      "2025.11.19 20:00",
+      "USD",
+      "2",
+      "20-Year Bond Auction(20-year-bond-auction)",
+      "United States(US)",
+      "4.706",
+      null,
+      "4.506"
+    ],
+    [
+      "2025.11.19 20:00",
+      "USD",
+      "2",
+      "20-Year Bond Auction(20-year-bond-auction)",
+      "United States(US)",
+      "4.706",
+      null,
+      "4.506"
+    ],
+    [
+      "2025.11.19 21:00",
+      "USD",
+      "2",
+      "FOMC Minutes(fomc-minutes)",
+      "United States(US)",
+      null,
+      null,
+      null
+    ],
+    [
+      "2025.11.19 21:00",
+      "USD",
+      "2",
+      "FOMC Minutes(fomc-minutes)",
+      "United States(US)",
+      null,
+      null,
+      null
     ]
   ]
 }

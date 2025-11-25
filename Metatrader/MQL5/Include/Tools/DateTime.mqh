@@ -21,9 +21,9 @@ struct CDateTime : public MqlDateTime
    string            ShortDayName(void)            const { return(ShortDayName(day_of_week)); }
    int               DaysInMonth(void) const;
    //--- data access
-   datetime          DateTime(void)                      { return(StructToTime(this));        }
-   void              DateTime(const datetime value)      { TimeToStruct(value,this);          }
-   void              DateTime(const MqlDateTime& value)  { this=value;                        }
+   datetime          DateTime(void)                      { return(StructToTime(*this));       }
+   void              DateTime(const datetime value)      { TimeToStruct(value,*this);         }
+   void              DateTime(const MqlDateTime& value)  { (MqlDateTime&)*this=value;         }
    void              Date(const datetime value);
    void              Date(const MqlDateTime &value);
    void              Time(const datetime value);

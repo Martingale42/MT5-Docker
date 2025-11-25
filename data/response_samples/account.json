@@ -6,8 +6,8 @@
   "trading_allowed": 1,
   "bot_trading": 1,
   "balance": 10000.0,
-  "equity": 9934.72,
-  "margin": 105.96,
-  "margin_free": 9828.76,
-  "margin_level": 9375.91544
+  "equity": 9711.71,
+  "margin": 304.08,
+  "margin_free": 9407.63,
+  "margin_level": 3193.80097
 }

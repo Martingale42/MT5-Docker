@@ -298,6 +298,21 @@ def main():
         # ============================================================
         # CAPTURE 10: LIVE STREAM (M1 bars)
         # ============================================================
+        # First, create a fresh socket to avoid old subscriptions
+        print("\n" + "="*60)
+        print("Creating fresh socket for M1 bar capture...")
+        print("="*60)
+
+        # Close old live socket
+        capture.live_socket.close()
+
+        # Create new live socket
+        capture.live_socket = capture.context.socket(zmq.PULL)
+        capture.live_socket.connect(f"tcp://{HOST}:{LIVE_PORT}")
+        capture.live_socket.setsockopt(zmq.RCVTIMEO, 5000)
+        print(f"✓ Fresh Live socket connected")
+
+        # Now subscribe to M1 (already done above, but let's be explicit)
         print("\n" + "="*60)
         print("Note: M1 bars only update every ~60 seconds when a minute closes")
         print("Waiting 70 seconds to capture at least one M1 bar update...")
