@@ -221,10 +221,20 @@ print(f"Order: {result['order']}, Price: {result['price']}")
 
 ## License
 
-Based on MT5-ZeroMQ (GPL v3) and Metatrader5-Docker projects.
+This project is licensed under GPL v3.
+
+## Acknowledgments
+
+This project is inspired by and builds upon the excellent work of:
+
+- **[MT5-ZeroMQ](https://github.com/aminch8/MT5-ZeroMQ)** (GPL v3) - Pioneering ZeroMQ integration for MetaTrader 5, providing the foundational architecture for low-latency trading communication
+- **[Metatrader5-Docker](https://github.com/ejtraderLabs/Metatrader5-Docker)** - Docker containerization approach for running MT5 in Wine on Alpine Linux
 
 ## Credits
 
-- **JsonAPI**: Nikolai Khramkov
-- **mql-zmq**: Ding Li
-- **Base Docker**: ejtraderLabs
+- **JsonAPI Expert Advisor**: [Nikolai Khramkov](https://github.com/khramkov/MQL5-JSON-API)
+- **mql-zmq Library**: [Ding Li](https://github.com/dingmaotu/mql-zmq) - Core ZeroMQ bindings for MQL5
+- **Base Docker Image**: [ejtraderLabs](https://github.com/ejtraderLabs) - Alpine Linux + Wine + MT5 setup
+- **MT5-ZeroMQ Architecture**: Community contributions from various traders and developers
+
+We are grateful to these projects and their maintainers for making algorithmic trading with MT5 more accessible.
