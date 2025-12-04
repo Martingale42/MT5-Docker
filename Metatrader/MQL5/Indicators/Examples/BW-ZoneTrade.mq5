@@ -10,7 +10,7 @@
 #property indicator_buffers 7
 #property indicator_plots   1
 #property indicator_type1   DRAW_COLOR_CANDLES
-#property indicator_color1  Green,Red,Gray
+#property indicator_color1  clrGreen,clrRed,clrGray
 #property indicator_width1  3
 #property indicator_label1  "Open;High;Low;Close"
 //--- indicator buffers

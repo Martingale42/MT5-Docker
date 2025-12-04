@@ -1,0 +1,35 @@
+# Ignore everything by default
+*
+!.gitignore
+
+# But track specific files and directories
+!Experts/
+Experts/*
+!Experts/JsonAPI.ex5
+!Experts/JsonAPI.mq5
+!Experts/JsonAPI+Rest.mq5
+
+!Include/
+Include/*
+!Include/JAson.mqh
+!Include/json.mqh
+!Include/RestApi.mqh
+!Include/http.mqh
+!Include/Zmq/
+!Include/Zmq/**
+!Include/WinAPI/
+!Include/WinAPI/**
+!Include/News/
+!Include/News/**
+
+!Scripts/
+Scripts/*
+!Scripts/ZeroMQGuideExamples/
+!Scripts/ZeroMQGuideExamples/**
+
+!Libraries/
+Libraries/*
+# Track all DLL files in Libraries
+!Libraries/*.dll
+!Libraries/*.html
+!Libraries/*.json

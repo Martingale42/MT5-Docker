@@ -15,15 +15,15 @@
 #property indicator_type1   DRAW_LINE
 #property indicator_style1  STYLE_SOLID
 #property indicator_width1  1
-#property indicator_color1  LightSeaGreen
+#property indicator_color1  clrLightSeaGreen
 #property indicator_type2   DRAW_LINE
 #property indicator_style2  STYLE_DOT
 #property indicator_width2  1
-#property indicator_color2  YellowGreen
+#property indicator_color2  clrYellowGreen
 #property indicator_type3   DRAW_LINE
 #property indicator_style3  STYLE_DOT
 #property indicator_width3  1
-#property indicator_color3  Wheat
+#property indicator_color3  clrWheat
 #property indicator_label1  "ADX Wilder"
 #property indicator_label2  "+DI"
 #property indicator_label3  "-DI"

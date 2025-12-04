@@ -10,7 +10,7 @@
 #property indicator_buffers 5
 #property indicator_plots   1
 #property indicator_type1   DRAW_COLOR_ZIGZAG
-#property indicator_color1  clrDodgerBlue, clrRed
+#property indicator_color1  clrDodgerBlue,clrRed
 //--- input parameters
 input int InpDepth    =12;  // Depth
 input int InpDeviation=5;   // Deviation

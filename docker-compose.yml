@@ -5,25 +5,33 @@ services:
     image: mt5zmq:latest
     container_name: mt5zmq
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "/scripts/health-check.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     ports:
-      - '5900:5900'    # VNC
-      - '2201:2201'    # System socket (REQ/REP)
-      - '2202:2202'    # Data socket (PUSH)
-      - '2203:2203'    # Live socket (PUSH)
-      - '2204:2204'    # Stream socket (PUSH)
+      - '5900:5900'    # VNC (localhost only)
+      - '127.0.0.1:2201:2201'    # System socket (REQ/REP)
+      - '127.0.0.1:2202:2202'    # Data socket (PUSH)
+      - '127.0.0.1:2203:2203'    # Live socket (PUSH)
+      - '127.0.0.1:2204:2204'    # Stream socket (PUSH)
     volumes:
-      - ./Metatrader/MQL5/Experts:/root/Metatrader/MQL5/Experts
-      - ./Metatrader/MQL5/Include:/root/Metatrader/MQL5/Include
+      # Wine prefix and MT5 installation (persists across restarts)
+      - mt5zmq-config:/config
+      # Local MQL5 directory (for live editing)
+      - ./Metatrader/MQL5:/mql5
+      # Data directory
       - ./data:/root/data
-      - mt5zmq-config:/root/Metatrader/Config
-      - mt5zmq-bases:/root/Metatrader/Bases
-      - mt5zmq-logs:/root/Metatrader/logs
-      - mt5zmq-profiles:/root/Metatrader/Profiles
-      - mt5zmq-tester:/root/Metatrader/Tester
-      - mt5zmq-wine:/root/.wine
     environment:
       - USER=root
       - PASSWORD=root
+      - VNC_PASSWORD=${VNC_PASSWORD:-mt5pass}
+      - WINEDEBUG=-toolbar
+      - MT5_WATCHDOG_ENABLED=${MT5_WATCHDOG_ENABLED:-true}
+      - MT5_WATCHDOG_INTERVAL=${MT5_WATCHDOG_INTERVAL:-30}
+      - MT5_WATCHDOG_MAX_RETRIES=${MT5_WATCHDOG_MAX_RETRIES:-3}
     deploy:
       resources:
         limits:
@@ -100,12 +108,7 @@ services:
   #     - prometheus
 
 volumes:
-  mt5zmq-data:
+  # Persists Wine prefix, MT5 installation, and all MT5 data
   mt5zmq-config:
-  mt5zmq-bases:
-  mt5zmq-logs:
-  mt5zmq-profiles:
-  mt5zmq-tester:
-  mt5zmq-wine:
   # prometheus-data:
   # grafana-data:

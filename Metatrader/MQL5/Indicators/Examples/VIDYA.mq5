@@ -11,7 +11,7 @@
 #property indicator_buffers         1
 #property indicator_plots           1
 #property indicator_type1           DRAW_LINE
-#property indicator_color1          Red
+#property indicator_color1          clrRed
 #property indicator_width1          1
 #property indicator_label1          "VIDYA"
 #property indicator_applied_price   PRICE_CLOSE

@@ -13,8 +13,8 @@
 #property indicator_plots   2
 #property indicator_type1   DRAW_HISTOGRAM
 #property indicator_type2   DRAW_LINE
-#property indicator_color1  Silver
-#property indicator_color2  Red
+#property indicator_color1  clrSilver
+#property indicator_color2  clrRed
 #property indicator_width1  2
 #property indicator_width2  1
 #property indicator_label1  "MACD"

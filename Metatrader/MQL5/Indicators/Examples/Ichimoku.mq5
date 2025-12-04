@@ -14,10 +14,10 @@
 #property indicator_type2   DRAW_LINE
 #property indicator_type3   DRAW_FILLING
 #property indicator_type4   DRAW_LINE
-#property indicator_color1  Red
-#property indicator_color2  Blue
-#property indicator_color3  SandyBrown,Thistle
-#property indicator_color4  Lime
+#property indicator_color1  clrRed
+#property indicator_color2  clrBlue
+#property indicator_color3  clrSandyBrown,clrThistle
+#property indicator_color4  clrLime
 #property indicator_label1  "Tenkan-sen"
 #property indicator_label2  "Kijun-sen"
 #property indicator_label3  "Senkou Span A;Senkou Span B"

@@ -11,7 +11,7 @@
 #property indicator_buffers 1
 #property indicator_plots   1
 #property indicator_type1   DRAW_LINE
-#property indicator_color1  LightSeaGreen
+#property indicator_color1  clrLightSeaGreen
 #property indicator_label1  "A/D"
 //--- input params
 input ENUM_APPLIED_VOLUME InpVolumeType=VOLUME_TICK; // Volume type

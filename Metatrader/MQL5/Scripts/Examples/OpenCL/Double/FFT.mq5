@@ -11,10 +11,10 @@
 #include <OpenCL/OpenCL.mqh>
 
 #resource "Kernels/fft.cl" as string cl_program
-#define kernel_init "fft_init"
+#define kernel_init  "fft_init"
 #define kernel_stage "fft_stage"
 #define kernel_scale "fft_scale"
-#define NUM_POINTS 16384
+#define NUM_POINTS    1024
 #define FFT_DIRECTION 1
 //+------------------------------------------------------------------+
 //| Fast Fourier transform and its inverse (both recursively)        |
@@ -126,6 +126,30 @@ bool FFT_CPU(int direction,int power,double &data_real[],double &data_imag[],ulo
    return(true);
   }
 //+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
+bool ExecutionWait(COpenCL& OpenCL,int kernel_index)
+  {
+   for(int i=0;;)
+     {
+      ENUM_OPENCL_EXECUTION_STATUS status=OpenCL.ExecutionStatus(kernel_index);
+      if(status==CL_COMPLETE)
+        {
+         Print("i=",i);
+         return(true);
+        }
+      if(status<0 || IsStopped())
+         break;
+      if(++i%10000==0)
+        {
+         Print("running...  i=",i,"  execute_status=",status);
+         Sleep(1);
+        }
+     }
+//---
+   return(false);
+  }
+//+------------------------------------------------------------------+
 //| FFT_GPU                                                          |
 //+------------------------------------------------------------------+
 bool FFT_GPU(int direction,int power,double &data_real[],double &data_imag[],ulong &time_gpu)
@@ -173,9 +197,15 @@ bool FFT_GPU(int direction,int power,double &data_real[],double &data_imag[],ulo
       return(false);
      }
 //--- determine maximum work-group size 
-   int local_size=(int)CLGetInfoInteger(OpenCL.GetKernel(0),CL_KERNEL_WORK_GROUP_SIZE);
+   int workgroup_size=(int)CLGetInfoInteger(OpenCL.GetKernel(0),CL_KERNEL_WORK_GROUP_SIZE);
 //--- determine local memory size 
    uint local_mem_size=(uint)CLGetInfoInteger(OpenCL.GetContext(),CL_DEVICE_LOCAL_MEM_SIZE);
+   local_mem_size/=3;
+   local_mem_size*=2;
+   local_mem_size/=num_points;
+   local_mem_size*=num_points;
+   Print("local_mem_size=",local_mem_size);
+
    int points_per_group=(int)local_mem_size/(2*sizeof(double));
    if(points_per_group>num_points)
       points_per_group=num_points;
@@ -188,12 +218,12 @@ bool FFT_GPU(int direction,int power,double &data_real[],double &data_imag[],ulo
    OpenCL.SetArgument(0,5,direction);
 //--- OpenCL execute settings
    int task_dimension=1;
-   uint global_size=(uint)((num_points/points_per_group)*local_size);
+   uint global_size=(uint)((num_points/points_per_group)*workgroup_size);
    uint global_work_offset[1]={0};
    uint global_work_size[1];
    global_work_size[0]=global_size;
    uint local_work_size[1];
-   local_work_size[0]=local_size;
+   local_work_size[0]=workgroup_size;
 //--- GPU calculation start
    time_gpu=GetMicrosecondCount();
 //-- execute kernel fft_init
@@ -202,9 +232,13 @@ bool FFT_GPU(int direction,int power,double &data_real[],double &data_imag[],ulo
       PrintFormat("fft_init: Error in CLExecute. Error code=%d",GetLastError());
       return(false);
      }
+   if(!ExecutionWait(OpenCL,0))
+      return(false);
+   Print("fft_init passed");
 //-- further stages of the FFT 
    if(num_points>points_per_group)
      {
+      Print("num_points=",num_points,"  points_per_group=",points_per_group);
       //--- set arguments for kernel 1
       OpenCL.SetArgumentBuffer(1,0,1);
       OpenCL.SetArgument(1,2,points_per_group);
@@ -218,11 +252,15 @@ bool FFT_GPU(int direction,int power,double &data_real[],double &data_imag[],ulo
             PrintFormat("fft_stage: Error in CLExecute. Error code=%d",GetLastError());
             return(false);
            }
+         Print("fft_stage ",stage," passed");
         }
+      if(!ExecutionWait(OpenCL,1))
+         return(false);
      }
 //--- scale values if performing the inverse FFT 
    if(direction<0)
      {
+      Print("direction=",direction);
       OpenCL.SetArgumentBuffer(2,0,1);
       OpenCL.SetArgument(2,1,points_per_group);
       OpenCL.SetArgument(2,2,num_points);
@@ -232,6 +270,9 @@ bool FFT_GPU(int direction,int power,double &data_real[],double &data_imag[],ulo
          PrintFormat("fft_scale: Error in CLExecute. Error code=%d",GetLastError());
          return(false);
         }
+      if(!ExecutionWait(OpenCL,2))
+         return(false);
+      Print("fft_scale passed");
      }
 //--- read the results from GPU memory
    if(!OpenCL.BufferRead(1,data,0,0,2*num_points))
@@ -239,6 +280,7 @@ bool FFT_GPU(int direction,int power,double &data_real[],double &data_imag[],ulo
       PrintFormat("Error in BufferRead for data_buffer2. Error code=%d",GetLastError());
       return(false);
      }
+   Print("buffer read");
 //--- GPU calculation finished
    time_gpu=ulong((GetMicrosecondCount()-time_gpu));
 //--- copy calculated data and release OpenCL handles
@@ -248,6 +290,7 @@ bool FFT_GPU(int direction,int power,double &data_real[],double &data_imag[],ulo
       data_imag[i]=data[2*i+1];
      }
    OpenCL.Shutdown();
+   Print("OpenCL shutdown");
 //---
    return(true);
   }

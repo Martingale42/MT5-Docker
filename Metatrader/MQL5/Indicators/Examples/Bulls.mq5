@@ -11,7 +11,7 @@
 #property indicator_buffers 2
 #property indicator_plots   1
 #property indicator_type1   DRAW_HISTOGRAM
-#property indicator_color1  Silver
+#property indicator_color1  clrSilver
 #property indicator_width1  2
 //--- input parameters
 input int InpBullsPeriod=13; // Period

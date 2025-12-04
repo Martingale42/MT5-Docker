@@ -11,7 +11,7 @@
 #property indicator_buffers 2
 #property indicator_plots   1
 #property indicator_type1   DRAW_LINE
-#property indicator_color1  DodgerBlue
+#property indicator_color1  clrDodgerBlue
 #property indicator_label1  "ATR"
 //--- input parameters
 input int InpAtrPeriod=14;  // ATR period

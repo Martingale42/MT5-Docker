@@ -10,7 +10,7 @@
 #property indicator_buffers 2
 #property indicator_plots   1
 #property indicator_type1   DRAW_COLOR_HISTOGRAM
-#property indicator_color1  Green,Red
+#property indicator_color1  clrGreen,clrRed
 #property indicator_style1  0
 #property indicator_width1  1
 #property indicator_minimum 0.0

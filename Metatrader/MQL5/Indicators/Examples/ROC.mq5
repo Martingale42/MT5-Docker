@@ -11,7 +11,7 @@
 #property indicator_buffers 1
 #property indicator_plots   1
 #property indicator_type1   DRAW_LINE
-#property indicator_color1  LightSeaGreen
+#property indicator_color1  clrLightSeaGreen
 //--- input parameters
 input int InpRocPeriod=12; // Period
 //--- indicator buffer

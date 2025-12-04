@@ -11,8 +11,8 @@
 #property indicator_plots   2
 #property indicator_type1   DRAW_ARROW
 #property indicator_type2   DRAW_ARROW
-#property indicator_color1  Gray
-#property indicator_color2  Gray
+#property indicator_color1  clrGray
+#property indicator_color2  clrGray
 #property indicator_label1  "Fractal Up"
 #property indicator_label2  "Fractal Down"
 //--- indicator buffers

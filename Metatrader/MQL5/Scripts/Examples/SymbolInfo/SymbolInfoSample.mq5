@@ -82,7 +82,7 @@ bool CSymbolInfoSample::Init(void)
      {
       m_buttons[i].Create(0,"Button"+IntegerToString(i),0,10+50*(i%10),sy+20*(i/10),50,20);
       m_buttons[i].Description(SymbolName(i,InpMarketWatch));
-      m_buttons[i].Color(Red);
+      m_buttons[i].Color(clrRed);
       m_buttons[i].FontSize(8);
      }
    m_symbol_idx=0;

@@ -29,7 +29,7 @@
 #include <Trade/DealInfo.mqh>
 #include <Trade/Trade.mqh>
 #include <Zmq/Zmq.mqh>
-#include <Json.mqh>
+#include <json.mqh>
 #include <News/Calendar.mqh>
 
 input string HOST="*";
@@ -38,15 +38,15 @@ input int DATA_PORT=2202;
 input int LIVE_PORT=2203;
 input int STR_PORT=2204;
 
-#include <RestApi.mqh>
-
-input int      port = 6542;
-input string   callbackUrl = "http://localhost/callback";
-input string   callbackFormat = "json";
-input string   url_swagger = "localhost:6542";
-input int      CommandPingMilliseconds = 10;
-input string   AuthToken = "{test-token}";
-CRestApi api;
+// REST API disabled - using ZMQ only
+// #include <RestApi.mqh>
+// input int      port = 6542;
+// input string   callbackUrl = "http://localhost/callback";
+// input string   callbackFormat = "json";
+// input string   url_swagger = "localhost:6542";
+// input int      CommandPingMilliseconds = 10;
+// input string   AuthToken = "{test-token}";
+// CRestApi api;
 
 // ZeroMQ Cnnections
 Context context("MQL5 JSON API");
@@ -111,10 +111,11 @@ int OnInit(){
             MarketBookAdd(SymbolName(k,true));
             bool getBook=MarketBookGet(SymbolName(k,true),priceArray);
         }
-         
-   api.Init("http://localhost", port, 1, url_swagger);
-   api.SetCallback( callbackUrl, callbackFormat );
-   api.SetAuth( AuthToken );
+
+   // REST API disabled - using ZMQ only
+   // api.Init("http://localhost", port, 1, url_swagger);
+   // api.SetCallback( callbackUrl, callbackFormat );
+   // api.SetAuth( AuthToken );
   // Skip reloading of the EA script when the reason to reload is a chart timeframe change
   if (deInitReason != REASON_CHARTCHANGE){
   
@@ -282,12 +283,13 @@ void OnTimer(){
   ZmqMsg request;
    
   StreamPriceData();
-  
+
   // Get request from client via System socket.
   sysSocket.recv(request,true);
-  
-  api.Processing();
-  
+
+  // REST API disabled - using ZMQ only
+  // api.Processing();
+
   // Request recived
   if(request.size()>0){ 
     // Pull request to RequestHandler().
@@ -1277,10 +1279,10 @@ void TradingModule(CJAVal &dataObject){
 void OnTradeTransaction(const MqlTradeTransaction &trans,
                         const MqlTradeRequest &request,
                         const MqlTradeResult &result){
-                        
-                        
-  api.OnTradeTransaction( trans, request, result );
-   
+
+  // REST API disabled - using ZMQ only
+  // api.OnTradeTransaction( trans, request, result );
+
   ENUM_TRADE_TRANSACTION_TYPE  trans_type=trans.type;
   switch(trans.type) {
     // case  TRADE_TRANSACTION_POSITION: {}  break;

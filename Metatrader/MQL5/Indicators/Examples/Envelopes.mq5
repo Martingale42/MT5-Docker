@@ -11,8 +11,8 @@
 #property indicator_plots   2
 #property indicator_type1   DRAW_LINE
 #property indicator_type2   DRAW_LINE
-#property indicator_color1  Blue
-#property indicator_color2  Red
+#property indicator_color1  clrBlue
+#property indicator_color2  clrRed
 #property indicator_label1  "Upper band"
 #property indicator_label2  "Lower band"
 //--- input parameters

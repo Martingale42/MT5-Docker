@@ -11,8 +11,8 @@
 #property indicator_plots   2
 #property indicator_type1   DRAW_FILLING
 #property indicator_type2   DRAW_LINE
-#property indicator_color1  DodgerBlue,Gray
-#property indicator_color2  Blue
+#property indicator_color1  clrDodgerBlue,clrGray
+#property indicator_color2  clrBlue
 #property indicator_label1  "Channel upper;Channel lower"
 #property indicator_label2  "Channel median"
 //--- input parameters

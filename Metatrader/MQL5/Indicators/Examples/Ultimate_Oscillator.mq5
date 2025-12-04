@@ -11,7 +11,7 @@
 #property indicator_buffers 5
 #property indicator_plots   1
 #property indicator_type1   DRAW_LINE
-#property indicator_color1  DodgerBlue
+#property indicator_color1  clrDodgerBlue
 //--- input parameters
 input int InpFastPeriod=7;     // Fast ATR period
 input int InpMiddlePeriod=14;  // Middle ATR period

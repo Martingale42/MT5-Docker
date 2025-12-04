@@ -12,7 +12,7 @@
 #property indicator_buffers       4
 #property indicator_plots         1
 #property indicator_type1         DRAW_LINE
-#property indicator_color1        LightSeaGreen
+#property indicator_color1        clrLightSeaGreen
 #property indicator_level1       -100.0
 #property indicator_level2        100.0
 #property indicator_applied_price PRICE_TYPICAL

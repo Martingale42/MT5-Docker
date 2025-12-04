@@ -11,12 +11,12 @@
 #property indicator_buffers    1
 #property indicator_plots      1
 #property indicator_type1      DRAW_LINE
-#property indicator_color1     DodgerBlue
+#property indicator_color1     clrDodgerBlue
 #property indicator_maximum    100.0
 #property indicator_minimum    0.0
 #property indicator_level1     20.0
 #property indicator_level2     80.0
-#property indicator_levelcolor Silver
+#property indicator_levelcolor clrSilver
 #property indicator_levelstyle 2
 #property indicator_levelwidth 1
 //--- input parameters

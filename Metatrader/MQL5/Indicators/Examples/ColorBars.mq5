@@ -12,7 +12,7 @@
 //--- plot ColorBars
 #property indicator_label1  "ColorBars"
 #property indicator_type1   DRAW_COLOR_BARS
-#property indicator_color1  Green,Red
+#property indicator_color1  clrGreen,clrRed
 #property indicator_label1  "Open;High;Low;Close"
 //--- indicator buffers
 double ExtOpenBuffer[];

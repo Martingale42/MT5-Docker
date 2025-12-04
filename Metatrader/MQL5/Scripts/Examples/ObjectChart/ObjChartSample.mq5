@@ -449,9 +449,9 @@ void CChartSample::CheckPanelColors(void)
   {
    int   i;
    color c;
-   static color yellow_on_black[]={Black,White,LightSlateGray,Yellow,Yellow,Black,White,Yellow,LimeGreen,LightSlateGray,Red,C'0,192,0',Red};
-   static color green_on_black[] ={Black,White,LightSlateGray,Lime,Lime,Black,White,Lime,LimeGreen,LightSlateGray,Red,C'0,192,0',Red};
-   static color black_on_white[] ={White,Black,Silver,Black,Black,White,Black,Black,Green,Silver,Silver,Silver,OrangeRed};
+   static color yellow_on_black[]={clrBlack,clrWhite,clrLightSlateGray,clrYellow,clrYellow,clrBlack,clrWhite,clrYellow,clrLimeGreen,clrLightSlateGray,clrRed,C'0,192,0',clrRed};
+   static color green_on_black[] ={clrBlack,clrWhite,clrLightSlateGray,clrLime,clrLime,clrBlack,clrWhite,clrLime,clrLimeGreen,clrLightSlateGray,clrRed,C'0,192,0',clrRed};
+   static color black_on_white[] ={clrWhite,clrBlack,clrSilver,clrBlack,clrBlack,clrWhite,clrBlack,clrBlack,clrGreen,clrSilver,clrSilver,clrSilver,clrOrangeRed};
    static int   color_id[]=
      {
       CHART_COLOR_BACKGROUND,CHART_COLOR_FOREGROUND,CHART_COLOR_GRID,CHART_COLOR_CHART_UP,
@@ -559,7 +559,7 @@ bool CChartSample::Init(void)
      {
       m_panel[i].Create(m_chart.ChartId(),"Panel"+IntegerToString(i),0,10,sy,150,16);
       m_panel[i].Description(p_str[i]);
-      m_panel[i].Color(Black);
+      m_panel[i].Color(clrBlack);
       m_panel[i].FontSize(8);
       m_panel[i].State(true);
       sy+=m_panel[i].Y_Size();
@@ -585,7 +585,7 @@ bool CChartSample::Init(void)
          return(false);
       m_button[i].Create(m_chart.ChartId(),"Button"+IntegerToString(i),0,b_x[i],sy+b_y[i],b_sizeX[i],b_sizeY[i]);
       m_button[i].Description(b_str[i]);
-      m_button[i].Color(Black);
+      m_button[i].Color(clrBlack);
       m_button[i].FontSize(8);
       if(b_pan[i]<NUM_PANELS)
          m_panel[b_pan[i]].Attach(m_button[i]);
@@ -641,7 +641,7 @@ bool CChartSample::Init(void)
       if(m_chart.Period()==tf_int[i])
          m_button_tf[i].State(true);
       m_button_tf[i].Description(tf_str[i]);
-      m_button_tf[i].Color(Blue);
+      m_button_tf[i].Color(clrBlue);
       m_button_tf[i].FontSize(8);
       m_panel[4].Attach(m_button_tf[i]);
      }
@@ -655,7 +655,7 @@ bool CChartSample::Init(void)
       m_button_sym[i].Description(SymbolName(i,true));
       if(m_chart.Symbol()==SymbolName(i,true))
          m_button_sym[i].State(true);
-      m_button_sym[i].Color(Green);
+      m_button_sym[i].Color(clrGreen);
       m_button_sym[i].FontSize(8);
       m_panel[5].Attach(m_button_sym[i]);
      }

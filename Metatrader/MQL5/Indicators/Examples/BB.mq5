@@ -12,11 +12,11 @@
 #property indicator_buffers 4
 #property indicator_plots   3
 #property indicator_type1   DRAW_LINE
-#property indicator_color1  LightSeaGreen
+#property indicator_color1  clrLightSeaGreen
 #property indicator_type2   DRAW_LINE
-#property indicator_color2  LightSeaGreen
+#property indicator_color2  clrLightSeaGreen
 #property indicator_type3   DRAW_LINE
-#property indicator_color3  LightSeaGreen
+#property indicator_color3  clrLightSeaGreen
 #property indicator_label1  "Bands middle"
 #property indicator_label2  "Bands upper"
 #property indicator_label3  "Bands lower"

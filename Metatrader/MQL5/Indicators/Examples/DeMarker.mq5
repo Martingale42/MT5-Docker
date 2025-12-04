@@ -11,7 +11,7 @@
 #property indicator_buffers 5
 #property indicator_plots   1
 #property indicator_type1   DRAW_LINE
-#property indicator_color1  DodgerBlue
+#property indicator_color1  clrDodgerBlue
 #property indicator_level1  0.3
 #property indicator_level2  0.7
 //--- input parameters

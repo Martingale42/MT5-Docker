@@ -12,7 +12,7 @@
 #property indicator_buffers 2
 #property indicator_plots   1
 #property indicator_type1   DRAW_LINE
-#property indicator_color1  MediumSeaGreen
+#property indicator_color1  clrMediumSeaGreen
 #property indicator_style1  STYLE_SOLID
 //--- input parametrs
 input int            InpStdDevPeriod=20;   // Period

@@ -12,10 +12,10 @@
 #property indicator_buffers 4
 #property indicator_plots   1
 #property indicator_type1   DRAW_LINE
-#property indicator_color1  DodgerBlue
+#property indicator_color1  clrDodgerBlue
 #property indicator_level1 27
 #property indicator_level2 26.5
-#property indicator_levelcolor DarkGray
+#property indicator_levelcolor clrDarkGray
 //--- input parametrs
 input int InpPeriodEMA=9;        // First EMA period
 input int InpSecondPeriodEMA=9;  // Second EMA period

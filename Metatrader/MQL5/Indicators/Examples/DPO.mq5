@@ -12,7 +12,7 @@
 #property indicator_buffers 2
 #property indicator_plots   1
 #property indicator_type1   DRAW_LINE
-#property indicator_color1  DodgerBlue
+#property indicator_color1  clrDodgerBlue
 //--- input parameters
 input int InpDetrendPeriod=12; // Period
 //--- indicator buffers

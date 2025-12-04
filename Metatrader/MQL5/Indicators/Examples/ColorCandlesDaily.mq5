@@ -19,7 +19,7 @@ double ExtLowBuffer[];
 double ExtCloseBuffer[];
 double ExtColorsBuffer[];
 //---
-color  ExtColorOfDay[6]= {CLR_NONE,MediumSlateBlue,DarkGoldenrod,ForestGreen,BlueViolet,Red};
+color  ExtColorOfDay[6]= {clrNONE,clrMediumSlateBlue,clrDarkGoldenrod,clrForestGreen,clrBlueViolet,clrRed};
 //+------------------------------------------------------------------+
 //| Custom indicator initialization function                         |
 //+------------------------------------------------------------------+

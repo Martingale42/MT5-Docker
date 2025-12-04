@@ -11,7 +11,7 @@
 #property indicator_buffers 1
 #property indicator_plots   1
 #property indicator_type1   DRAW_LINE
-#property indicator_color1  DodgerBlue
+#property indicator_color1  clrDodgerBlue
 //--- input parametrs
 input ENUM_APPLIED_VOLUME InpVolumeType=VOLUME_TICK; // Volumes
 //--- indicator buffer

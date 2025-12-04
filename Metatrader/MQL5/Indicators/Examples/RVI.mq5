@@ -12,8 +12,8 @@
 #property indicator_plots   2
 #property indicator_type1   DRAW_LINE
 #property indicator_type2   DRAW_LINE
-#property indicator_color1  Green
-#property indicator_color2  Red
+#property indicator_color1  clrGreen
+#property indicator_color2  clrRed
 #property indicator_label1  "RVI"
 #property indicator_label2  "Signal"
 //--- input parameters

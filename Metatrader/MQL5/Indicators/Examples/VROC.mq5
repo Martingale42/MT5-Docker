@@ -11,7 +11,7 @@
 #property indicator_buffers 1
 #property indicator_plots   1
 #property indicator_type1   DRAW_LINE
-#property indicator_color1  Green
+#property indicator_color1  clrGreen
 #property indicator_style1  0
 #property indicator_width1  1
 //+------------------------------------------------------------------+

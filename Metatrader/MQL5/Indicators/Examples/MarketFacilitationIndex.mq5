@@ -10,7 +10,7 @@
 #property indicator_buffers 2
 #property indicator_plots   1
 #property indicator_type1   DRAW_COLOR_HISTOGRAM
-#property indicator_color1  Lime,SaddleBrown,Blue,Pink
+#property indicator_color1  clrLime,clrSaddleBrown,clrBlue,clrPink
 #property indicator_width1  2
 //--- input parameter
 input ENUM_APPLIED_VOLUME InpVolumeType=VOLUME_TICK; // Volumes

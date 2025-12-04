@@ -11,7 +11,7 @@
 #property indicator_buffers 1
 #property indicator_plots   1
 #property indicator_type1   DRAW_LINE
-#property indicator_color1  DarkBlue
+#property indicator_color1  clrDarkBlue
 #property indicator_width1  1
 #property indicator_label1  "FrAMA"
 #property indicator_applied_price PRICE_CLOSE

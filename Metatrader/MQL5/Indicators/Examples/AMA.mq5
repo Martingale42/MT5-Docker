@@ -14,7 +14,7 @@
 //--- plot ExtAMABuffer
 #property indicator_label1  "AMA"
 #property indicator_type1   DRAW_LINE
-#property indicator_color1  Red
+#property indicator_color1  clrRed
 #property indicator_style1  STYLE_SOLID
 #property indicator_width1  1
 //--- default applied price

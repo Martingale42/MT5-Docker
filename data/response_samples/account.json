@@ -3,11 +3,11 @@
   "broker": "OANDA Corporation",
   "currency": "USD",
   "server": "OANDA-Demo-1",
-  "trading_allowed": 1,
+  "trading_allowed": 0,
   "bot_trading": 1,
-  "balance": 10000.0,
-  "equity": 9711.71,
-  "margin": 304.08,
-  "margin_free": 9407.63,
-  "margin_level": 3193.80097
+  "balance": 9997.37,
+  "equity": 9302.57,
+  "margin": 2147.47,
+  "margin_free": 7155.1,
+  "margin_level": 433.18743
 }

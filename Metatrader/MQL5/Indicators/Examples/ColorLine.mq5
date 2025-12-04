@@ -12,7 +12,7 @@
 //--- plot ColorLine
 #property indicator_label1  "ColorLine"
 #property indicator_type1   DRAW_COLOR_LINE
-#property indicator_color1  Red,Green,Blue
+#property indicator_color1  clrRed,clrGreen,clrBlue
 #property indicator_style1  STYLE_SOLID
 #property indicator_width1  3
 //--- indicator buffers
@@ -91,19 +91,19 @@ int OnCalculate(const int rates_total,
          switch(modified)
            {
             case 0: // first color scheme
-               PlotIndexSetInteger(0,PLOT_LINE_COLOR,0,Red);
-               PlotIndexSetInteger(0,PLOT_LINE_COLOR,1,Blue);
-               PlotIndexSetInteger(0,PLOT_LINE_COLOR,2,Green);
+               PlotIndexSetInteger(0,PLOT_LINE_COLOR,0,clrRed);
+               PlotIndexSetInteger(0,PLOT_LINE_COLOR,1,clrBlue);
+               PlotIndexSetInteger(0,PLOT_LINE_COLOR,2,clrGreen);
                break;
             case 1: // second color scheme
-               PlotIndexSetInteger(0,PLOT_LINE_COLOR,0,Yellow);
-               PlotIndexSetInteger(0,PLOT_LINE_COLOR,1,Pink);
-               PlotIndexSetInteger(0,PLOT_LINE_COLOR,2,LightSlateGray);
+               PlotIndexSetInteger(0,PLOT_LINE_COLOR,0,clrYellow);
+               PlotIndexSetInteger(0,PLOT_LINE_COLOR,1,clrPink);
+               PlotIndexSetInteger(0,PLOT_LINE_COLOR,2,clrLightSlateGray);
                break;
             default: // third color scheme
-               PlotIndexSetInteger(0,PLOT_LINE_COLOR,0,LightGoldenrod);
-               PlotIndexSetInteger(0,PLOT_LINE_COLOR,1,Orchid);
-               PlotIndexSetInteger(0,PLOT_LINE_COLOR,2,LimeGreen);
+               PlotIndexSetInteger(0,PLOT_LINE_COLOR,0,clrLightGoldenrod);
+               PlotIndexSetInteger(0,PLOT_LINE_COLOR,1,clrOrchid);
+               PlotIndexSetInteger(0,PLOT_LINE_COLOR,2,clrLimeGreen);
            }
         }
       else

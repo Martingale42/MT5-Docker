@@ -1,11 +1,11 @@
 {
-  "error": false,
-  "retcode": 10009,
-  "desription": "TRADE_RETCODE_DONE",
-  "order": 31178220,
-  "volume": 0.01,
-  "price": 92256.0,
-  "bid": 92212.0,
-  "ask": 92256.0,
+  "error": true,
+  "retcode": 10027,
+  "desription": "TRADE_RETCODE_CLIENT_DISABLES_AT",
+  "order": 0,
+  "volume": 0.0,
+  "price": 0.0,
+  "bid": 0.0,
+  "ask": 0.0,
   "function": "TradingModule"
 }

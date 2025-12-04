@@ -54,9 +54,12 @@ double        ExtS2Buffer[];
 double        ExtS3Buffer[];
 double        ExtS4Buffer[];
 
-//--- unique prefix to identify indicator objects
+//--- unique prefix for indicator objects
 string ExtPrefixUniq;
-
+//--- current chart scale
+long   ExtChartScale=2;
+//--- price labels should not be shown on the built-in VPS
+bool   ExtShowLabel=false;
 //+------------------------------------------------------------------+
 //| Custom indicator initialization function                         |
 //+------------------------------------------------------------------+
@@ -69,6 +72,10 @@ int OnInit()
       return(INIT_FAILED);
      }
 
+//--- if the indicator is running on the built-in VPS, price labels should not be shown
+   if(!TerminalInfoInteger(TERMINAL_VPS))
+      ExtShowLabel=InpShowLabel;  
+      
 //--- define buffers
    SetIndexBuffer(0, ExtR4Buffer);
    SetIndexBuffer(1, ExtR3Buffer);
@@ -172,7 +179,7 @@ int OnCalculate(const int rates_total,
      }
 
 //--- draw labels on levels
-   if(InpShowLabel)
+   if(ExtShowLabel)
      {
       ShowPriceLevels(time[rates_total-1], rates_total-1);
       ChartRedraw();
@@ -191,6 +198,19 @@ void OnDeinit(const int reason)
    ObjectsDeleteAll(0, ExtPrefixUniq, 0, OBJ_ARROW_RIGHT_PRICE);
    ChartRedraw(0);
   }
+//+------------------------------------------------------------------+
+//| Handles CHARTEVENT_CHART_CHANGE to track chart window updates    |
+//+------------------------------------------------------------------+
+void OnChartEvent(const int id, const long& lparam, const double& dparam, const string& sparam)
+  {
+   if(id==CHARTEVENT_CHART_CHANGE)
+      if(!ChartGetInteger(0, CHART_SCALE, 0, ExtChartScale))
+        {
+         //--- output an error message to the Experts journal
+         Print(__FUNCTION__+", ChartGetInteger(CHART_SCALE) failed, error = ", GetLastError());
+        }
+//---
+  }  
 //+------------------------------------------------------------------+
 //|  Show prices' levels                                             |
 //+------------------------------------------------------------------+
@@ -217,14 +237,8 @@ bool ShowRightPrice(const string name, datetime time, double price, color clr)
       return(false);
      }
 
-//--- make the label size adaptive
-   long scale=2;
-   if(!ChartGetInteger(0, CHART_SCALE, 0, scale))
-     {
-      //--- output an error message to the Experts journal
-      Print(__FUNCTION__+", ChartGetInteger(CHART_SCALE) failed, error = ", GetLastError());
-     }
-   int width=scale>1 ? 2:1;  // if chart scale > 1, then label size = 2
+//--- adjust label size based on chart scale
+   int width=ExtChartScale>1 ? 2:1;  // if chart scale > 1, then label size = 2
 
    ObjectSetInteger(0, name, OBJPROP_COLOR, clr);
    ObjectSetInteger(0, name, OBJPROP_STYLE, STYLE_SOLID);

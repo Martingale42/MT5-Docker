@@ -10,7 +10,7 @@
 #property indicator_buffers 3
 #property indicator_plots   1
 #property indicator_type1   DRAW_ARROW
-#property indicator_color1  DodgerBlue
+#property indicator_color1  clrDodgerBlue
 //--- input parametrs
 input double InpSARStep=0.02;    // Step
 input double InpSARMaximum=0.2;  // Maximum

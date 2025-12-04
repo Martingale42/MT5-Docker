@@ -4,139 +4,22 @@
     "symbol": "BTCUSD",
     "timeframe": "TICK",
     "data": [
-      1763632326281,
-      92264.0,
-      92308.0
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "BTCUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632327279,
-      92261.0,
-      92304.0
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "DOGEUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632327279,
-      0.15738,
-      0.15862
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "BTCUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632327341,
-      92262.0,
-      92305.0
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "DOGEUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632327493,
-      0.15736,
-      0.15862
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "ADAUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632327557,
-      0.4668,
-      0.4732
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "BTCUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632328283,
-      92252.0,
-      92296.0
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "ADAUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632328284,
-      0.4667,
-      0.4732
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "DOGEUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632328283,
-      0.15736,
-      0.15856
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "DOGEUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632328389,
-      0.15736,
-      0.15858
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "ADAUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632328614,
-      0.4667,
-      0.4731
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "BTCUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632329284,
+      1764891417193,
       92235.0,
       92279.0
     ]
   },
   {
     "status": "CONNECTED",
-    "symbol": "ADAUSD",
-    "timeframe": "TICK",
+    "symbol": "XAUUSD.sml",
+    "timeframe": "M1",
     "data": [
-      1763632329284,
-      0.4668,
-      0.4731
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "DOGEUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632329284,
-      0.15736,
-      0.15858
+      1764891360,
+      4208.715,
+      4208.77,
+      4208.585,
+      4208.62,
+      205.0
     ]
   },
   {
@@ -144,29 +27,9 @@
     "symbol": "BTCUSD",
     "timeframe": "TICK",
     "data": [
-      1763632329392,
-      92234.0,
-      92278.0
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "BTCUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632330270,
-      92240.0,
-      92284.0
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "BTCUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632331278,
+      1764891420542,
       92241.0,
-      92284.0
+      92286.0
     ]
   },
   {
@@ -174,29 +37,9 @@
     "symbol": "BTCUSD",
     "timeframe": "TICK",
     "data": [
-      1763632331394,
-      92234.0,
-      92277.0
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "DOGEUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632331656,
-      0.15736,
-      0.15856
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "ADAUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632331782,
-      0.4669,
-      0.4732
+      1764891422877,
+      92241.0,
+      92285.0
     ]
   },
   {
@@ -204,39 +47,9 @@
     "symbol": "BTCUSD",
     "timeframe": "TICK",
     "data": [
-      1763632332280,
-      92233.0,
-      92276.0
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "ADAUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632332280,
-      0.4669,
-      0.4732
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "DOGEUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632332280,
-      0.15736,
-      0.15858
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "DOGEUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632333240,
-      0.15736,
-      0.15858
+      1764891423190,
+      92223.0,
+      92268.0
     ]
   },
   {
@@ -244,259 +57,19 @@
     "symbol": "BTCUSD",
     "timeframe": "TICK",
     "data": [
-      1763632333279,
-      92234.0,
-      92278.0
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "BTCUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632333866,
-      92237.0,
-      92281.0
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "DOGEUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632334214,
-      0.15736,
-      0.15858
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "BTCUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632334391,
-      92233.0,
-      92276.0
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "ADAUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632335265,
-      0.4669,
-      0.4732
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "BTCUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632335285,
-      92239.0,
-      92283.0
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "BTCUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632335541,
-      92234.0,
-      92278.0
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "BTCUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632336282,
-      92212.0,
-      92256.0
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "DOGEUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632336282,
-      0.15736,
-      0.15858
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "ADAUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632336287,
-      0.4669,
-      0.4732
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "BTCUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632337278,
-      92218.0,
-      92262.0
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "ADAUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632337279,
-      0.4668,
-      0.4732
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "DOGEUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632337278,
-      0.15736,
-      0.15858
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "BTCUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632337347,
+      1764891424188,
       92220.0,
       92264.0
     ]
   },
   {
     "status": "CONNECTED",
-    "symbol": "ADAUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632337347,
-      0.4668,
-      0.4731
-    ]
-  },
-  {
-    "status": "CONNECTED",
     "symbol": "BTCUSD",
     "timeframe": "TICK",
     "data": [
-      1763632338275,
-      92205.0,
-      92248.0
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "ADAUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632338275,
-      0.4668,
-      0.4731
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "DOGEUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632338309,
-      0.15736,
-      0.15856
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "BTCUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632338336,
-      92210.0,
-      92253.0
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "BTCUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632339274,
-      92215.0,
-      92259.0
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "ADAUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632339294,
-      0.4668,
-      0.4731
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "ADAUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632339366,
-      0.4668,
-      0.4731
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "BTCUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632339547,
-      92213.0,
-      92256.0
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "BTCUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632340282,
+      1764891424737,
       92219.0,
-      92263.0
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "ADAUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632340282,
-      0.4668,
-      0.4731
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "ADAUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632340417,
-      0.4667,
-      0.473
+      92264.0
     ]
   },
   {
@@ -504,29 +77,9 @@
     "symbol": "BTCUSD",
     "timeframe": "TICK",
     "data": [
-      1763632341279,
-      92218.0,
-      92262.0
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "ADAUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632341632,
-      0.4667,
-      0.473
-    ]
-  },
-  {
-    "status": "CONNECTED",
-    "symbol": "DOGEUSD",
-    "timeframe": "TICK",
-    "data": [
-      1763632341714,
-      0.15736,
-      0.15856
+      1764891425194,
+      92220.0,
+      92265.0
     ]
   },
   {
@@ -534,9 +87,99 @@
     "symbol": "BTCUSD",
     "timeframe": "TICK",
     "data": [
-      1763632342271,
-      92212.0,
-      92256.0
+      1764891427707,
+      92222.0,
+      92267.0
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1764891428196,
+      92220.0,
+      92265.0
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1764891428574,
+      92222.0,
+      92267.0
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1764891429138,
+      92235.0,
+      92279.0
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1764891429201,
+      92242.0,
+      92287.0
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1764891430193,
+      92254.0,
+      92298.0
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1764891430253,
+      92253.0,
+      92297.0
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1764891431194,
+      92253.0,
+      92298.0
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1764891431334,
+      92250.0,
+      92295.0
+    ]
+  },
+  {
+    "status": "CONNECTED",
+    "symbol": "BTCUSD",
+    "timeframe": "TICK",
+    "data": [
+      1764891432190,
+      92254.0,
+      92299.0
     ]
   }
 ]
