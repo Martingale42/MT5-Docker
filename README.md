@@ -4,9 +4,12 @@ MetaTrader 5 running in Docker with JsonAPI Expert Advisor for ZeroMQ-based comm
 
 ## Features
 
-- **MT5 64-bit** running on Wine in Alpine Linux (~250 MB)
+- **MT5 64-bit** running on Wine 10.x in Debian 13 (Trixie)
 - **JsonAPI.mq5** Expert Advisor with 4-socket ZeroMQ architecture
-- **VNC access** for remote GUI management
+- **VNC access** with password protection for remote GUI management
+- **Auto-restart watchdog** for MT5 stability
+- **Persistence** - MT5 settings and account login persist across restarts
+- **Live MQL5 editing** - Edit files locally without rebuilding
 - **Economic Calendar** support via ZeroMQ
 - **Multi-socket architecture** for high-performance trading
 - **Docker Compose** for easy deployment
@@ -22,33 +25,26 @@ JsonAPI uses 4 separate ZeroMQ sockets for different purposes:
 
 ## Quick Start
 
-### Using Docker Compose (Recommended)
+### Setup
 
+1. **Configure VNC password** (create `.env` file):
 ```bash
-# Start the container
-docker-compose up -d
-
-# View logs
-docker-compose logs -f
-
-# Stop the container
-docker-compose down
+echo "VNC_PASSWORD=your_secure_password" > .env
 ```
 
-### Using Makefile
-
+2. **Start the container**:
 ```bash
-# Build and run
-make run
+docker-compose up -d
+```
 
-# Access shell
-make shell
+3. **View logs**:
+```bash
+docker-compose logs -f
+```
 
-# Stop container
-make stop
-
-# Clean up (remove container and volume)
-make clean
+4. **Stop the container**:
+```bash
+docker-compose down
 ```
 
 ## VNC Access
@@ -56,8 +52,7 @@ make clean
 Connect to MT5 terminal via VNC:
 
 - **URL**: `localhost:5900`
-- **Username**: `root`
-- **Password**: `root`
+- **Password**: Your `VNC_PASSWORD` from `.env` file
 
 Once connected:
 1. Wait for MT5 to fully load (~1-2 minutes)

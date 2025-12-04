@@ -2,8 +2,14 @@
 *.csv
 __pycache__
 *.egg-info
+*.pyc
 
 .env
+
+# Test coverage
+.coverage
+coverage.xml
+htmlcov/
 
 # MT5 specific
 Metatrader/MQL5/Include/*
