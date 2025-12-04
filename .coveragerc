@@ -1,0 +1,85 @@
+[run]
+# Coverage configuration for MT5-Docker project
+
+# Source directories to measure
+source =
+    scripts
+    monitoring
+
+# Omit certain patterns
+omit =
+    */tests/*
+    */test_*.py
+    */__pycache__/*
+    */venv/*
+    */.venv/*
+    */site-packages/*
+    */dist-packages/*
+    # Legacy test files (will be migrated)
+    scripts/test_jsonapi.py
+    scripts/test_symbol_info.py
+    scripts/check_live_stream.py
+    scripts/check_tick_stream.py
+    # Utility scripts without tests yet
+    scripts/capture_responses.py
+    scripts/download_history.py
+
+# Branch coverage
+branch = True
+
+# Parallel processing
+parallel = True
+
+[report]
+# Reporting options
+
+# Precision for coverage percentage
+precision = 2
+
+# Show missing lines
+show_missing = True
+
+# Skip covered files in report
+skip_covered = False
+
+# Skip empty files
+skip_empty = True
+
+# Fail if coverage is below threshold
+fail_under = 70
+
+# Exclude lines from coverage
+exclude_lines =
+    # Standard pragma
+    pragma: no cover
+
+    # Don't complain about missing debug code
+    def __repr__
+
+    # Don't complain if tests don't hit defensive assertion code
+    raise AssertionError
+    raise NotImplementedError
+
+    # Don't complain if non-runnable code isn't run
+    if __name__ == .__main__.:
+    if TYPE_CHECKING:
+
+    # Don't complain about abstract methods
+    @abstractmethod
+    @abc.abstractmethod
+
+    # Don't complain about ellipsis in protocols or stubs
+    \.\.\.
+
+[html]
+# HTML report configuration
+directory = htmlcov
+title = MT5-Docker Coverage Report
+
+[xml]
+# XML report for CI/CD integration
+output = coverage.xml
+
+[json]
+# JSON report
+output = coverage.json

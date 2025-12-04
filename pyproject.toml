@@ -6,7 +6,30 @@ requires-python = ">=3.8"
 dependencies = [
     "pyzmq>=25.1.0",
     "pandas>=2.0.0",
+    "prometheus-client>=0.19.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-mock>=3.11.0",
+    "pytest-timeout>=2.1.0",
+    "ruff>=0.1.0",
 ]
 
 [project.scripts]
 test-jsonapi = "test_jsonapi:main"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+# Exclude non-Python directories from package
+packages = []
+py-modules = []
+
+[tool.setuptools.package-data]
+"*" = ["*.json", "*.md"]

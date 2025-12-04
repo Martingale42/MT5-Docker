@@ -98,6 +98,15 @@ RUN wineboot -u && wineserver -w
 
 
 WORKDIR /$HOME/
+
+# # Copy healthcheck script
+# COPY scripts/healthcheck.py /usr/local/bin/healthcheck.py
+# RUN chmod +x /usr/local/bin/healthcheck.py
+
+# # Configure healthcheck
+# HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+#     CMD python3 /usr/local/bin/healthcheck.py || exit 1
+
 EXPOSE 5900 2201 2202 2203 2204
 CMD ["/usr/bin/supervisord","-c","/etc/supervisord.conf"]
 

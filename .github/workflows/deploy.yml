@@ -1,0 +1,216 @@
+name: Deploy to Server
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+      version:
+        description: 'Version/tag to deploy (leave empty for latest)'
+        required: false
+        type: string
+
+  push:
+    tags:
+      - 'v*.*.*'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  deploy:
+    name: Deploy to ${{ github.event.inputs.environment || 'production' }}
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'production' }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Determine version
+        id: version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.ref_type }}" == "tag" ]; then
+            echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          else
+            echo "version=latest" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to server
+        env:
+          SSH_KEY: ~/.ssh/deploy_key
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          ssh -i ${SSH_KEY} ${DEPLOY_USER}@${DEPLOY_HOST} << 'EOF'
+            set -e
+
+            echo "==================================="
+            echo "Starting deployment..."
+            echo "Version: $VERSION"
+            echo "==================================="
+
+            cd ${DEPLOY_PATH}
+
+            # Backup current configuration
+            echo "Creating backup..."
+            timestamp=$(date +%Y%m%d_%H%M%S)
+            mkdir -p backups
+            cp docker-compose.yml backups/docker-compose.yml.${timestamp} || true
+
+            # Pull latest code
+            echo "Pulling latest code..."
+            git fetch --all
+            git checkout ${VERSION}
+
+            # Pull new Docker image
+            echo "Pulling Docker image..."
+            docker pull ${REGISTRY}/${IMAGE_NAME}:${VERSION}
+
+            # Stop current containers
+            echo "Stopping current containers..."
+            docker-compose down || true
+
+            # Start new containers
+            echo "Starting new containers..."
+            docker-compose up -d
+
+            # Wait for health check
+            echo "Waiting for health check..."
+            sleep 30
+
+            # Verify deployment
+            echo "Verifying deployment..."
+            if ! docker ps | grep -q mt5zmq; then
+              echo "ERROR: Container not running!"
+              echo "Rolling back..."
+              git checkout -
+              docker-compose up -d
+              exit 1
+            fi
+
+            # Check container health
+            health_status=$(docker inspect --format='{{.State.Health.Status}}' mt5zmq 2>/dev/null || echo "unknown")
+            if [ "$health_status" != "healthy" ] && [ "$health_status" != "unknown" ]; then
+              echo "WARNING: Container health check failed (status: $health_status)"
+              echo "Check logs with: docker logs mt5zmq"
+            fi
+
+            # Show status
+            echo "==================================="
+            echo "Deployment completed successfully!"
+            echo "==================================="
+            docker-compose ps
+          EOF
+
+      - name: Run smoke tests
+        env:
+          SSH_KEY: ~/.ssh/deploy_key
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          ssh -i ${SSH_KEY} ${DEPLOY_USER}@${DEPLOY_HOST} << 'EOF'
+            echo "Running smoke tests..."
+
+            # Test ZMQ ports
+            for port in 2201 2202 2203 2204; do
+              if nc -zv localhost $port 2>&1 | grep -q succeeded; then
+                echo "✓ Port $port is accessible"
+              else
+                echo "✗ Port $port is NOT accessible"
+                exit 1
+              fi
+            done
+
+            echo "All smoke tests passed!"
+          EOF
+
+      - name: Notify deployment
+        if: always()
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "✅ Deployment successful!"
+          else
+            echo "❌ Deployment failed!"
+          fi
+
+      - name: Cleanup
+        if: always()
+        run: |
+          rm -f ~/.ssh/deploy_key
+
+  rollback:
+    name: Rollback Deployment
+    runs-on: ubuntu-latest
+    if: failure()
+    needs: deploy
+
+    steps:
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Perform rollback
+        env:
+          SSH_KEY: ~/.ssh/deploy_key
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh -i ${SSH_KEY} ${DEPLOY_USER}@${DEPLOY_HOST} << 'EOF'
+            set -e
+
+            echo "==================================="
+            echo "Performing rollback..."
+            echo "==================================="
+
+            cd ${DEPLOY_PATH}
+
+            # Find most recent backup
+            backup=$(ls -t backups/docker-compose.yml.* 2>/dev/null | head -n1)
+
+            if [ -z "$backup" ]; then
+              echo "ERROR: No backup found!"
+              exit 1
+            fi
+
+            echo "Restoring from backup: $backup"
+
+            # Restore backup
+            cp "$backup" docker-compose.yml
+
+            # Restart containers
+            docker-compose down
+            docker-compose up -d
+
+            echo "==================================="
+            echo "Rollback completed"
+            echo "==================================="
+            docker-compose ps
+          EOF
+
+      - name: Cleanup
+        if: always()
+        run: |
+          rm -f ~/.ssh/deploy_key

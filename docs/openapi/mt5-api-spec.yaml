@@ -1,0 +1,904 @@
+openapi: 3.0.3
+info:
+  title: MT5-Docker JsonAPI
+  description: |
+    ZeroMQ-based JSON API for MetaTrader 5 trading operations.
+
+    ## Architecture
+
+    The API uses a multi-socket ZeroMQ architecture:
+
+    1. **System Socket (Port 2201)** - REQ/REP pattern for sending commands
+    2. **Data Socket (Port 2202)** - PUSH/PULL pattern for receiving responses
+    3. **Live Socket (Port 2203)** - PUSH/PULL pattern for streaming price data
+    4. **Stream Socket (Port 2204)** - PUSH/PULL pattern for trade confirmations
+
+    ## Request-Response Flow
+
+    1. Send command to System Socket (2201) via REQ socket
+    2. Receive "OK" ACK immediately on same socket
+    3. Receive actual data response on Data Socket (2202) via PULL socket
+    4. (Optional) Receive live streams on Live Socket (2203)
+    5. (Optional) Receive trade confirmations on Stream Socket (2204)
+
+    ## Supported Actions
+
+    - ACCOUNT - Get account information
+    - BALANCE - Get balance only
+    - CONFIG - Subscribe to symbol data streaming
+    - HISTORY - Get historical bar/tick data
+    - POSITIONS - Get open positions
+    - ORDERS - Get pending orders
+    - TRADE - Submit trading orders
+    - SYMBOL_INFO - Get symbol specifications
+    - CALENDAR - Get economic calendar events
+
+    ## Integration
+
+    This API is designed for integration with [Nautilus Trader](https://nautilustrader.io)
+    and other algorithmic trading platforms.
+
+  version: "0.1.0"
+  contact:
+    name: MT5-Docker Project
+    url: https://github.com/yourusername/MT5-Docker
+  license:
+    name: GNU General Public License v3.0
+    url: https://www.gnu.org/licenses/gpl-3.0.en.html
+
+servers:
+  - url: tcp://localhost:2201
+    description: System Socket (Commands)
+  - url: tcp://localhost:2202
+    description: Data Socket (Responses)
+  - url: tcp://localhost:2203
+    description: Live Socket (Price Streams)
+  - url: tcp://localhost:2204
+    description: Stream Socket (Trade Events)
+
+tags:
+  - name: Account
+    description: Account information and balance queries
+  - name: Market Data
+    description: Historical and live market data
+  - name: Trading
+    description: Order submission and position management
+  - name: Configuration
+    description: Symbol subscription and configuration
+  - name: Instruments
+    description: Symbol information and specifications
+
+paths:
+  /account:
+    post:
+      tags:
+        - Account
+      summary: Get account information
+      description: |
+        Retrieves comprehensive account information including balance, equity,
+        margin, broker details, and trading permissions.
+
+        **Socket:** Send to port 2201, receive ACK on 2201, data on 2202
+      operationId: getAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountRequest'
+            examples:
+              basic:
+                summary: Basic account query
+                value:
+                  action: "ACCOUNT"
+      responses:
+        '200':
+          description: Account information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+              examples:
+                success:
+                  summary: Successful response
+                  value:
+                    error: false
+                    broker: "OANDA Corporation"
+                    currency: "USD"
+                    server: "OANDA-Demo-1"
+                    trading_allowed: 1
+                    bot_trading: 1
+                    balance: 10000.0
+                    equity: 10000.0
+                    margin: 0.0
+                    margin_free: 10000.0
+                    margin_level: 0.0
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /balance:
+    post:
+      tags:
+        - Account
+      summary: Get account balance
+      description: |
+        Retrieves account balance information only (lighter than full ACCOUNT query).
+
+        **Socket:** Send to port 2201, receive data on 2202
+      operationId: getBalance
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BalanceRequest'
+      responses:
+        '200':
+          description: Balance retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /config:
+    post:
+      tags:
+        - Configuration
+      summary: Subscribe to symbol data
+      description: |
+        Configure symbol for live streaming. After successful CONFIG,
+        live price data will stream on port 2203.
+
+        **Socket:** Send to port 2201, receive config confirmation on 2202,
+        live data streams on 2203
+      operationId: configureSymbol
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigRequest'
+            examples:
+              m1_bars:
+                summary: Subscribe to 1-minute bars
+                value:
+                  action: "CONFIG"
+                  actionType: "CONFIG"
+                  symbol: "EURUSD"
+                  chartTF: "M1"
+              tick_data:
+                summary: Subscribe to tick data
+                value:
+                  action: "CONFIG"
+                  actionType: "CONFIG"
+                  symbol: "BTCUSD"
+                  chartTF: "TICK"
+      responses:
+        '200':
+          description: Symbol configured successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigResponse'
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /history/bars:
+    post:
+      tags:
+        - Market Data
+      summary: Get historical bar data
+      description: |
+        Retrieve historical OHLC bar data for a symbol and timeframe.
+
+        **Socket:** Send to port 2201, receive data on 2202
+      operationId: getHistoricalBars
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HistoryBarsRequest'
+            examples:
+              last_7_days:
+                summary: Get last 7 days of M1 data
+                value:
+                  action: "HISTORY"
+                  actionType: "DATA"
+                  symbol: "XAUUSD.sml"
+                  chartTF: "M1"
+                  fromDate: 1762159486
+                  toDate: 1762764286
+      responses:
+        '200':
+          description: Historical bars retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryBarsResponse'
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /history/ticks:
+    post:
+      tags:
+        - Market Data
+      summary: Get historical tick data
+      description: |
+        Retrieve historical tick-level data (bid/ask prices).
+
+        **Socket:** Send to port 2201, receive data on 2202
+      operationId: getHistoricalTicks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HistoryTicksRequest'
+      responses:
+        '200':
+          description: Historical ticks retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryTicksResponse'
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /positions:
+    post:
+      tags:
+        - Trading
+      summary: Get open positions
+      description: |
+        Retrieve all currently open positions.
+
+        **Socket:** Send to port 2201, receive data on 2202
+      operationId: getPositions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PositionsRequest'
+      responses:
+        '200':
+          description: Positions retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PositionsResponse'
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /orders:
+    post:
+      tags:
+        - Trading
+      summary: Get pending orders
+      description: |
+        Retrieve all pending orders (limit, stop, stop-limit).
+
+        **Socket:** Send to port 2201, receive data on 2202
+      operationId: getPendingOrders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrdersRequest'
+      responses:
+        '200':
+          description: Orders retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrdersResponse'
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /trade:
+    post:
+      tags:
+        - Trading
+      summary: Submit trading order
+      description: |
+        Submit a trading order (market, limit, stop, etc.).
+
+        **Socket:** Send to port 2201, receive data on 2202,
+        trade confirmation on 2204
+      operationId: submitTrade
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TradeRequest'
+            examples:
+              market_buy:
+                summary: Market buy order
+                value:
+                  action: "TRADE"
+                  actionType: "OPEN"
+                  symbol: "EURUSD"
+                  orderType: "buy"
+                  volume: 0.1
+                  price: 0
+              limit_sell:
+                summary: Limit sell order
+                value:
+                  action: "TRADE"
+                  actionType: "OPEN"
+                  symbol: "EURUSD"
+                  orderType: "sell_limit"
+                  volume: 0.1
+                  price: 1.0900
+      responses:
+        '200':
+          description: Trade executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeResponse'
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /symbol-info:
+    post:
+      tags:
+        - Instruments
+      summary: Get symbol specifications
+      description: |
+        Retrieve detailed specifications for one or more symbols
+        (contract size, pip value, margins, etc.).
+
+        **Socket:** Send to port 2201, receive data on 2202
+      operationId: getSymbolInfo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SymbolInfoRequest'
+            examples:
+              single_symbol:
+                summary: Get info for one symbol
+                value:
+                  action: "SYMBOL_INFO"
+                  symbol: "EURUSD"
+              multiple_symbols:
+                summary: Get info for multiple symbols
+                value:
+                  action: "SYMBOL_INFO"
+                  symbol: "EURUSD,GBPUSD,USDJPY"
+              all_symbols:
+                summary: Get info for all symbols
+                value:
+                  action: "SYMBOL_INFO"
+                  symbol: "ALL"
+      responses:
+        '200':
+          description: Symbol information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SymbolInfoResponse'
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /calendar:
+    post:
+      tags:
+        - Market Data
+      summary: Get economic calendar
+      description: |
+        Retrieve economic calendar events for a date range.
+
+        **Socket:** Send to port 2201, receive data on 2202
+
+        **Note:** Response may be very large. Use shorter date ranges.
+      operationId: getEconomicCalendar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalendarRequest'
+      responses:
+        '200':
+          description: Calendar data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalendarResponse'
+        '400':
+          $ref: '#/components/responses/Error'
+
+components:
+  schemas:
+    # Request Schemas
+
+    AccountRequest:
+      type: object
+      required:
+        - action
+      properties:
+        action:
+          type: string
+          enum: [ACCOUNT]
+          description: Action type identifier
+      example:
+        action: "ACCOUNT"
+
+    BalanceRequest:
+      type: object
+      required:
+        - action
+      properties:
+        action:
+          type: string
+          enum: [BALANCE]
+      example:
+        action: "BALANCE"
+
+    ConfigRequest:
+      type: object
+      required:
+        - action
+        - actionType
+        - symbol
+        - chartTF
+      properties:
+        action:
+          type: string
+          enum: [CONFIG]
+        actionType:
+          type: string
+          enum: [CONFIG]
+        symbol:
+          type: string
+          description: Trading symbol (e.g., EURUSD, XAUUSD.sml)
+          example: "EURUSD"
+        chartTF:
+          type: string
+          enum: [TICK, M1, M5, M15, M30, H1, H4, D1, W1, MN1]
+          description: Chart timeframe or TICK for tick data
+
+    HistoryBarsRequest:
+      type: object
+      required:
+        - action
+        - actionType
+        - symbol
+        - chartTF
+        - fromDate
+        - toDate
+      properties:
+        action:
+          type: string
+          enum: [HISTORY]
+        actionType:
+          type: string
+          enum: [DATA]
+        symbol:
+          type: string
+          example: "EURUSD"
+        chartTF:
+          type: string
+          enum: [M1, M5, M15, M30, H1, H4, D1, W1, MN1]
+        fromDate:
+          type: integer
+          format: int64
+          description: Start timestamp (Unix epoch seconds)
+        toDate:
+          type: integer
+          format: int64
+          description: End timestamp (Unix epoch seconds)
+
+    HistoryTicksRequest:
+      type: object
+      required:
+        - action
+        - actionType
+        - symbol
+        - chartTF
+        - fromDate
+        - toDate
+      properties:
+        action:
+          type: string
+          enum: [HISTORY]
+        actionType:
+          type: string
+          enum: [DATA]
+        symbol:
+          type: string
+        chartTF:
+          type: string
+          enum: [TICK]
+        fromDate:
+          type: integer
+          format: int64
+        toDate:
+          type: integer
+          format: int64
+
+    PositionsRequest:
+      type: object
+      required:
+        - action
+      properties:
+        action:
+          type: string
+          enum: [POSITIONS]
+
+    OrdersRequest:
+      type: object
+      required:
+        - action
+      properties:
+        action:
+          type: string
+          enum: [ORDERS]
+
+    TradeRequest:
+      type: object
+      required:
+        - action
+        - actionType
+        - symbol
+        - orderType
+        - volume
+      properties:
+        action:
+          type: string
+          enum: [TRADE]
+        actionType:
+          type: string
+          enum: [OPEN, CLOSE, MODIFY, DELETE]
+          description: |
+            - OPEN: Open new position or place pending order
+            - CLOSE: Close existing position
+            - MODIFY: Modify pending order
+            - DELETE: Delete pending order
+        symbol:
+          type: string
+        orderType:
+          type: string
+          enum: [buy, sell, buy_limit, sell_limit, buy_stop, sell_stop]
+        volume:
+          type: number
+          format: double
+          description: Lot size
+        price:
+          type: number
+          format: double
+          description: Order price (0 for market orders)
+        stopLoss:
+          type: number
+          format: double
+          description: Stop loss price
+        takeProfit:
+          type: number
+          format: double
+          description: Take profit price
+        comment:
+          type: string
+          description: Order comment
+        ticket:
+          type: integer
+          format: int64
+          description: Ticket number (for CLOSE, MODIFY, DELETE)
+
+    SymbolInfoRequest:
+      type: object
+      required:
+        - action
+        - symbol
+      properties:
+        action:
+          type: string
+          enum: [SYMBOL_INFO]
+        symbol:
+          type: string
+          description: |
+            Symbol name, comma-separated list, or "ALL" for all symbols
+          example: "EURUSD"
+
+    CalendarRequest:
+      type: object
+      required:
+        - action
+        - actionType
+        - symbol
+        - fromDate
+      properties:
+        action:
+          type: string
+          enum: [CALENDAR]
+        actionType:
+          type: string
+          enum: [DATA]
+        symbol:
+          type: string
+          description: Symbol for calendar filtering
+        fromDate:
+          type: integer
+          format: int64
+          description: Start timestamp
+
+    # Response Schemas
+
+    AccountResponse:
+      type: object
+      properties:
+        error:
+          type: boolean
+        broker:
+          type: string
+        currency:
+          type: string
+        server:
+          type: string
+        trading_allowed:
+          type: integer
+        bot_trading:
+          type: integer
+        balance:
+          type: number
+          format: double
+        equity:
+          type: number
+          format: double
+        margin:
+          type: number
+          format: double
+        margin_free:
+          type: number
+          format: double
+        margin_level:
+          type: number
+          format: double
+
+    BalanceResponse:
+      type: object
+      properties:
+        balance:
+          type: number
+          format: double
+        equity:
+          type: number
+          format: double
+        margin:
+          type: number
+          format: double
+        margin_free:
+          type: number
+          format: double
+
+    ConfigResponse:
+      type: object
+      properties:
+        error:
+          type: boolean
+        lastError:
+          type: string
+        description:
+          type: string
+        function:
+          type: string
+
+    HistoryBarsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: array
+            items:
+              oneOf:
+                - type: integer
+                - type: number
+            minItems: 6
+            maxItems: 6
+            description: |
+              [timestamp, open, high, low, close, tick_volume]
+        symbol:
+          type: string
+        timeframe:
+          type: string
+
+    HistoryTicksResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: array
+            items:
+              oneOf:
+                - type: integer
+                - type: number
+            minItems: 3
+            description: |
+              [timestamp_ms, bid, ask, ...]
+        symbol:
+          type: string
+        timeframe:
+          type: string
+
+    PositionsResponse:
+      type: object
+      properties:
+        error:
+          type: boolean
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              ticket:
+                type: integer
+                format: int64
+              symbol:
+                type: string
+              type:
+                type: integer
+              volume:
+                type: number
+              price_open:
+                type: number
+              price_current:
+                type: number
+              sl:
+                type: number
+              tp:
+                type: number
+              profit:
+                type: number
+              swap:
+                type: number
+              comment:
+                type: string
+
+    OrdersResponse:
+      type: object
+      properties:
+        error:
+          type: boolean
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              ticket:
+                type: integer
+                format: int64
+              symbol:
+                type: string
+              type:
+                type: integer
+              volume:
+                type: number
+              price_open:
+                type: number
+              sl:
+                type: number
+              tp:
+                type: number
+              comment:
+                type: string
+
+    TradeResponse:
+      type: object
+      properties:
+        error:
+          type: boolean
+        description:
+          type: string
+        data:
+          type: object
+          properties:
+            ticket:
+              type: integer
+              format: int64
+            retcode:
+              type: integer
+            deal:
+              type: integer
+              format: int64
+            order:
+              type: integer
+              format: int64
+            volume:
+              type: number
+            price:
+              type: number
+            comment:
+              type: string
+
+    SymbolInfoResponse:
+      type: object
+      properties:
+        error:
+          type: boolean
+        data:
+          oneOf:
+            - type: object
+            - type: array
+              items:
+                type: object
+          properties:
+            symbol:
+              type: string
+            digits:
+              type: integer
+            point:
+              type: number
+            spread:
+              type: integer
+            trade_contract_size:
+              type: number
+            trade_mode:
+              type: integer
+            volume_min:
+              type: number
+            volume_max:
+              type: number
+            volume_step:
+              type: number
+            currency_base:
+              type: string
+            currency_profit:
+              type: string
+            currency_margin:
+              type: string
+            swap_long:
+              type: number
+            swap_short:
+              type: number
+            swap_mode:
+              type: integer
+
+    CalendarResponse:
+      type: object
+      properties:
+        error:
+          type: boolean
+        data:
+          type: array
+          items:
+            type: object
+            description: Economic calendar event
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - description
+      properties:
+        error:
+          type: boolean
+          enum: [true]
+        description:
+          type: string
+        error_code:
+          type: integer
+
+  responses:
+    Error:
+      description: Error response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: true
+            description: "Invalid symbol"
+            error_code: 4301
+
+  securitySchemes: {}
+
+security: []

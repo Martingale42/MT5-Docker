@@ -1,0 +1,96 @@
+# Prometheus alerting rules for MT5-Docker
+
+groups:
+  - name: mt5_alerts
+    interval: 30s
+    rules:
+      # Alert when MT5 connection is down
+      - alert: MT5ConnectionDown
+        expr: mt5_connection_status == 0
+        for: 2m
+        labels:
+          severity: critical
+          component: mt5
+        annotations:
+          summary: "MT5 connection is down"
+          description: "MT5 JsonAPI is not responding. Connection status has been 0 for more than 2 minutes."
+
+      # Alert on high error rate
+      - alert: HighErrorRate
+        expr: rate(zmq_errors_total[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          component: zmq
+        annotations:
+          summary: "High ZMQ error rate detected"
+          description: "ZMQ error rate is {{ $value | humanize }} errors/sec over the last 5 minutes."
+
+      # Alert on high request latency
+      - alert: HighRequestLatency
+        expr: histogram_quantile(0.95, rate(zmq_request_duration_seconds_bucket[5m])) > 2
+        for: 10m
+        labels:
+          severity: warning
+          component: zmq
+        annotations:
+          summary: "High ZMQ request latency"
+          description: "95th percentile request latency is {{ $value | humanize }}s, exceeding 2s threshold."
+
+      # Alert on account balance drop
+      - alert: SignificantBalanceDrop
+        expr: |
+          (
+            mt5_account_balance - mt5_account_balance offset 1h
+          ) / mt5_account_balance offset 1h < -0.10
+        for: 5m
+        labels:
+          severity: warning
+          component: trading
+        annotations:
+          summary: "Significant account balance drop"
+          description: "Account balance has dropped by more than 10% in the last hour. Current: {{ $value | humanize }}"
+
+      # Alert on low margin
+      - alert: LowMarginLevel
+        expr: (mt5_account_margin_free / mt5_account_equity) < 0.20
+        for: 5m
+        labels:
+          severity: critical
+          component: trading
+        annotations:
+          summary: "Low free margin level"
+          description: "Free margin is below 20% of equity. Current ratio: {{ $value | humanizePercentage }}"
+
+      # Alert when exporter is down
+      - alert: MT5ExporterDown
+        expr: up{job="mt5-exporter"} == 0
+        for: 2m
+        labels:
+          severity: warning
+          component: monitoring
+        annotations:
+          summary: "MT5 metrics exporter is down"
+          description: "Prometheus cannot scrape metrics from MT5 exporter."
+
+      # Alert on negative account balance
+      - alert: NegativeAccountBalance
+        expr: mt5_account_balance < 0
+        for: 1m
+        labels:
+          severity: critical
+          component: trading
+        annotations:
+          summary: "Account balance is negative"
+          description: "Account balance is {{ $value | humanize }}. Immediate action required."
+
+      # Alert on high request volume (potential abuse)
+      - alert: UnusualRequestVolume
+        expr: rate(zmq_requests_total[5m]) > 100
+        for: 10m
+        labels:
+          severity: info
+          component: zmq
+        annotations:
+          summary: "Unusual request volume detected"
+          description: "Request rate is {{ $value | humanize }} req/sec, which is higher than normal."

@@ -1,8 +1,15 @@
 #!/usr/bin/env python3
 """
-Download historical data for XAUUSD.sml from 2020 to current time
+Download historical data from MT5 via JsonAPI.
+
+Usage:
+    python download_history.py XAUUSD.sml
+    python download_history.py XAUUSD.sml --timeframe M1
+    python download_history.py XAUUSD.sml --start 2020-01-01 --end 2025-01-01
+    python download_history.py XAUUSD.sml -t H4 -s 2023-01-01
 """
 
+import argparse
 import json
 import time
 from datetime import datetime
@@ -15,10 +22,10 @@ HOST = "localhost"
 SYSTEM_PORT = 2201
 DATA_PORT = 2202
 
-SYMBOL = "XAUUSD.sml"
-TIMEFRAME = "H1"  # Start with H1 (hourly), can change to M1 if needed
-FROM_DATE = int(datetime(2020, 1, 1).timestamp())  # Jan 1, 2020
-TO_DATE = int(time.time())  # Current time
+# Default timeframe
+DEFAULT_TIMEFRAME = "H1"
+# Earliest possible date for MT5 history (broker-dependent, but this is a reasonable start)
+EARLIEST_DATE = datetime(2000, 1, 1)
 
 
 class HistoryDownloader:
@@ -34,7 +41,7 @@ class HistoryDownloader:
         self.data_socket = self.context.socket(zmq.PULL)
         self.data_socket.connect(f"tcp://{host}:{DATA_PORT}")
         self.data_socket.setsockopt(
-            zmq.RCVTIMEO, 300000
+            zmq.RCVTIMEO, 3000000
         )  # 300 second (5 minute) timeout for very large data
 
         print("✓ Connected to JsonAPI")
@@ -198,48 +205,125 @@ class HistoryDownloader:
         print("\n✓ Disconnected")
 
 
-def main():
-    import sys
+def parse_date(date_str: str | None, default: datetime) -> datetime:
+    """Parse date string in YYYY-MM-DD format, or return default if None."""
+    if date_str is None:
+        return default
+    try:
+        return datetime.strptime(date_str, "%Y-%m-%d")
+    except ValueError:
+        raise argparse.ArgumentTypeError(
+            f"Invalid date format: '{date_str}'. Use YYYY-MM-DD format."
+        )
 
-    # Parse command line arguments
-    timeframe = TIMEFRAME  # Default
-    if "--timeframe" in sys.argv:
-        idx = sys.argv.index("--timeframe")
-        if idx + 1 < len(sys.argv):
-            timeframe = sys.argv[idx + 1]
-            print(f"Using timeframe: {timeframe}")
+
+def parse_args():
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(
+        description="Download historical data from MT5 via JsonAPI.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Parameters:
+  Argument        Description                                       Default
+  --------------- ------------------------------------------------- --------------
+  symbol          Symbol to download (required)                     -
+  -t, --timeframe Timeframe (M1, M5, M15, M30, H1, H4, D1, W1, MN1) H1
+  -s, --start     Start date (YYYY-MM-DD)                           earliest
+  -e, --end       End date (YYYY-MM-DD)                             now
+  -o, --output    Output CSV filename                               auto-generated
+  --host          JsonAPI host                                      localhost
+
+Examples:
+  %(prog)s XAUUSD.sml                              Download H1 data from earliest to now
+  %(prog)s XAUUSD.sml -t M1                        Download M1 data
+  %(prog)s XAUUSD.sml -s 2020-01-01                From 2020-01-01 to now
+  %(prog)s XAUUSD.sml -s 2020-01-01 -e 2025-01-01  Specific date range
+  %(prog)s EURUSD -t H4 -s 2023-06-01              EURUSD H4 from mid-2023
+        """,
+    )
+    parser.add_argument(
+        "symbol",
+        help="Symbol to download (e.g., XAUUSD.sml, EURUSD)",
+    )
+    parser.add_argument(
+        "-t", "--timeframe",
+        default=DEFAULT_TIMEFRAME,
+        help=f"Timeframe (default: {DEFAULT_TIMEFRAME})",
+    )
+    parser.add_argument(
+        "-s", "--start",
+        default=None,
+        help="Start date in YYYY-MM-DD format (default: earliest available)",
+    )
+    parser.add_argument(
+        "-e", "--end",
+        default=None,
+        help="End date in YYYY-MM-DD format (default: now)",
+    )
+    parser.add_argument(
+        "-o", "--output",
+        default=None,
+        help="Output CSV filename (default: auto-generated)",
+    )
+    parser.add_argument(
+        "--host",
+        default=HOST,
+        help=f"JsonAPI host (default: {HOST})",
+    )
+    return parser.parse_args()
+
+
+def main():
+    args = parse_args()
+
+    # Parse dates
+    start_date = parse_date(args.start, EARLIEST_DATE)
+    end_date = parse_date(args.end, datetime.now())
+
+    # Convert to timestamps
+    from_timestamp = int(start_date.timestamp())
+    to_timestamp = int(end_date.timestamp())
+
+    # Generate output filename if not specified
+    if args.output:
+        output_file = args.output
+    else:
+        start_str = start_date.strftime("%Y%m%d")
+        end_str = end_date.strftime("%Y%m%d")
+        output_file = f"{args.symbol}_{args.timeframe}_{start_str}-{end_str}.csv"
 
     print("=" * 60)
     print("MT5 Historical Data Downloader")
     print("=" * 60)
     print(f"Current time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"Symbol: {args.symbol}")
+    print(f"Timeframe: {args.timeframe}")
+    print(f"Start: {start_date.strftime('%Y-%m-%d')} ({args.start or 'earliest'})")
+    print(f"End: {end_date.strftime('%Y-%m-%d')} ({args.end or 'now'})")
+    print(f"Output: {output_file}")
     print()
 
-    downloader = HistoryDownloader()
+    downloader = HistoryDownloader(host=args.host)
 
     try:
-        # Download data with specified timeframe
-        data = downloader.download_history(SYMBOL, timeframe, FROM_DATE, TO_DATE)
+        # Download data
+        data = downloader.download_history(
+            args.symbol, args.timeframe, from_timestamp, to_timestamp
+        )
 
         if data:
-            filename = f"{SYMBOL}_{timeframe}_2020-{datetime.now().year}.csv"
-            downloader.save_to_csv(data, filename)
+            downloader.save_to_csv(data, output_file)
 
-            # Show info about other timeframes
-            if timeframe == "H1":
-                print(f"\n{'=' * 60}")
-                print("H1 download complete!")
-                print(f"{'=' * 60}")
-                print("\nNote: M1 data from 2020 will be MUCH larger (60x more bars)")
-                print(f"Expected M1 bars: ~{len(data['bars']) * 60:,} bars")
-                print("\nTo download M1 data, run:")
-                print("  uv run python download_history.py --timeframe M1")
-            elif timeframe == "M1":
-                print(f"\n{'=' * 60}")
-                print("M1 download complete!")
-                print(f"{'=' * 60}")
-                print(f"Successfully downloaded {len(data['bars']):,} M1 bars")
-                print(f"File: {filename}")
+            print(f"\n{'=' * 60}")
+            print(f"{args.timeframe} download complete!")
+            print(f"{'=' * 60}")
+            print(f"Successfully downloaded {len(data['bars']):,} bars")
+            print(f"File: {output_file}")
+
+            # Show tip for smaller timeframes
+            if args.timeframe == "H1":
+                print("\nTip: For M1 data, expect ~60x more bars:")
+                print(f"  python {__file__} {args.symbol} -t M1 -s {args.start or '2020-01-01'}")
 
     except KeyboardInterrupt:
         print("\n\n✗ Download interrupted by user")

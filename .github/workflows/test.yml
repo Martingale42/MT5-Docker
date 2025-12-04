@@ -1,0 +1,160 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Lint Code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff
+
+      - name: Run Ruff linter
+        run: |
+          ruff check scripts/ tests/ monitoring/ --output-format=github
+
+      - name: Run Ruff formatter check
+        run: |
+          ruff format --check scripts/ tests/ monitoring/
+
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11', '3.12', '3.13']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyzmq pandas
+          pip install pytest pytest-cov pytest-asyncio pytest-mock pytest-timeout
+
+      - name: Run unit tests
+        run: |
+          pytest tests/unit/ -v --cov=scripts --cov-report=xml --cov-report=term-missing
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        if: matrix.python-version == '3.13'
+        with:
+          file: ./coverage.xml
+          flags: unittests
+          name: codecov-unit-tests
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  validate-openapi:
+    name: Validate OpenAPI Spec
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install openapi-spec-validator
+
+      - name: Validate OpenAPI specification
+        run: |
+          python scripts/validate_openapi.py
+
+  docker-build-test:
+    name: Docker Build Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: mt5zmq:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          load: true
+
+      - name: Test Docker image
+        run: |
+          docker images mt5zmq:test
+
+          # Start container
+          docker run -d --name mt5zmq-test \
+            -p 2201:2201 -p 2202:2202 -p 2203:2203 -p 2204:2204 \
+            mt5zmq:test
+
+          # Wait for startup
+          sleep 30
+
+          # Check health
+          docker ps | grep mt5zmq-test
+
+          # Check logs for errors
+          docker logs mt5zmq-test
+
+          # Cleanup
+          docker stop mt5zmq-test
+          docker rm mt5zmq-test
+
+  test-summary:
+    name: Test Summary
+    runs-on: ubuntu-latest
+    needs: [lint, unit-tests, validate-openapi, docker-build-test]
+    if: always()
+
+    steps:
+      - name: Check test results
+        run: |
+          if [ "${{ needs.lint.result }}" != "success" ] || \
+             [ "${{ needs.unit-tests.result }}" != "success" ] || \
+             [ "${{ needs.validate-openapi.result }}" != "success" ] || \
+             [ "${{ needs.docker-build-test.result }}" != "success" ]; then
+            echo "❌ Some tests failed!"
+            exit 1
+          else
+            echo "✅ All tests passed!"
+          fi
