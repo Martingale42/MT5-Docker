@@ -17,18 +17,18 @@ source = '''
 
 # Attempt to parse JSON-formatted logs
 parsed, err = parse_json(.message)
-if err == null {
-  . = merge(., parsed)
+if err == null && is_object(parsed) {
+  . = merge!(., parsed)
 }
 '''
 
-# Output to VictoriaLogs
+# Output to VictoriaLogs via Loki-compatible API
 [sinks.victorialogs]
-type = "http"
+type = "loki"
 inputs = ["parse_logs"]
-uri = "http://victorialogs:9428/insert/jsonline?_stream_fields=service,container_id"
+endpoint = "http://victorialogs:9428/insert"
 encoding.codec = "json"
-compression = "gzip"
 
-[sinks.victorialogs.request]
-concurrency = 4
+[sinks.victorialogs.labels]
+service = "{{ service }}"
+container = "{{ container_name }}"

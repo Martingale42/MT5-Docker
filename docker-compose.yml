@@ -104,7 +104,7 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=${GRAFANA_USER:-admin}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
-      - GF_INSTALL_PLUGINS=victorialogs-datasource
+      # Note: VictoriaLogs plugin not in public registry yet - use http://localhost:9428/select/vmui for logs
       - GF_SERVER_ROOT_URL=http://localhost:3000
     deploy:
       resources:
@@ -192,6 +192,7 @@ services:
     image: timberio/vector:0.43.1-alpine
     container_name: vector
     restart: always
+    command: ["--config", "/etc/vector/vector.toml"]
     volumes:
       - ./monitoring/vector/vector.toml:/etc/vector/vector.toml:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
