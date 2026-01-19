@@ -1,5 +1,7 @@
 version: '3.8'
+
 services:
+  # ===== MT5 Trading Service =====
   mt5zmq:
     build: .
     image: mt5zmq:latest
@@ -12,17 +14,14 @@ services:
       retries: 3
       start_period: 120s
     ports:
-      - '5900:5900'    # VNC (localhost only)
+      - '5900:5900'    # VNC
       - '127.0.0.1:2201:2201'    # System socket (REQ/REP)
       - '127.0.0.1:2202:2202'    # Data socket (PUSH)
       - '127.0.0.1:2203:2203'    # Live socket (PUSH)
       - '127.0.0.1:2204:2204'    # Stream socket (PUSH)
     volumes:
-      # Wine prefix and MT5 installation (persists across restarts)
       - mt5zmq-config:/config
-      # Local MQL5 directory (for live editing)
       - ./Metatrader/MQL5:/mql5
-      # Data directory
       - ./data:/root/data
     environment:
       - USER=root
@@ -35,80 +34,185 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '4'          # Max 4 cores
-          memory: 2G         # Max 2GB
+          cpus: '4'
+          memory: 2G
         reservations:
-          cpus: '4'          # Guaranteed 2 cores
-          memory: 1G         # Guaranteed 2G
+          cpus: '4'
+          memory: 1G
+    networks:
+      - monitoring
 
-  # swagger-ui:
-  #   image: nginx:alpine
-  #   container_name: mt5-swagger-ui
-  #   restart: unless-stopped
-  #   ports:
-  #     - '8080:80'
-  #   volumes:
-  #     - ./docs/openapi:/usr/share/nginx/html:ro
-  #   profiles:
-  #     - docs
-  #   depends_on:
-  #     - mt5zmq
+  # ===== Monitoring Infrastructure =====
 
-  # mt5-exporter:
-  #   build: .
-  #   image: mt5zmq:latest
-  #   container_name: mt5-exporter
-  #   restart: unless-stopped
-  #   command: python3 /root/monitoring/prometheus_exporter.py --port 9090 --mt5-host mt5zmq --interval 30
-  #   ports:
-  #     - '9090:9090'
-  #   volumes:
-  #     - ./monitoring:/root/monitoring:ro
-  #     - ./scripts:/root/scripts:ro
-  #   profiles:
-  #     - monitoring
-  #   depends_on:
-  #     - mt5zmq
+  # Time-series database (Prometheus-compatible)
+  victoriametrics:
+    image: victoriametrics/victoria-metrics:v1.108.1
+    container_name: victoriametrics
+    restart: always
+    ports:
+      - '127.0.0.1:8428:8428'
+    volumes:
+      - vmdata:/victoria-metrics-data
+    command:
+      - '--storageDataPath=/victoria-metrics-data'
+      - '--httpListenAddr=:8428'
+      - '--retentionPeriod=30d'
+      - '--memory.allowedPercent=60'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 128M
+        reservations:
+          memory: 64M
+    networks:
+      - monitoring
 
-  # prometheus:
-  #   image: prom/prometheus:latest
-  #   container_name: mt5-prometheus
-  #   restart: unless-stopped
-  #   ports:
-  #     - '9091:9090'
-  #   volumes:
-  #     - ./monitoring/prometheus:/etc/prometheus:ro
-  #     - prometheus-data:/prometheus
-  #   command:
-  #     - '--config.file=/etc/prometheus/prometheus.yml'
-  #     - '--storage.tsdb.path=/prometheus'
-  #     - '--web.console.libraries=/usr/share/prometheus/console_libraries'
-  #     - '--web.console.templates=/usr/share/prometheus/consoles'
-  #   profiles:
-  #     - monitoring
-  #   depends_on:
-  #     - mt5-exporter
+  # Log database
+  victorialogs:
+    image: victoriametrics/victoria-logs:v1.4.0-victorialogs
+    container_name: victorialogs
+    restart: always
+    ports:
+      - '127.0.0.1:9428:9428'
+    volumes:
+      - vldata:/victoria-logs-data
+    command:
+      - '--storageDataPath=/victoria-logs-data'
+      - '--httpListenAddr=:9428'
+      - '--retentionPeriod=7d'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 128M
+        reservations:
+          memory: 64M
+    networks:
+      - monitoring
 
-  # grafana:
-  #   image: grafana/grafana:latest
-  #   container_name: mt5-grafana
-  #   restart: unless-stopped
-  #   ports:
-  #     - '3000:3000'
-  #   volumes:
-  #     - grafana-data:/var/lib/grafana
-  #     - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
-  #   environment:
-  #     - GF_SECURITY_ADMIN_USER=admin
-  #     - GF_SECURITY_ADMIN_PASSWORD=admin
-  #     - GF_USERS_ALLOW_SIGN_UP=false
-  #   profiles:
-  #     - monitoring
-  #   depends_on:
-  #     - prometheus
+  # Visualization platform
+  grafana:
+    image: grafana/grafana:11.4.0
+    container_name: grafana
+    restart: always
+    ports:
+      - '127.0.0.1:3000:3000'
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+      - GF_INSTALL_PLUGINS=victorialogs-datasource
+      - GF_SERVER_ROOT_URL=http://localhost:3000
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          memory: 128M
+    networks:
+      - monitoring
+
+  # Container metrics collector
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.51.0
+    container_name: cadvisor
+    restart: always
+    privileged: true
+    ports:
+      - '127.0.0.1:8080:8080'
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 64M
+    networks:
+      - monitoring
+
+  # Host metrics collector
+  node-exporter:
+    image: prom/node-exporter:v1.8.2
+    container_name: node-exporter
+    restart: always
+    ports:
+      - '127.0.0.1:9100:9100'
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--path.rootfs=/rootfs'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($|/)'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: 32M
+    networks:
+      - monitoring
+
+  # Metrics collection agent
+  vmagent:
+    image: victoriametrics/vmagent:v1.108.1
+    container_name: vmagent
+    restart: always
+    ports:
+      - '127.0.0.1:8429:8429'
+    volumes:
+      - ./monitoring/vmagent/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - vmagent-data:/vmagentdata
+    command:
+      - '--promscrape.config=/etc/prometheus/prometheus.yml'
+      - '--remoteWrite.url=http://victoriametrics:8428/api/v1/write'
+      - '--httpListenAddr=:8429'
+    depends_on:
+      - victoriametrics
+      - cadvisor
+      - node-exporter
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 64M
+    networks:
+      - monitoring
+
+  # Log collection agent
+  vector:
+    image: timberio/vector:0.43.1-alpine
+    container_name: vector
+    restart: always
+    volumes:
+      - ./monitoring/vector/vector.toml:/etc/vector/vector.toml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    depends_on:
+      - victorialogs
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 64M
+    networks:
+      - monitoring
 
 volumes:
-  # Persists Wine prefix, MT5 installation, and all MT5 data
   mt5zmq-config:
-  # prometheus-data:
-  # grafana-data:
+  vmdata:
+  vldata:
+  grafana-data:
+  vmagent-data:
+
+networks:
+  monitoring:
+    driver: bridge

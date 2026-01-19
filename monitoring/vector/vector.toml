@@ -1,0 +1,34 @@
+[api]
+enabled = true
+address = "0.0.0.0:8686"
+
+# Docker logs source
+[sources.docker_logs]
+type = "docker_logs"
+include_containers = ["mt5zmq", "grafana", "victoriametrics", "victorialogs", "vmagent"]
+
+# Log processing/transformation
+[transforms.parse_logs]
+type = "remap"
+inputs = ["docker_logs"]
+source = '''
+.timestamp = now()
+.service = .container_name
+
+# Attempt to parse JSON-formatted logs
+parsed, err = parse_json(.message)
+if err == null {
+  . = merge(., parsed)
+}
+'''
+
+# Output to VictoriaLogs
+[sinks.victorialogs]
+type = "http"
+inputs = ["parse_logs"]
+uri = "http://victorialogs:9428/insert/jsonline?_stream_fields=service,container_id"
+encoding.codec = "json"
+compression = "gzip"
+
+[sinks.victorialogs.request]
+concurrency = 4

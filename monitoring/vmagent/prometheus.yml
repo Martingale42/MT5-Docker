@@ -1,0 +1,43 @@
+global:
+  scrape_interval: 15s
+  scrape_timeout: 10s
+
+scrape_configs:
+  # vmagent self-monitoring
+  - job_name: 'vmagent'
+    static_configs:
+      - targets: ['localhost:8429']
+
+  # Host metrics via node_exporter
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'mt5-host'
+
+  # Container metrics via cAdvisor
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
+    metric_relabel_configs:
+      # Keep only essential container metrics to reduce cardinality
+      - source_labels: [__name__]
+        regex: 'container_(cpu|memory|network|fs)_.*'
+        action: keep
+
+  # VictoriaMetrics self-monitoring
+  - job_name: 'victoriametrics'
+    static_configs:
+      - targets: ['victoriametrics:8428']
+
+  # VictoriaLogs self-monitoring
+  - job_name: 'victorialogs'
+    static_configs:
+      - targets: ['victorialogs:9428']
+
+  # Grafana metrics
+  - job_name: 'grafana'
+    static_configs:
+      - targets: ['grafana:3000']
