@@ -7,14 +7,9 @@ Tests the ZMQ client logic without requiring MT5 connection.
 import pytest
 import json
 import zmq
-from unittest.mock import Mock, MagicMock, patch
-import sys
-from pathlib import Path
+from unittest.mock import MagicMock, patch
 
-# Add scripts directory to path
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
-
-from zmq_client import JsonAPIClient
+from mt5_jsonapi import JsonAPIClient
 
 
 @pytest.mark.unit
@@ -29,7 +24,7 @@ class TestJsonAPIClientInit:
         mock_context_class.return_value = mock_context
         mock_context.socket.return_value = mock_socket
 
-        client = JsonAPIClient(host="testhost", verbose=False)
+        _client = JsonAPIClient(host="testhost", verbose=False)  # noqa: F841
 
         # Verify context created
         mock_context_class.assert_called_once()
@@ -53,7 +48,7 @@ class TestJsonAPIClientInit:
         mock_context_class.return_value = mock_context
         mock_context.socket.return_value = mock_socket
 
-        client = JsonAPIClient(
+        _client = JsonAPIClient(  # noqa: F841
             host="customhost",
             system_port=3001,
             data_port=3002,
@@ -76,7 +71,7 @@ class TestJsonAPIClientInit:
         mock_context_class.return_value = mock_context
         mock_context.socket.return_value = mock_socket
 
-        client = JsonAPIClient(host="testhost", verbose=False)
+        _client = JsonAPIClient(host="testhost", verbose=False)  # noqa: F841
 
         # Verify setsockopt called for timeouts
         assert mock_socket.setsockopt.call_count >= 4
@@ -247,7 +242,7 @@ class TestJsonAPIClientContextManager:
         mock_context_class.return_value = mock_context
         mock_context.socket.return_value = mock_socket
 
-        with JsonAPIClient(host="testhost", verbose=False) as client:
+        with JsonAPIClient(host="testhost", verbose=False) as _client:  # noqa: F841
             pass
 
         # Verify all sockets closed

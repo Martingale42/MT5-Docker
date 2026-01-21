@@ -7,13 +7,8 @@ Run with: pytest -m integration
 
 import pytest
 import time
-import sys
-from pathlib import Path
 
-# Add scripts directory to path
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
-
-from zmq_client import JsonAPIClient
+from mt5_jsonapi import JsonAPIClient
 
 
 @pytest.fixture(scope="module")
@@ -270,13 +265,59 @@ class TestSymbolInfo:
 
         assert data is not None
         assert not data.get("error", True), f"Error getting symbol info: {data.get('description')}"
-        assert "data" in data
+        assert "symbols" in data or "data" in data
 
-        symbol_data = data["data"]
-        # Should return data for single symbol
+        # Response may use "symbols" or "data" key depending on API version
+        symbol_data = data.get("symbols") or data.get("data")
         if isinstance(symbol_data, dict):
             assert "symbol" in symbol_data
             assert "digits" in symbol_data
         elif isinstance(symbol_data, list):
             assert len(symbol_data) > 0
             assert "symbol" in symbol_data[0]
+
+    def test_get_multiple_symbols_info(self, mt5_client):
+        """Test retrieving information for multiple symbols at once"""
+        ack = mt5_client.send_command(
+            "SYMBOL_INFO",
+            symbols=["EURUSD", "GBPUSD"]
+        )
+        assert ack is not None
+
+        time.sleep(0.5)
+        data = mt5_client.receive_data()
+
+        assert data is not None
+        assert not data.get("error", True), f"Error getting symbol info: {data.get('description')}"
+
+        # Response should contain symbols list
+        symbols = data.get("symbols") or data.get("data", [])
+        assert isinstance(symbols, list), "Multiple symbol response should be a list"
+        assert len(symbols) >= 2, "Should receive at least 2 symbols"
+
+        # Validate each symbol has required fields
+        for symbol in symbols:
+            assert "symbol" in symbol
+            assert symbol["symbol"] in ["EURUSD", "GBPUSD"]
+
+    def test_get_all_symbols_info(self, mt5_client):
+        """Test retrieving information for all available symbols"""
+        ack = mt5_client.send_command("SYMBOL_INFO")
+        assert ack is not None
+
+        time.sleep(1)  # Longer wait for larger response
+        data = mt5_client.receive_data(timeout_ms=10000)
+
+        assert data is not None
+        assert not data.get("error", True), f"Error getting all symbols: {data.get('description')}"
+
+        # Response should contain all available symbols
+        symbols = data.get("symbols") or data.get("data", [])
+        assert isinstance(symbols, list), "All symbols response should be a list"
+        assert len(symbols) > 10, "Should receive many symbols (broker typically has 50+)"
+
+        # Spot check first symbol has expected fields
+        first_symbol = symbols[0]
+        expected_fields = ["symbol", "digits", "bid", "ask"]
+        for field in expected_fields:
+            assert field in first_symbol, f"Missing field '{field}' in symbol data"

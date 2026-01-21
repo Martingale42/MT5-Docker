@@ -8,7 +8,7 @@ including mocked ZMQ sockets and test data.
 import json
 import pytest
 import zmq
-from unittest.mock import Mock, MagicMock, patch
+from unittest.mock import MagicMock
 from pathlib import Path
 
 

@@ -1,7 +1,7 @@
 [project]
-name = "mt5-jsonapi-test"
+name = "mt5-jsonapi"
 version = "0.1.0"
-description = "Test client for MT5 JsonAPI ZeroMQ connectivity"
+description = "Python client for MT5 JsonAPI ZeroMQ Expert Advisor"
 requires-python = ">=3.8"
 dependencies = [
     "pyzmq>=25.1.0",
@@ -19,17 +19,12 @@ dev = [
     "ruff>=0.1.0",
 ]
 
-[project.scripts]
-test-jsonapi = "test_jsonapi:main"
-
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-# Exclude non-Python directories from package
-packages = []
-py-modules = []
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.setuptools.package-data]
 "*" = ["*.json", "*.md"]
