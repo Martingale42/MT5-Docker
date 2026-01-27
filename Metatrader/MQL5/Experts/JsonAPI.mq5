@@ -98,6 +98,30 @@ bool BindSockets(){
 }
 
 //+------------------------------------------------------------------+
+//| Get GMT offset in seconds (positive = server ahead of UTC)       |
+//| Used to convert MT5 server timestamps to proper UTC timestamps   |
+//| Note: Must cast each datetime to long BEFORE subtraction to avoid|
+//| MQL5 datetime arithmetic returning 0                             |
+//+------------------------------------------------------------------+
+long GetGMTOffset(){
+  return (long)TimeCurrent() - (long)TimeGMT();
+}
+
+//+------------------------------------------------------------------+
+//| Convert server timestamp (seconds) to UTC timestamp (seconds)    |
+//+------------------------------------------------------------------+
+long ToUTC(datetime serverTime){
+  return (long)serverTime - GetGMTOffset();
+}
+
+//+------------------------------------------------------------------+
+//| Convert server timestamp (ms) to UTC timestamp (ms)              |
+//+------------------------------------------------------------------+
+long ToUTCms(long serverTimeMs){
+  return serverTimeMs - GetGMTOffset() * 1000;
+}
+
+//+------------------------------------------------------------------+
 //| Expert initialization function                                   |
 //+------------------------------------------------------------------+
 int OnInit(){
@@ -232,12 +256,18 @@ void StreamPriceData(){
           if(lastBar!=0){ // skip first price data after startup/reset
         
             if( chartTF == "TICK"){
-              Data[0] = (long)    tick.time_msc;
+              // Live streaming ticks are in server time, convert to UTC
+              long gmtOffsetMs = ((long)TimeCurrent() - (long)TimeGMT()) * 1000;
+              Data[0] = tick.time_msc - gmtOffsetMs;
               Data[1] = (double)  tick.bid;
               Data[2] = (double)  tick.ask;
             }
             else {;
-              Data[0] = (long) rates[0].time;
+              // Live streaming rates are in server time, need to convert to UTC
+              // Note: GetGMTOffset() returns 0 due to MQL5 datetime arithmetic quirk,
+              // so we calculate offset inline: (TimeCurrent() - TimeGMT()) in seconds
+              long gmtOffset = (long)TimeCurrent() - (long)TimeGMT();
+              Data[0] = (long)rates[0].time - gmtOffset;
               Data[1] = (double) rates[0].open;
               Data[2] = (double) rates[0].high;
               Data[3] = (double) rates[0].low;
@@ -806,28 +836,33 @@ void HistoryInfo(CJAVal &dataObject){
     string fileName=symbol + "-" + chartTF + ".csv";  // file name
     string directoryName="Data"; // directory name
     string outputFile=directoryName+"\\"+fileName;
-   
-    ENUM_TIMEFRAMES period=GetTimeframe(chartTF); 
-    datetime fromDate=(datetime)dataObject["fromDate"].ToInt();
+
+    ENUM_TIMEFRAMES period=GetTimeframe(chartTF);
+
+    // Client sends timestamps in UTC, but CopyTicksRange expects server time
+    long gmtOffset = (long)TimeCurrent() - (long)TimeGMT();
+    long gmtOffsetMs = gmtOffset * 1000;
+
+    datetime fromDate=(datetime)(dataObject["fromDate"].ToInt() + gmtOffset);
     datetime toDate=TimeCurrent();
-    if(dataObject["toDate"].ToInt()!=NULL) toDate=(datetime)dataObject["toDate"].ToInt();
+    if(dataObject["toDate"].ToInt()!=NULL) toDate=(datetime)(dataObject["toDate"].ToInt() + gmtOffset);
 
     Print("Fetching HISTORY");
     Print("1) Symbol: "+symbol);
     Print("2) Timeframe: Ticks");
     Print("3) Date from: "+TimeToString(fromDate));
     if(dataObject["toDate"].ToInt()!=NULL)Print("4) Date to:"+TimeToString(toDate));
-    
+
     int tickCount = 0;
-    ulong fromDateM = StringToTime(fromDate);
-    ulong toDateM = StringToTime(toDate);
-   
-    tickCount=CopyTicksRange(symbol,tickArray,COPY_TICKS_ALL,1000*(ulong)fromDateM,1000*(ulong)toDateM);
-    if(tickCount){  
-      ActionDoneOrError(ERR_SUCCESS  , __FUNCTION__);  
+    ulong fromDateMs = (ulong)fromDate * 1000;
+    ulong toDateMs = (ulong)toDate * 1000;
+
+    tickCount=CopyTicksRange(symbol, tickArray, COPY_TICKS_ALL, fromDateMs, toDateMs);
+    if(tickCount){
+      ActionDoneOrError(ERR_SUCCESS, __FUNCTION__);
     }
-    else ActionDoneOrError(65541 , __FUNCTION__);
-    
+    else ActionDoneOrError(65541, __FUNCTION__);
+
     Print("Preparing data of ", tickCount, " ticks for ", symbol);
     int file_handle=FileOpen(outputFile, FILE_WRITE | FILE_CSV);
     if(file_handle!=INVALID_HANDLE){
@@ -835,15 +870,16 @@ void HistoryInfo(CJAVal &dataObject){
         msg["type"] = (string) "NORMAL";
         msg["data"] = (string) StringFormat("Writing to: %s\\%s", TerminalInfoString(TERMINAL_DATA_PATH), outputFile);
         if(liveStream) InformClientSocket(liveSocket, msg.Serialize());
-      ActionDoneOrError(ERR_SUCCESS  , __FUNCTION__);  
+      ActionDoneOrError(ERR_SUCCESS, __FUNCTION__);
       PrintFormat("%s file is available for writing",fileName);
       PrintFormat("File path: %s\\Files\\",TerminalInfoString(TERMINAL_DATA_PATH));
       //--- write the time and values of signals to the file
       for(int i=0;i<tickCount;i++){
-        FileWrite(file_handle,tickArray[i].time_msc, ",", tickArray[i].bid, ",", tickArray[i].ask);
+        // Convert server time to UTC
+        FileWrite(file_handle, tickArray[i].time_msc - gmtOffsetMs, ",", tickArray[i].bid, ",", tickArray[i].ask);
           msg["status"] = (string) "CONNECTED";
           msg["type"] = (string) "FLUSH";
-          msg["data"] = (string) tickArray[i].time_msc;
+          msg["data"] = (string) (tickArray[i].time_msc - gmtOffsetMs);
         if(liveStream) InformClientSocket(liveSocket, msg.Serialize());
       }
       //--- close the file
@@ -862,49 +898,68 @@ void HistoryInfo(CJAVal &dataObject){
     connectedFlag=false;
   }
   
-  // Write CVS fle to local directory
+  // Write CSV file to local directory
   else if(actionType=="WRITE" && chartTF!="TICK"){
-  
+
     CJAVal c, d;
     MqlRates r[];
     string fileName=symbol + "-" + chartTF + ".csv";  // file name
     string directoryName="Data"; // directory name
     string outputFile=directoryName+"//"+fileName;
-    
-    int barCount;    
-    ENUM_TIMEFRAMES period=GetTimeframe(chartTF); 
-    datetime fromDate=(datetime)dataObject["fromDate"].ToInt();
-    datetime toDate=TimeCurrent();
-    if(dataObject["toDate"].ToInt()!=NULL) toDate=(datetime)dataObject["toDate"].ToInt();
+
+    int barCount;
+    ENUM_TIMEFRAMES period=GetTimeframe(chartTF);
+
+    // Client sends timestamps in UTC, but CopyRates expects server time
+    long gmtOffset = (long)TimeCurrent() - (long)TimeGMT();
+
+    datetime fromDate=(datetime)(dataObject["fromDate"].ToInt() + gmtOffset);
+
+    // Get the open time of current in-progress bar
+    datetime currentBarTime = iTime(symbol, period, 0);
+
+    // Default toDate: exclude current in-progress bar
+    datetime toDate = currentBarTime - 1;
+
+    // If client provides toDate, use it but clamp to exclude current in-progress bar
+    if(dataObject["toDate"].ToInt()!=NULL) {
+        datetime clientToDate = (datetime)(dataObject["toDate"].ToInt() + gmtOffset);
+        if(clientToDate >= currentBarTime) {
+            toDate = currentBarTime - 1;
+        } else {
+            toDate = clientToDate;
+        }
+    }
 
     Print("Fetching HISTORY");
     Print("1) Symbol :"+symbol);
     Print("2) Timeframe :"+EnumToString(period));
     Print("3) Date from :"+TimeToString(fromDate));
-    if(dataObject["toDate"].ToInt()!=NULL)Print("4) Date to:"+TimeToString(toDate));
-    
-    barCount=CopyRates(symbol,period,fromDate,toDate,r);
-        
-    if(barCount){  
-      ActionDoneOrError(ERR_SUCCESS, __FUNCTION__);  
+    Print("4) Date to:"+TimeToString(toDate));
+
+    barCount=CopyRates(symbol, period, fromDate, toDate, r);
+
+    if(barCount){
+      ActionDoneOrError(ERR_SUCCESS, __FUNCTION__);
     }
     else ActionDoneOrError(65541, __FUNCTION__);
-    
-    Print("Preparing tick data of ", barCount, " ticks for ", symbol);
+
+    Print("Preparing bar data of ", barCount, " bars for ", symbol);
     int file_handle=FileOpen(outputFile, FILE_WRITE | FILE_CSV);
     if(file_handle!=INVALID_HANDLE){
       PrintFormat("%s file is available for writing",outputFile);
       PrintFormat("File path: %s\\Files\\",TerminalInfoString(TERMINAL_DATA_PATH));
       //--- write the time and values of signals to the file
       for(int i=0;i<barCount;i++)
-         FileWrite(file_handle,r[i].time, ",", r[i].open, ",", r[i].high, ",", r[i].low, ",", r[i].close, ",", r[i].tick_volume);
+         // Convert server time to UTC
+         FileWrite(file_handle, (long)r[i].time - gmtOffset, ",", r[i].open, ",", r[i].high, ",", r[i].low, ",", r[i].close, ",", r[i].tick_volume);
       //--- close the file
       FileClose(file_handle);
       PrintFormat("Data is written, %s file is closed", outputFile);
     }
-    else{ 
+    else{
       PrintFormat("Failed to open %s file, Error code = %d",outputFile,GetLastError());
-      ActionDoneOrError(65542 , __FUNCTION__);
+      ActionDoneOrError(65542, __FUNCTION__);
     }
   }
    
@@ -912,11 +967,17 @@ void HistoryInfo(CJAVal &dataObject){
 
     CJAVal data, d;
     MqlTick tickArray[];
-   
-    ENUM_TIMEFRAMES period=GetTimeframe(chartTF); 
-    datetime fromDate=(datetime)dataObject["fromDate"].ToInt();
+
+    ENUM_TIMEFRAMES period=GetTimeframe(chartTF);
+
+    // Client sends timestamps in UTC, but CopyTicksRange expects server time
+    // Convert UTC to server time by adding GMT offset
+    long gmtOffset = (long)TimeCurrent() - (long)TimeGMT();
+    long gmtOffsetMs = gmtOffset * 1000;
+
+    datetime fromDate=(datetime)(dataObject["fromDate"].ToInt() + gmtOffset);
     datetime toDate=TimeCurrent();
-    if(dataObject["toDate"].ToInt()!=NULL) toDate=(datetime)dataObject["toDate"].ToInt();
+    if(dataObject["toDate"].ToInt()!=NULL) toDate=(datetime)(dataObject["toDate"].ToInt() + gmtOffset);
 
     if(debug){
       Print("Fetching HISTORY");
@@ -925,19 +986,19 @@ void HistoryInfo(CJAVal &dataObject){
       Print("3) Date from: "+TimeToString(fromDate));
       if(dataObject["toDate"].ToInt()!=NULL)Print("4) Date to:"+TimeToString(toDate));
     }
-    
+
     int tickCount = 0;
-    ulong fromDateM = StringToTime(fromDate);
-    ulong toDateM = StringToTime(toDate);
-   
-    tickCount=CopyTicksRange(symbol ,tickArray, COPY_TICKS_ALL, 1000*(ulong)fromDateM, 1000*(ulong)toDateM);
+    ulong fromDateMs = (ulong)fromDate * 1000;
+    ulong toDateMs = (ulong)toDate * 1000;
+
+    tickCount=CopyTicksRange(symbol, tickArray, COPY_TICKS_ALL, fromDateMs, toDateMs);
     Print("Preparing tick data of ", tickCount, " ticks for ", symbol);
     if(tickCount){
       for(int i=0;i<tickCount;i++){
-          data[i][0]=(long)   tickArray[i].time_msc;
+          // CopyTicksRange returns timestamps in server time, convert to UTC
+          data[i][0]=(long)tickArray[i].time_msc - gmtOffsetMs;
           data[i][1]=(double) tickArray[i].bid;
           data[i][2]=(double) tickArray[i].ask;
-          i++;
       }
       d["data"].Set(data);
     } else {d["data"].Add(data);}
@@ -950,17 +1011,35 @@ void HistoryInfo(CJAVal &dataObject){
   }
   
   else if(actionType=="DATA" && chartTF!="TICK"){
-  
+
     CJAVal c, d;
     MqlRates r[];
-    
-    int barCount=0;    
-    ENUM_TIMEFRAMES period=GetTimeframe(chartTF); 
-    Print((datetime)dataObject["fromDate"].ToInt());
-    datetime fromDate=(datetime)dataObject["fromDate"].ToInt();
-    datetime toDate=TimeCurrent();
-    
-    if(dataObject["toDate"].ToInt()!=NULL) toDate=(datetime)dataObject["toDate"].ToInt();
+
+    int barCount=0;
+    ENUM_TIMEFRAMES period=GetTimeframe(chartTF);
+
+    // Client sends timestamps in UTC, but CopyRates expects server time
+    // Convert UTC to server time by adding GMT offset
+    long gmtOffset = (long)TimeCurrent() - (long)TimeGMT();
+
+    datetime fromDate=(datetime)(dataObject["fromDate"].ToInt() + gmtOffset);
+
+    // Get the open time of current in-progress bar
+    datetime currentBarTime = iTime(symbol, period, 0);
+
+    // Default toDate: exclude current in-progress bar
+    datetime toDate = currentBarTime - 1;
+
+    // If client provides toDate, use it but clamp to exclude current in-progress bar
+    if(dataObject["toDate"].ToInt()!=NULL) {
+        datetime clientToDate = (datetime)(dataObject["toDate"].ToInt() + gmtOffset);
+        // Always exclude current in-progress bar - use the earlier of client's toDate or currentBarTime-1
+        if(clientToDate >= currentBarTime) {
+            toDate = currentBarTime - 1;
+        } else {
+            toDate = clientToDate;
+        }
+    }
 
     if(true){
       Print("Fetching HISTORY");
@@ -973,7 +1052,8 @@ void HistoryInfo(CJAVal &dataObject){
     barCount=CopyRates(symbol, period, fromDate, toDate, r);
     if(barCount){
       for(int i=0;i<barCount;i++){
-        c[i][0]=(long)   r[i].time;
+        // CopyRates returns timestamps in server time, convert to UTC
+        c[i][0]=(long)r[i].time - gmtOffset;
         c[i][1]=(double) r[i].open;
         c[i][2]=(double) r[i].high;
         c[i][3]=(double) r[i].low;
@@ -1003,7 +1083,7 @@ void HistoryInfo(CJAVal &dataObject){
         if ((ticket=HistoryDealGetTicket(i))>0) {
           tradeInfo.Ticket(ticket);
           data["ticket"]=(long) tradeInfo.Ticket();
-          data["time"]=(long) tradeInfo.Time();
+          data["time"]=ToUTC((datetime)tradeInfo.Time());  // Convert to UTC
           data["price"]=(double) tradeInfo.Price();
           data["volume"]=(double) tradeInfo.Volume(); 
           data["symbol"]=(string) tradeInfo.Symbol();
@@ -1049,7 +1129,7 @@ void GetPositions(CJAVal &dataObject){
       position["magic"]=PositionGetInteger(POSITION_MAGIC);
       position["symbol"]=PositionGetString(POSITION_SYMBOL);
       position["type"]=EnumToString(ENUM_POSITION_TYPE(PositionGetInteger(POSITION_TYPE)));
-      position["time_setup"]=PositionGetInteger(POSITION_TIME);
+      position["time_setup"]=ToUTC((datetime)PositionGetInteger(POSITION_TIME));  // Convert to UTC
       position["open"]=PositionGetDouble(POSITION_PRICE_OPEN);
       position["stoploss"]=PositionGetDouble(POSITION_SL);
       position["takeprofit"]=PositionGetDouble(POSITION_TP);
@@ -1059,6 +1139,8 @@ void GetPositions(CJAVal &dataObject){
       data["error"]=(bool) false;
       data["positions"].Add(position);
       data["server_time"]=((int)TimeCurrent());
+      data["server_time_utc"]=((int)TimeGMT());  // Added: UTC time for reference
+      data["gmt_offset"]=((int)GetGMTOffset());  // Added: offset in seconds (positive = server ahead of UTC)
       
     }
       // Error handling    
@@ -1091,7 +1173,7 @@ void GetOrders(CJAVal &dataObject){
         order["magic"]=OrderGetInteger(ORDER_MAGIC); 
         order["symbol"]=OrderGetString(ORDER_SYMBOL);
         order["type"]=EnumToString(ENUM_ORDER_TYPE(OrderGetInteger(ORDER_TYPE)));
-        order["time_setup"]=OrderGetInteger(ORDER_TIME_SETUP);
+        order["time_setup"]=ToUTC((datetime)OrderGetInteger(ORDER_TIME_SETUP));  // Convert to UTC
         order["open"]=OrderGetDouble(ORDER_PRICE_OPEN);
         order["stoploss"]=OrderGetDouble(ORDER_SL);
         order["takeprofit"]=OrderGetDouble(ORDER_TP);
