@@ -915,17 +915,18 @@ void HistoryInfo(CJAVal &dataObject){
 
     datetime fromDate=(datetime)(dataObject["fromDate"].ToInt() + gmtOffset);
 
-    // Get the open time of current in-progress bar
+    // Get bar times
     datetime currentBarTime = iTime(symbol, period, 0);
+    datetime lastCompletedBarTime = iTime(symbol, period, 1);
 
-    // Default toDate: exclude current in-progress bar
-    datetime toDate = currentBarTime - 1;
+    // Default toDate: include up to the last completed bar
+    datetime toDate = lastCompletedBarTime;
 
-    // If client provides toDate, use it but clamp to exclude current in-progress bar
+    // If client provides toDate, clamp to exclude current in-progress bar
     if(dataObject["toDate"].ToInt()!=NULL) {
         datetime clientToDate = (datetime)(dataObject["toDate"].ToInt() + gmtOffset);
         if(clientToDate >= currentBarTime) {
-            toDate = currentBarTime - 1;
+            toDate = lastCompletedBarTime;
         } else {
             toDate = clientToDate;
         }
@@ -1024,18 +1025,19 @@ void HistoryInfo(CJAVal &dataObject){
 
     datetime fromDate=(datetime)(dataObject["fromDate"].ToInt() + gmtOffset);
 
-    // Get the open time of current in-progress bar
-    datetime currentBarTime = iTime(symbol, period, 0);
+    // Get the open time of current in-progress bar and last completed bar
+    datetime currentBarTime = iTime(symbol, period, 0);      // Current in-progress bar
+    datetime lastCompletedBarTime = iTime(symbol, period, 1); // Last completed bar
 
-    // Default toDate: exclude current in-progress bar
-    datetime toDate = currentBarTime - 1;
+    // Default toDate: include up to the last completed bar
+    datetime toDate = lastCompletedBarTime;
 
     // If client provides toDate, use it but clamp to exclude current in-progress bar
     if(dataObject["toDate"].ToInt()!=NULL) {
         datetime clientToDate = (datetime)(dataObject["toDate"].ToInt() + gmtOffset);
-        // Always exclude current in-progress bar - use the earlier of client's toDate or currentBarTime-1
+        // Clamp to last completed bar if client requests current or future time
         if(clientToDate >= currentBarTime) {
-            toDate = currentBarTime - 1;
+            toDate = lastCompletedBarTime;
         } else {
             toDate = clientToDate;
         }
