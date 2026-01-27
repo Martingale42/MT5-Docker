@@ -914,31 +914,43 @@ void HistoryInfo(CJAVal &dataObject){
     long gmtOffset = (long)TimeCurrent() - (long)TimeGMT();
 
     datetime fromDate=(datetime)(dataObject["fromDate"].ToInt() + gmtOffset);
+    int requestedCount = dataObject["count"].ToInt();  // 0 if not provided
 
-    // Get bar times
+    // Get the open time of current in-progress bar
     datetime currentBarTime = iTime(symbol, period, 0);
-    datetime lastCompletedBarTime = iTime(symbol, period, 1);
 
-    // Default toDate: include up to the last completed bar
-    datetime toDate = lastCompletedBarTime;
+    // Determine which CopyRates variant to use
+    bool useCountBased = (requestedCount > 0 && dataObject["toDate"].ToInt() == NULL);
 
-    // If client provides toDate, clamp to exclude current in-progress bar
-    if(dataObject["toDate"].ToInt()!=NULL) {
-        datetime clientToDate = (datetime)(dataObject["toDate"].ToInt() + gmtOffset);
-        if(clientToDate >= currentBarTime) {
-            toDate = lastCompletedBarTime;
-        } else {
-            toDate = clientToDate;
-        }
+    Print("Fetching HISTORY (WRITE)");
+    Print("1) Symbol: "+symbol);
+    Print("2) Timeframe: "+EnumToString(period));
+    Print("3) Date from: "+TimeToString(fromDate));
+    Print("4) Requested count: "+(string)requestedCount);
+
+    if(useCountBased) {
+      barCount = CopyRates(symbol, period, fromDate, requestedCount, r);
+      // Exclude in-progress bar if it's in the result
+      if(barCount > 0 && r[barCount-1].time >= currentBarTime) {
+        barCount--;
+      }
     }
+    else {
+      datetime lastCompletedBarTime = iTime(symbol, period, 1);
+      datetime toDate = lastCompletedBarTime;
 
-    Print("Fetching HISTORY");
-    Print("1) Symbol :"+symbol);
-    Print("2) Timeframe :"+EnumToString(period));
-    Print("3) Date from :"+TimeToString(fromDate));
-    Print("4) Date to:"+TimeToString(toDate));
+      if(dataObject["toDate"].ToInt()!=NULL) {
+          datetime clientToDate = (datetime)(dataObject["toDate"].ToInt() + gmtOffset);
+          if(clientToDate >= currentBarTime) {
+              toDate = lastCompletedBarTime;
+          } else {
+              toDate = clientToDate;
+          }
+      }
 
-    barCount=CopyRates(symbol, period, fromDate, toDate, r);
+      Print("5) Date to: "+TimeToString(toDate));
+      barCount = CopyRates(symbol, period, fromDate, toDate, r);
+    }
 
     if(barCount){
       ActionDoneOrError(ERR_SUCCESS, __FUNCTION__);
@@ -1024,34 +1036,52 @@ void HistoryInfo(CJAVal &dataObject){
     long gmtOffset = (long)TimeCurrent() - (long)TimeGMT();
 
     datetime fromDate=(datetime)(dataObject["fromDate"].ToInt() + gmtOffset);
+    int requestedCount = dataObject["count"].ToInt();  // 0 if not provided
 
-    // Get the open time of current in-progress bar and last completed bar
-    datetime currentBarTime = iTime(symbol, period, 0);      // Current in-progress bar
-    datetime lastCompletedBarTime = iTime(symbol, period, 1); // Last completed bar
+    // Get the open time of current in-progress bar
+    datetime currentBarTime = iTime(symbol, period, 0);
 
-    // Default toDate: include up to the last completed bar
-    datetime toDate = lastCompletedBarTime;
+    // Determine which CopyRates variant to use:
+    // - If count > 0 AND toDate is NOT provided -> use count-based CopyRates
+    // - Otherwise -> use date range based CopyRates
+    bool useCountBased = (requestedCount > 0 && dataObject["toDate"].ToInt() == NULL);
 
-    // If client provides toDate, use it but clamp to exclude current in-progress bar
-    if(dataObject["toDate"].ToInt()!=NULL) {
-        datetime clientToDate = (datetime)(dataObject["toDate"].ToInt() + gmtOffset);
-        // Clamp to last completed bar if client requests current or future time
-        if(clientToDate >= currentBarTime) {
-            toDate = lastCompletedBarTime;
-        } else {
-            toDate = clientToDate;
-        }
-    }
-
-    if(true){
+    if(debug){
       Print("Fetching HISTORY");
-      Print("1) Symbol :"+symbol);
-      Print("2) Timeframe :"+EnumToString(period));
-      Print("3) Date from :"+TimeToString(fromDate));
-      if(dataObject["toDate"].ToInt()!=NULL)Print("4) Date to:"+TimeToString(toDate));
+      Print("1) Symbol: "+symbol);
+      Print("2) Timeframe: "+EnumToString(period));
+      Print("3) Date from: "+TimeToString(fromDate));
+      Print("4) Requested count: "+(string)requestedCount);
+      Print("5) Use count-based: "+(string)useCountBased);
     }
-      
-    barCount=CopyRates(symbol, period, fromDate, toDate, r);
+
+    if(useCountBased) {
+      // Use count-based CopyRates: get N bars starting from fromDate
+      barCount = CopyRates(symbol, period, fromDate, requestedCount, r);
+
+      // Exclude in-progress bar if it's in the result
+      if(barCount > 0 && r[barCount-1].time >= currentBarTime) {
+        barCount--;  // Exclude the last bar (in-progress)
+      }
+    }
+    else {
+      // Use date range based CopyRates
+      datetime lastCompletedBarTime = iTime(symbol, period, 1);
+      datetime toDate = lastCompletedBarTime;
+
+      // If client provides toDate, use it but clamp to exclude current in-progress bar
+      if(dataObject["toDate"].ToInt()!=NULL) {
+          datetime clientToDate = (datetime)(dataObject["toDate"].ToInt() + gmtOffset);
+          if(clientToDate >= currentBarTime) {
+              toDate = lastCompletedBarTime;
+          } else {
+              toDate = clientToDate;
+          }
+      }
+
+      if(debug) Print("6) Date to: "+TimeToString(toDate));
+      barCount = CopyRates(symbol, period, fromDate, toDate, r);
+    }
     if(barCount){
       for(int i=0;i<barCount;i++){
         // CopyRates returns timestamps in server time, convert to UTC
@@ -1172,14 +1202,18 @@ void GetOrders(CJAVal &dataObject){
     for(int i=0;i<ordersTotal;i++){
       if (myorder.Select(OrderGetTicket(i))){   
         order["id"]=(string) myorder.Ticket();
-        order["magic"]=OrderGetInteger(ORDER_MAGIC); 
+        order["magic"]=OrderGetInteger(ORDER_MAGIC);
         order["symbol"]=OrderGetString(ORDER_SYMBOL);
         order["type"]=EnumToString(ENUM_ORDER_TYPE(OrderGetInteger(ORDER_TYPE)));
-        order["time_setup"]=ToUTC((datetime)OrderGetInteger(ORDER_TIME_SETUP));  // Convert to UTC
+        order["state"]=EnumToString(ENUM_ORDER_STATE(OrderGetInteger(ORDER_STATE)));
+        order["time_setup"]=ToUTC((datetime)OrderGetInteger(ORDER_TIME_SETUP));
         order["open"]=OrderGetDouble(ORDER_PRICE_OPEN);
+        order["stoplimit"]=OrderGetDouble(ORDER_PRICE_STOPLIMIT);
         order["stoploss"]=OrderGetDouble(ORDER_SL);
         order["takeprofit"]=OrderGetDouble(ORDER_TP);
         order["volume"]=OrderGetDouble(ORDER_VOLUME_INITIAL);
+        order["volume_current"]=OrderGetDouble(ORDER_VOLUME_CURRENT);
+        order["comment"]=OrderGetString(ORDER_COMMENT);
         
         data["error"]=(bool) false;
         data["orders"].Add(order);
